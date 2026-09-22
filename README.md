@@ -3,7 +3,7 @@
 An executive-tier web portal for Chartered Accountants (ICAI) exploring international practice rights, mutual recognition agreements (MRAs), examination waivers, and statutory career opportunities worldwide.
 
 ## Features
-- **80+ Verified Qualifications**: Global MRA pathways (ICAEW, CPA Australia, CPA Canada, AICPA, etc.), international finance charters (CFA, FRM, CQF), GRC & forensics (DISA, CISA, FAFD), Indian statutory monopolies (SEBI, Insolvency, Registered Valuation), and executive MBA tracks.
+- **101 Verified Qualifications**: Global MRA pathways (ICAEW, CPA Australia, CPA Canada, AICPA, etc.), international finance charters (CFA, FRM, CQF), GRC & forensics (DISA, CISA, FAFD), Indian statutory monopolies (SEBI, Insolvency, Registered Valuation), sovereign panels, and executive MBA tracks.
 - **14 CA Firm Statutory Empanelment Panels**: Multipurpose Empanelment Form (MEF Bank Branch Audit), CAG PSU panel, IRDAI insurance panel, SFIO/CBI forensics, ECI political party audits, SEBI stock broker audits, Section 142(2A) Special Audits, Carbon & CBAM verifiers, and QRB/FRRB technical reviewers.
 - **Single Unified Page Flow**: Seamless anchor navigation (`#empanelmentSection`) ensuring newly qualified CAs navigate both individual qualifications and firm empanelments without confusing tab toggles.
 - **Privacy-Preserving Suggestion System**: Interactive submission form relaying visitor credential suggestions securely through a server-side endpoint (`POST /api/suggest-pathway`) with zero email address exposure to the frontend.
