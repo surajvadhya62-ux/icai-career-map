@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ICAI Career Pathways &amp; Global Exemption Directory</title>
-  <meta name="description" content="Authoritative career intelligence for ICAI Chartered Accountants. 70+ verified international qualifications, mutual recognition agreements, and statutory practice authorizations.">
+  <meta name="description" content="Authoritative career intelligence for ICAI Chartered Accountants. 80+ verified international qualifications, mutual recognition agreements, 14 statutory CA firm empanelment panels, and practice authorizations.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -30,9 +30,18 @@
           <kbd class="kbd-shortcut">⌘K</kbd>
         </button>
 
+        <a href="#empanelmentSection" class="nav-btn empanelment-nav-link" title="CA Firm Empanelments & Statutory Panels">
+          <span>🏛️ Firm Empanelment</span>
+        </a>
+
         <button class="nav-btn primary-btn" onclick="openWizard()">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           <span>Path Finder</span>
+        </button>
+
+        <button class="nav-btn suggest-btn" onclick="openSuggestionModal()" title="Suggest New Pathway or Panel">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <span class="nav-btn-text">💡 Suggest</span>
         </button>
 
         <button class="nav-btn icon-only-btn" onclick="filterBySaved()" title="Saved Qualifications" id="navSavedBtn">
@@ -52,7 +61,7 @@
     <div class="hero-container">
       <div class="executive-badge">
         <span class="badge-dot"></span>
-        <span>OFFICIAL ICAI QUALIFICATION MAPPING · 70+ PATHWAYS</span>
+        <span>OFFICIAL ICAI QUALIFICATION MAPPING · 80+ PATHWAYS & 14 STATUTORY PANELS</span>
       </div>
 
       <h1 class="hero-title">
@@ -61,28 +70,35 @@
       </h1>
 
       <p class="hero-desc">
-        Comprehensive database of mutual recognition agreements (MRAs), international paper exemptions, statutory practice authorizations, and executive degree pathways for ICAI members.
+        Comprehensive database of mutual recognition agreements (MRAs), international paper exemptions, statutory practice authorizations, executive degree pathways, and CA firm statutory empanelments.
       </p>
 
       <div class="hero-actions-group">
         <a href="#worldMapSection" class="btn-solid">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
           <span>Global Mobility Map</span>
         </a>
         <button class="btn-outline" onclick="openWizard()">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           <span>Match My Career Path</span>
         </button>
+        <a href="#empanelmentSection" class="btn-outline empanelment-hero-btn">
+          <span>🏛️ CA Firm Panels (14)</span>
+        </a>
         <a href="#catalogExplorer" class="btn-ghost">
-          <span>Explore All 70+ Pathways ↓</span>
+          <span>Explore All 80+ Pathways ↓</span>
         </a>
       </div>
 
       <!-- KEY METRICS BAR -->
       <div class="metrics-grid">
         <div class="metric-box">
-          <div class="metric-val" data-target="70" data-suffix="+">70+</div>
-          <div class="metric-lbl">Verified Pathways</div>
+          <div class="metric-val" data-target="80" data-suffix="+">80+</div>
+          <div class="metric-lbl">Individual Pathways</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-val" data-target="14">14</div>
+          <div class="metric-lbl">Statutory Firm Panels</div>
         </div>
         <div class="metric-box">
           <div class="metric-val" data-target="14">14</div>
@@ -90,19 +106,15 @@
         </div>
         <div class="metric-box">
           <div class="metric-val" data-target="16">16</div>
-          <div class="metric-lbl">International Certs</div>
+          <div class="metric-lbl">International Charters</div>
         </div>
         <div class="metric-box">
-          <div class="metric-val" data-target="14">14</div>
-          <div class="metric-lbl">GRC &amp; Niche Specializations</div>
+          <div class="metric-val" data-target="20">20</div>
+          <div class="metric-lbl">GRC &amp; Niche Credentials</div>
         </div>
         <div class="metric-box">
-          <div class="metric-val" data-target="10">10</div>
-          <div class="metric-lbl">Statutory &amp; Banking Roles</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-val" data-target="8">8</div>
-          <div class="metric-lbl">Degree &amp; MBA Tracks</div>
+          <div class="metric-val" data-target="11">11</div>
+          <div class="metric-lbl">Regulatory &amp; Banking Roles</div>
         </div>
       </div>
     </div>
@@ -255,7 +267,7 @@
         <div class="category-tabs-scroll">
           <button class="category-tab active" data-cat="all">
             <span>All Pathways</span>
-            <span class="tab-count">70</span>
+            <span class="tab-count">80</span>
           </button>
           <button class="category-tab" data-cat="mra">
             <span>Global MRA Bodies</span>
@@ -267,19 +279,19 @@
           </button>
           <button class="category-tab" data-cat="niche">
             <span>GRC &amp; Niche Specializations</span>
-            <span class="tab-count">14</span>
+            <span class="tab-count">20</span>
           </button>
           <button class="category-tab" data-cat="india">
             <span>Indian Statutory Courses</span>
-            <span class="tab-count">8</span>
+            <span class="tab-count">10</span>
           </button>
           <button class="category-tab" data-cat="govt">
             <span>Regulatory &amp; Banking Roles</span>
-            <span class="tab-count">10</span>
+            <span class="tab-count">11</span>
           </button>
           <button class="category-tab" data-cat="degree">
             <span>Executive Degrees &amp; MBA</span>
-            <span class="tab-count">8</span>
+            <span class="tab-count">9</span>
           </button>
         </div>
 
@@ -297,7 +309,7 @@
       <!-- RESULTS COUNT & STATUS -->
       <div class="results-meta-bar">
         <div class="results-count-text" id="resultsCountDisplay">
-          Showing <b>70</b> of <b>70</b> qualifications
+          Showing <b>80</b> of <b>80</b> qualifications
         </div>
       </div>
 
@@ -306,6 +318,64 @@
 
     </div>
   </section>
+
+  <!-- DEDICATED CA FIRM EMPANELMENT & STATUTORY PRACTICE PANELS -->
+  <section class="empanelment-section" id="empanelmentSection">
+    <div class="catalog-container">
+      <div class="section-tag-row">
+        <span class="section-tag">INSTITUTIONAL PRACTICE DIRECTORY</span>
+        <span class="badge-accent">Unified Hub · No Toggles</span>
+      </div>
+      <h2 class="section-title">CA Firm Empanelments &amp; Statutory Practice Panels</h2>
+      <p class="section-sub">
+        Authoritative compendium of statutory audit panels, sovereign rosters, and regulatory appointments under RBI, CAG, SEBI, IRDAI, and SFIO. Explore firm eligibility points, partner standing rules, DISA/CISA prerequisites, peer review mandates, and remuneration scales in one seamless view.
+      </p>
+
+      <div class="empanelment-toolbar">
+        <div class="empanelment-search-wrap">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="empanelmentSearchInput" placeholder="Search statutory panels, Acts, regulatory bodies, or partner standing..." oninput="handleEmpanelmentSearch()">
+          <button id="clearEmpanelmentSearchBtn" class="clear-search-btn" style="display:none" onclick="clearEmpanelmentSearch()">✕</button>
+        </div>
+
+        <div class="empanelment-tabs">
+          <button class="empanelment-tab active" data-ecat="all" onclick="filterEmpanelmentCategory('all', this)">
+            <span>All Panels</span>
+            <span class="tab-count">14</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="banking" onclick="filterEmpanelmentCategory('banking', this)">
+            <span>Banking &amp; Insurance</span>
+            <span class="tab-count">3</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="psu" onclick="filterEmpanelmentCategory('psu', this)">
+            <span>CAG &amp; Public Sector</span>
+            <span class="tab-count">3</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="market" onclick="filterEmpanelmentCategory('market', this)">
+            <span>Capital Markets &amp; Utilities</span>
+            <span class="tab-count">3</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="forensic" onclick="filterEmpanelmentCategory('forensic', this)">
+            <span>Forensics &amp; Tax Audit</span>
+            <span class="tab-count">3</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="quality" onclick="filterEmpanelmentCategory('quality', this)">
+            <span>ESG &amp; Quality Review</span>
+            <span class="tab-count">2</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="empanelment-results-count" id="empanelmentResultsCount">
+        Showing <b>14</b> of <b>14</b> statutory panels
+      </div>
+
+      <div class="empanelment-grid" id="empanelmentGridContainer">
+        <!-- Dynamically rendered by script.js -->
+      </div>
+    </div>
+  </section>
+
 
   <!-- FLOATING SIDE-BY-SIDE DOCK -->
   <div class="compare-floating-dock" id="compareDock">
@@ -523,6 +593,174 @@
     </div>
   </div>
 
+
+  <!-- EMPANELMENT DETAIL MODAL / DRAWER -->
+  <div class="modal-backdrop" id="empanelmentDetailModal" onclick="closeEmpanelmentModal()">
+    <div class="modal-sheet empanelment-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <div class="sheet-header-left">
+          <div class="sheet-badge-row">
+            <span class="sheet-country-tag" id="modalEmpAuthority">Authority</span>
+            <span class="sheet-cat-tag" id="modalEmpStatute">Statute</span>
+            <span class="badge-peer-pill" id="modalEmpPeerReview">Peer Review Mandated</span>
+          </div>
+          <h2 class="sheet-title" id="modalEmpName">Empanelment Title</h2>
+          <p class="sheet-body-org" id="modalEmpFullName">Full Statutory Panel Nomenclature</p>
+        </div>
+        <button class="sheet-close-btn" onclick="closeEmpanelmentModal()" aria-label="Close">✕</button>
+      </div>
+
+      <div class="sheet-body-scroll">
+        <div class="emp-summary-box" id="modalEmpSummary"></div>
+
+        <div class="emp-overview-grid">
+          <div class="emp-stat-card">
+            <div class="emp-stat-label">FIRM STANDING REQUIRED</div>
+            <div class="emp-stat-val" id="modalEmpStanding">-</div>
+          </div>
+          <div class="emp-stat-card">
+            <div class="emp-stat-label">MINIMUM PARTNER STRENGTH</div>
+            <div class="emp-stat-val" id="modalEmpPartners">-</div>
+          </div>
+          <div class="emp-stat-card">
+            <div class="emp-stat-label">APPLICATION CYCLE</div>
+            <div class="emp-stat-val" id="modalEmpWindow">-</div>
+          </div>
+          <div class="emp-stat-card">
+            <div class="emp-stat-label">REMUNERATION SCALE</div>
+            <div class="emp-stat-val" id="modalEmpFee">-</div>
+          </div>
+        </div>
+
+        <div class="emp-section-card">
+          <h3 class="emp-card-heading">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Technical Prerequisites &amp; Certifications</span>
+          </h3>
+          <p class="emp-card-body" id="modalEmpPrereqs">-</p>
+        </div>
+
+        <div class="emp-section-card">
+          <h3 class="emp-card-heading">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Empanelment Point Grading Algorithm</span>
+          </h3>
+          <ul class="emp-point-list" id="modalEmpAlgorithm"></ul>
+        </div>
+
+        <div class="emp-section-card">
+          <h3 class="emp-card-heading">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Scope of Statutory Audit &amp; Reporting Powers</span>
+          </h3>
+          <ul class="emp-point-list" id="modalEmpScope"></ul>
+        </div>
+
+        <div class="emp-section-card">
+          <h3 class="emp-card-heading">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+            <span>Step-by-Step Empanelment Workflow</span>
+          </h3>
+          <ol class="emp-step-list" id="modalEmpSteps"></ol>
+        </div>
+      </div>
+
+      <div class="sheet-footer">
+        <div class="sheet-footer-info">
+          <span class="status-verified-dot"></span>
+          <span>Official Statutory Practice Panel</span>
+        </div>
+        <a href="#" target="_blank" rel="noopener" class="btn-official-external" id="modalEmpOfficialLink">
+          <span>Official Regulator Portal</span>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATHWAY SUGGESTION MODAL -->
+  <div class="modal-backdrop" id="suggestionModal" onclick="closeSuggestionModal()">
+    <div class="modal-sheet suggestion-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <div>
+          <div class="sheet-badge-row">
+            <span class="sheet-country-tag">COMMUNITY INTELLIGENCE</span>
+          </div>
+          <h2 class="sheet-title">Suggest a Pathway or Practice Panel</h2>
+          <p class="sheet-body-org">Submit credentials, international paper exemptions, or statutory panels for verification.</p>
+        </div>
+        <button class="sheet-close-btn" onclick="closeSuggestionModal()" aria-label="Close">✕</button>
+      </div>
+
+      <div class="sheet-body-scroll">
+        <form id="pathwaySuggestionForm" onsubmit="handleSuggestionSubmit(event)" class="suggestion-form">
+          <div id="suggestionStatusMsg" class="suggestion-alert" style="display: none;"></div>
+
+          <div class="form-group">
+            <label class="form-label" for="sugTitle">Qualification / Panel Title <span class="required-star">*</span></label>
+            <input type="text" id="sugTitle" class="form-input" required placeholder="e.g. FRM (Financial Risk Manager) or RBI Forensic Audit Panel">
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="sugAuthority">Issuing Authority / Regulator <span class="required-star">*</span></label>
+              <input type="text" id="sugAuthority" class="form-input" required placeholder="e.g. GARP / ICAI / RBI / SEBI">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sugCategory">Directory Category <span class="required-star">*</span></label>
+              <select id="sugCategory" class="form-select" required>
+                <option value="mra">Global MRA / Mutual Recognition</option>
+                <option value="intl">International Finance Charter</option>
+                <option value="niche">GRC &amp; Niche Specialization</option>
+                <option value="india">Indian Statutory Course</option>
+                <option value="empanelment">CA Firm Statutory Empanelment</option>
+                <option value="govt">Regulatory / Banking Practice</option>
+                <option value="degree">Executive Degree / MBA</option>
+                <option value="other">Other Credential</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sugDesc">Key Details, ICAI Exemptions &amp; Scope <span class="required-star">*</span></label>
+            <textarea id="sugDesc" class="form-textarea" rows="4" required placeholder="Describe paper exemptions granted to ICAI members, eligibility requirements, practice rights, or firm standing rules..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sugSourceUrl">Official Source Link or Gazette URL</label>
+            <input type="url" id="sugSourceUrl" class="form-input" placeholder="https://... (official circular, syllabus, or tender document)">
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="sugSubmitterName">Your Name (Optional)</label>
+              <input type="text" id="sugSubmitterName" class="form-input" placeholder="CA Member / Candidate">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sugSubmitterEmail">Your Email (Optional)</label>
+              <input type="email" id="sugSubmitterEmail" class="form-input" placeholder="For attribution updates only">
+            </div>
+          </div>
+
+          <div class="privacy-notice-box">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Submissions are audited against official ICAI MoUs and government gazettes. Your personal information is strictly protected and never published.</span>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-ghost" onclick="closeSuggestionModal()">Cancel</button>
+            <button type="submit" id="sugSubmitBtn" class="btn-solid">
+              <span id="sugBtnText">Submit for Verification</span>
+              <div id="sugSpinner" class="btn-spinner" style="display:none;"></div>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="executive-footer">
     <div class="footer-container">
@@ -539,6 +777,7 @@
   </footer>
 
   <script src="courses-data.js"></script>
+  <script src="empanelments-data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

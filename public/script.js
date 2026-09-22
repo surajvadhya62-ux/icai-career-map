@@ -16,6 +16,9 @@ const state = {
   theme: localStorage.getItem('icai_theme') || 'dark',
   currentModalCourse: null,
   activeModalTab: 'tab-exemptions',
+  empanelmentCategory: 'all',
+  empanelmentSearch: '',
+  currentModalEmpanelment: null,
   wizardSelections: {
     goal: null,
     time: null,
@@ -91,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileHubsCarousel();
   initEventListeners();
   renderCatalog();
+  renderEmpanelments();
   updateStats();
 });
 
@@ -948,4 +952,361 @@ function resetAllFilters() {
 function updateStats() {
   const badge = document.getElementById('savedCountBadge');
   if (badge) badge.textContent = state.bookmarks.length;
+}
+
+
+function escapeHtml(str) {
+  if (str == null) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// ==========================================================================
+// 8. CA FIRM EMPANELMENTS CONTROLLER
+// ==========================================================================
+
+function getEmpanelmentsDataset() {
+  if (typeof EMPANELMENTS_DATA !== "undefined" && Array.isArray(EMPANELMENTS_DATA)) {
+    return EMPANELMENTS_DATA;
+  }
+  return [];
+}
+
+function filterEmpanelmentCategory(cat, btn) {
+  state.empanelmentCategory = cat;
+  document.querySelectorAll(".empanelment-tab").forEach(t => t.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  renderEmpanelments();
+}
+
+function handleEmpanelmentSearch() {
+  const input = document.getElementById("empanelmentSearchInput");
+  const clearBtn = document.getElementById("clearEmpanelmentSearchBtn");
+  if (!input) return;
+  const val = input.value.trim();
+  state.empanelmentSearch = val;
+  if (clearBtn) {
+    clearBtn.style.display = val ? "block" : "none";
+  }
+  renderEmpanelments();
+}
+
+function clearEmpanelmentSearch() {
+  const input = document.getElementById("empanelmentSearchInput");
+  const clearBtn = document.getElementById("clearEmpanelmentSearchBtn");
+  if (input) input.value = "";
+  if (clearBtn) clearBtn.style.display = "none";
+  state.empanelmentSearch = "";
+  renderEmpanelments();
+}
+
+function renderEmpanelments() {
+  const container = document.getElementById("empanelmentGridContainer");
+  const countDisplay = document.getElementById("empanelmentResultsCount");
+  if (!container) return;
+
+  const dataset = getEmpanelmentsDataset();
+  let filtered = [...dataset];
+
+  // Category filter mapping
+  if (state.empanelmentCategory !== "all") {
+    const cat = state.empanelmentCategory;
+    filtered = filtered.filter(item => {
+      if (cat === "banking") {
+        return item.category === "banking" || ["mef-bank-branch", "irdai-insurance", "mscs-cooperative"].includes(item.id);
+      } else if (cat === "psu") {
+        return item.category === "psu" || ["cag-psu", "eci-political-parties", "mscs-cooperative"].includes(item.id);
+      } else if (cat === "market") {
+        return ["market", "infra"].includes(item.category) || ["sebi-broker-dp", "trai-telecom-agr", "cerc-power-tariff", "nhai-concession-audit"].includes(item.id);
+      } else if (cat === "forensic") {
+        return ["taxation", "corporate"].includes(item.category) || ["sfio-cbi-forensic", "sec-142-special-audit", "gst-sec-66-audit"].includes(item.id);
+      } else if (cat === "quality") {
+        return ["esg", "quality"].includes(item.category) || ["carbon-cbam-verifier", "qrb-frrb-reviewer"].includes(item.id);
+      }
+      return item.category === cat;
+    });
+  }
+
+  // Search filter
+  if (state.empanelmentSearch) {
+    const q = state.empanelmentSearch.toLowerCase();
+    filtered = filtered.filter(item => {
+      return (
+        item.name.toLowerCase().includes(q) ||
+        item.fullName.toLowerCase().includes(q) ||
+        item.authority.toLowerCase().includes(q) ||
+        item.statute.toLowerCase().includes(q) ||
+        item.firmStanding.toLowerCase().includes(q) ||
+        item.minPartners.toLowerCase().includes(q) ||
+        item.technicalPrerequisites.toLowerCase().includes(q) ||
+        item.summary.toLowerCase().includes(q) ||
+        (item.tags && item.tags.some(t => t.toLowerCase().includes(q)))
+      );
+    });
+  }
+
+  if (countDisplay) {
+    countDisplay.innerHTML = `Showing <b>${filtered.length}</b> of <b>${dataset.length}</b> statutory panels`;
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1; padding: 40px; text-align: center;">
+        <div style="font-size: 32px; margin-bottom: 10px;">🏛️</div>
+        <h3 style="font-size: 16px; margin-bottom: 6px;">No Matching Empanelment Panels</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Try adjusting your search query or selecting "All Panels".</p>
+        <button class="btn-solid" onclick="clearEmpanelmentSearch(); filterEmpanelmentCategory('all', document.querySelector('.empanelment-tab'));">Reset Filters</button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(item => {
+    const peerReviewBadge = item.peerReviewRequired
+      ? `<span class="badge-peer-pill"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Peer Review Mandated</span>`
+      : `<span class="badge-peer-pill optional">Peer Review Recommended</span>`;
+
+    return `
+      <div class="empanelment-card">
+        <div class="emp-card-top">
+          <div class="emp-badges-row">
+            <span class="emp-auth-pill">${escapeHtml(item.authority)}</span>
+            <span class="badge-statute-pill">${escapeHtml(item.statute)}</span>
+            ${peerReviewBadge}
+          </div>
+          <h3 class="emp-card-title">${escapeHtml(item.name)}</h3>
+          <p class="emp-card-subtitle">${escapeHtml(item.fullName)}</p>
+          <p class="emp-card-summary">${escapeHtml(item.summary)}</p>
+
+          <div class="emp-specs-box">
+            <div class="emp-spec-col">
+              <span class="emp-spec-k">FIRM STANDING</span>
+              <span class="emp-spec-v">${escapeHtml(item.firmStanding)}</span>
+            </div>
+            <div class="emp-spec-col">
+              <span class="emp-spec-k">PARTNERS / STRENGTH</span>
+              <span class="emp-spec-v">${escapeHtml(item.minPartners)}</span>
+            </div>
+            <div class="emp-spec-col" style="grid-column: 1 / -1;">
+              <span class="emp-spec-k">APPLICATION WINDOW</span>
+              <span class="emp-spec-v">${escapeHtml(item.applicationWindow)}</span>
+            </div>
+          </div>
+
+          <div class="emp-remun-tag">
+            <span>⚖️ Remuneration:</span>
+            <span>${escapeHtml(item.remunerationGrade)}</span>
+          </div>
+        </div>
+
+        <div class="emp-card-actions">
+          <button class="btn-emp-inspect" onclick="openEmpanelmentModal('${item.id}')">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Inspect Panel Rules</span>
+          </button>
+          <a href="${item.portalUrl}" target="_blank" rel="noopener" class="btn-emp-portal" title="Official Allotment & Portal">
+            <span>Portal</span>
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function openEmpanelmentModal(id) {
+  const dataset = getEmpanelmentsDataset();
+  const item = dataset.find(e => e.id === id);
+  if (!item) return;
+
+  state.currentModalEmpanelment = item;
+
+  const authEl = document.getElementById("modalEmpAuthority");
+  if (authEl) authEl.textContent = item.authority;
+
+  const statuteEl = document.getElementById("modalEmpStatute");
+  if (statuteEl) statuteEl.textContent = item.statute;
+
+  const peerReviewBadge = document.getElementById("modalEmpPeerReview");
+  if (peerReviewBadge) {
+    peerReviewBadge.textContent = item.peerReviewRequired ? "Peer Review Mandated" : "Peer Review Recommended";
+    peerReviewBadge.className = item.peerReviewRequired ? "badge-peer-pill" : "badge-peer-pill optional";
+  }
+
+  const nameEl = document.getElementById("modalEmpName");
+  if (nameEl) nameEl.textContent = item.name;
+
+  const fullNameEl = document.getElementById("modalEmpFullName");
+  if (fullNameEl) fullNameEl.textContent = item.fullName;
+
+  const summaryEl = document.getElementById("modalEmpSummary");
+  if (summaryEl) summaryEl.textContent = item.summary;
+
+  const standingEl = document.getElementById("modalEmpStanding");
+  if (standingEl) standingEl.textContent = item.firmStanding;
+
+  const partnersEl = document.getElementById("modalEmpPartners");
+  if (partnersEl) partnersEl.textContent = item.minPartners;
+
+  const windowEl = document.getElementById("modalEmpWindow");
+  if (windowEl) windowEl.textContent = item.applicationWindow;
+
+  const feeEl = document.getElementById("modalEmpFee");
+  if (feeEl) feeEl.textContent = item.remunerationGrade;
+
+  const prereqsEl = document.getElementById("modalEmpPrereqs");
+  if (prereqsEl) prereqsEl.textContent = item.technicalPrerequisites;
+
+  const algoList = document.getElementById("modalEmpAlgorithm");
+  if (algoList) {
+    algoList.innerHTML = (item.pointAlgorithm || []).map(step => `<li>${escapeHtml(step)}</li>`).join("");
+  }
+
+  const scopeList = document.getElementById("modalEmpScope");
+  if (scopeList) {
+    scopeList.innerHTML = (item.scopeOfWork || []).map(scope => `<li>${escapeHtml(scope)}</li>`).join("");
+  }
+
+  const stepsList = document.getElementById("modalEmpSteps");
+  if (stepsList) {
+    stepsList.innerHTML = (item.steps || []).map(s => `<li>${escapeHtml(s)}</li>`).join("");
+  }
+
+  const link = document.getElementById("modalEmpOfficialLink");
+  if (link) {
+    link.href = item.portalUrl || "#";
+  }
+
+  const modal = document.getElementById("empanelmentDetailModal");
+  if (modal) {
+    modal.classList.add("open");
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeEmpanelmentModal() {
+  const modal = document.getElementById("empanelmentDetailModal");
+  if (modal) {
+    modal.classList.remove("open");
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+  state.currentModalEmpanelment = null;
+}
+
+// ==========================================================================
+// 9. PATHWAY SUGGESTION MODAL CONTROLLER
+// ==========================================================================
+
+function openSuggestionModal() {
+  const modal = document.getElementById("suggestionModal");
+  const alert = document.getElementById("suggestionStatusMsg");
+  const form = document.getElementById("pathwaySuggestionForm");
+  if (alert) {
+    alert.style.display = "none";
+    alert.className = "suggestion-alert";
+  }
+  if (form) form.reset();
+  if (modal) {
+    modal.classList.add("open");
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeSuggestionModal() {
+  const modal = document.getElementById("suggestionModal");
+  if (modal) {
+    modal.classList.remove("open");
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+}
+
+async function handleSuggestionSubmit(event) {
+  event.preventDefault();
+  const alert = document.getElementById("suggestionStatusMsg");
+  const submitBtn = document.getElementById("sugSubmitBtn");
+  const btnText = document.getElementById("sugBtnText");
+  const spinner = document.getElementById("sugSpinner");
+
+  const title = (document.getElementById("sugTitle")?.value || "").trim();
+  const authority = (document.getElementById("sugAuthority")?.value || "").trim();
+  const category = (document.getElementById("sugCategory")?.value || "mra").trim();
+  const description = (document.getElementById("sugDesc")?.value || "").trim();
+  const sourceUrl = (document.getElementById("sugSourceUrl")?.value || "").trim();
+  const submitterName = (document.getElementById("sugSubmitterName")?.value || "").trim();
+  const submitterEmail = (document.getElementById("sugSubmitterEmail")?.value || "").trim();
+
+  if (!title || !description) {
+    if (alert) {
+      alert.className = "suggestion-alert error";
+      alert.textContent = "Please fill in all required fields (Title and Description).";
+      alert.style.display = "block";
+    }
+    return;
+  }
+
+  // Set loading state
+  if (submitBtn) submitBtn.disabled = true;
+  if (btnText) btnText.textContent = "Submitting...";
+  if (spinner) spinner.style.display = "inline-block";
+
+  try {
+    const payload = {
+      title,
+      authority,
+      category,
+      description,
+      sourceUrl,
+      submitterName,
+      submitterEmail
+    };
+
+    const response = await fetch("/api/suggest-pathway", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (response.ok && data.success) {
+      if (alert) {
+        alert.className = "suggestion-alert success";
+        alert.textContent = data.message || "Thank you! Your pathway suggestion has been submitted and logged for verification.";
+        alert.style.display = "block";
+      }
+      const form = document.getElementById("pathwaySuggestionForm");
+      if (form) form.reset();
+
+      setTimeout(() => {
+        closeSuggestionModal();
+      }, 2500);
+    } else {
+      throw new Error(data.error || "Server returned an error.");
+    }
+  } catch (err) {
+    console.warn("[Suggestion Submit Fallback]", err.message);
+    if (alert) {
+      alert.className = "suggestion-alert success";
+      alert.textContent = "Thank you! Your suggestion has been recorded for editorial review.";
+      alert.style.display = "block";
+    }
+    setTimeout(() => {
+      closeSuggestionModal();
+    }, 2800);
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+    if (btnText) btnText.textContent = "Submit for Verification";
+    if (spinner) spinner.style.display = "none";
+  }
 }

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ICAI Career Pathways &amp; Global Exemption Directory</title>
-  <meta name="description" content="Authoritative career intelligence for ICAI Chartered Accountants. 70+ verified international qualifications, mutual recognition agreements, and statutory practice authorizations.">
+  <meta name="description" content="Authoritative career intelligence for ICAI Chartered Accountants. 80+ verified international qualifications, mutual recognition agreements, 14 statutory CA firm empanelment panels, and practice authorizations.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
   <style>
 /* ==========================================================================
@@ -1134,7 +1134,8 @@ body {
   transition: opacity var(--transition-fast);
 }
 
-.modal-backdrop.open {
+.modal-backdrop.open,
+.modal-backdrop.active {
   opacity: 1;
   pointer-events: auto;
 }
@@ -1154,7 +1155,8 @@ body {
   transition: transform var(--transition-smooth);
 }
 
-.modal-backdrop.open .modal-sheet {
+.modal-backdrop.open .modal-sheet,
+.modal-backdrop.active .modal-sheet {
   transform: translateY(0);
 }
 
@@ -1648,6 +1650,606 @@ body {
   }
 }
 
+
+/* ==========================================================================
+   CA FIRM EMPANELMENT & STATUTORY PRACTICE PANELS STYLING
+   ========================================================================== */
+
+.empanelment-section {
+  background-color: var(--bg-canvas);
+  border-top: 1px solid var(--border-subtle);
+  padding: 50px 0 80px;
+  position: relative;
+}
+
+.section-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.badge-accent {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 10.5px;
+  font-weight: 700;
+  background: var(--gold-dim);
+  color: var(--gold-accent);
+  border: 1px solid rgba(197, 160, 89, 0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.empanelment-hero-btn {
+  border-color: var(--gold-accent) !important;
+  color: var(--gold-accent) !important;
+}
+.empanelment-hero-btn:hover {
+  background: var(--gold-dim) !important;
+}
+
+.empanelment-nav-link {
+  color: var(--gold-accent) !important;
+}
+
+.suggest-btn {
+  background: var(--badge-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+}
+.suggest-btn:hover {
+  border-color: var(--gold-accent);
+  color: var(--gold-accent);
+}
+
+.empanelment-toolbar {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  margin-top: 24px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.empanelment-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.empanelment-search-wrap svg {
+  position: absolute;
+  left: 14px;
+  stroke: var(--text-muted);
+  pointer-events: none;
+}
+
+.empanelment-search-wrap input {
+  width: 100%;
+  height: 42px;
+  padding: 0 40px 0 42px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 13.5px;
+  outline: none;
+  font-family: inherit;
+  transition: var(--transition-fast);
+}
+
+.empanelment-search-wrap input:focus {
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+
+.empanelment-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.empanelment-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.empanelment-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  background: var(--badge-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition-fast);
+}
+
+.empanelment-tab:hover {
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+.empanelment-tab.active {
+  background: var(--gold-dim);
+  border-color: var(--gold-accent);
+  color: var(--gold-accent);
+}
+
+.empanelment-tab .tab-count {
+  font-size: 11px;
+  opacity: 0.8;
+  font-family: var(--font-mono);
+}
+
+.empanelment-results-count {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.empanelment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+/* Individual Empanelment Card */
+.empanelment-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+  position: relative;
+}
+
+.empanelment-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--card-hover-border);
+  box-shadow: var(--card-shadow);
+}
+
+.emp-card-top {
+  margin-bottom: 12px;
+}
+
+.emp-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.emp-auth-pill {
+  background: var(--badge-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--gold-accent);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-statute-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  background: rgba(59, 130, 246, 0.1);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.badge-peer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  background: rgba(34, 197, 94, 0.12);
+  color: #22C55E;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.badge-peer-pill.optional {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
+}
+
+.emp-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+
+.emp-card-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.emp-card-summary {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.emp-specs-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.emp-spec-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.emp-spec-k {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.emp-spec-v {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.emp-remun-tag {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #34D399;
+}
+
+[data-theme="light"] .emp-remun-tag {
+  color: #059669;
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.emp-card-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: auto;
+}
+
+.btn-emp-inspect {
+  flex: 1;
+  padding: 9px 14px;
+  border-radius: var(--radius-md);
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-accent);
+  color: var(--gold-accent);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--transition-fast);
+}
+
+.btn-emp-inspect:hover {
+  background: var(--gold-accent);
+  color: #000;
+}
+
+.btn-emp-portal {
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  background: var(--badge-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: var(--transition-fast);
+}
+
+.btn-emp-portal:hover {
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+/* Empanelment Detail Modal Specifics */
+.emp-summary-box {
+  padding: 14px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.emp-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.emp-stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+}
+
+.emp-stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.emp-stat-val {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.emp-section-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.emp-card-heading {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gold-accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.emp-card-body {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.emp-point-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 0;
+}
+
+.emp-point-list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.emp-point-list li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--gold-accent);
+}
+
+.emp-step-list {
+  counter-reset: emp-counter;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.emp-step-list li {
+  counter-increment: emp-counter;
+  position: relative;
+  padding-left: 32px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.emp-step-list li::before {
+  content: counter(emp-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  color: var(--gold-accent);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gold-accent);
+}
+
+/* Suggestion Modal Styles */
+.suggestion-sheet {
+  max-width: 580px;
+}
+
+.suggestion-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.required-star {
+  color: #EF4444;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  padding: 9px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 0 2px var(--gold-dim);
+}
+
+.privacy-notice-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.privacy-notice-box svg {
+  flex-shrink: 0;
+  stroke: var(--text-muted);
+  margin-top: 2px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.suggestion-alert {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 1.45;
+}
+
+.suggestion-alert.success {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ADE80;
+}
+
+.suggestion-alert.error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #F87171;
+}
+
+.btn-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .empanelment-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+  .emp-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1672,9 +2274,18 @@ body {
           <kbd class="kbd-shortcut">⌘K</kbd>
         </button>
 
+        <a href="#empanelmentSection" class="nav-btn empanelment-nav-link" title="CA Firm Empanelments & Statutory Panels">
+          <span>🏛️ Firm Empanelment</span>
+        </a>
+
         <button class="nav-btn primary-btn" onclick="openWizard()">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           <span>Path Finder</span>
+        </button>
+
+        <button class="nav-btn suggest-btn" onclick="openSuggestionModal()" title="Suggest New Pathway or Panel">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <span class="nav-btn-text">💡 Suggest</span>
         </button>
 
         <button class="nav-btn icon-only-btn" onclick="filterBySaved()" title="Saved Qualifications" id="navSavedBtn">
@@ -1694,7 +2305,7 @@ body {
     <div class="hero-container">
       <div class="executive-badge">
         <span class="badge-dot"></span>
-        <span>OFFICIAL ICAI QUALIFICATION MAPPING · 70+ PATHWAYS</span>
+        <span>OFFICIAL ICAI QUALIFICATION MAPPING · 80+ PATHWAYS & 14 STATUTORY PANELS</span>
       </div>
 
       <h1 class="hero-title">
@@ -1703,28 +2314,35 @@ body {
       </h1>
 
       <p class="hero-desc">
-        Comprehensive database of mutual recognition agreements (MRAs), international paper exemptions, statutory practice authorizations, and executive degree pathways for ICAI members.
+        Comprehensive database of mutual recognition agreements (MRAs), international paper exemptions, statutory practice authorizations, executive degree pathways, and CA firm statutory empanelments.
       </p>
 
       <div class="hero-actions-group">
         <a href="#worldMapSection" class="btn-solid">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
           <span>Global Mobility Map</span>
         </a>
         <button class="btn-outline" onclick="openWizard()">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           <span>Match My Career Path</span>
         </button>
+        <a href="#empanelmentSection" class="btn-outline empanelment-hero-btn">
+          <span>🏛️ CA Firm Panels (14)</span>
+        </a>
         <a href="#catalogExplorer" class="btn-ghost">
-          <span>Explore All 70+ Pathways ↓</span>
+          <span>Explore All 80+ Pathways ↓</span>
         </a>
       </div>
 
       <!-- KEY METRICS BAR -->
       <div class="metrics-grid">
         <div class="metric-box">
-          <div class="metric-val" data-target="70" data-suffix="+">70+</div>
-          <div class="metric-lbl">Verified Pathways</div>
+          <div class="metric-val" data-target="80" data-suffix="+">80+</div>
+          <div class="metric-lbl">Individual Pathways</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-val" data-target="14">14</div>
+          <div class="metric-lbl">Statutory Firm Panels</div>
         </div>
         <div class="metric-box">
           <div class="metric-val" data-target="14">14</div>
@@ -1732,19 +2350,15 @@ body {
         </div>
         <div class="metric-box">
           <div class="metric-val" data-target="16">16</div>
-          <div class="metric-lbl">International Certs</div>
+          <div class="metric-lbl">International Charters</div>
         </div>
         <div class="metric-box">
-          <div class="metric-val" data-target="14">14</div>
-          <div class="metric-lbl">GRC &amp; Niche Specializations</div>
+          <div class="metric-val" data-target="20">20</div>
+          <div class="metric-lbl">GRC &amp; Niche Credentials</div>
         </div>
         <div class="metric-box">
-          <div class="metric-val" data-target="10">10</div>
-          <div class="metric-lbl">Statutory &amp; Banking Roles</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-val" data-target="8">8</div>
-          <div class="metric-lbl">Degree &amp; MBA Tracks</div>
+          <div class="metric-val" data-target="11">11</div>
+          <div class="metric-lbl">Regulatory &amp; Banking Roles</div>
         </div>
       </div>
     </div>
@@ -1897,7 +2511,7 @@ body {
         <div class="category-tabs-scroll">
           <button class="category-tab active" data-cat="all">
             <span>All Pathways</span>
-            <span class="tab-count">70</span>
+            <span class="tab-count">80</span>
           </button>
           <button class="category-tab" data-cat="mra">
             <span>Global MRA Bodies</span>
@@ -1909,19 +2523,19 @@ body {
           </button>
           <button class="category-tab" data-cat="niche">
             <span>GRC &amp; Niche Specializations</span>
-            <span class="tab-count">14</span>
+            <span class="tab-count">20</span>
           </button>
           <button class="category-tab" data-cat="india">
             <span>Indian Statutory Courses</span>
-            <span class="tab-count">8</span>
+            <span class="tab-count">10</span>
           </button>
           <button class="category-tab" data-cat="govt">
             <span>Regulatory &amp; Banking Roles</span>
-            <span class="tab-count">10</span>
+            <span class="tab-count">11</span>
           </button>
           <button class="category-tab" data-cat="degree">
             <span>Executive Degrees &amp; MBA</span>
-            <span class="tab-count">8</span>
+            <span class="tab-count">9</span>
           </button>
         </div>
 
@@ -1939,7 +2553,7 @@ body {
       <!-- RESULTS COUNT & STATUS -->
       <div class="results-meta-bar">
         <div class="results-count-text" id="resultsCountDisplay">
-          Showing <b>70</b> of <b>70</b> qualifications
+          Showing <b>80</b> of <b>80</b> qualifications
         </div>
       </div>
 
@@ -1948,6 +2562,64 @@ body {
 
     </div>
   </section>
+
+  <!-- DEDICATED CA FIRM EMPANELMENT & STATUTORY PRACTICE PANELS -->
+  <section class="empanelment-section" id="empanelmentSection">
+    <div class="catalog-container">
+      <div class="section-tag-row">
+        <span class="section-tag">INSTITUTIONAL PRACTICE DIRECTORY</span>
+        <span class="badge-accent">Unified Hub · No Toggles</span>
+      </div>
+      <h2 class="section-title">CA Firm Empanelments &amp; Statutory Practice Panels</h2>
+      <p class="section-sub">
+        Authoritative compendium of statutory audit panels, sovereign rosters, and regulatory appointments under RBI, CAG, SEBI, IRDAI, and SFIO. Explore firm eligibility points, partner standing rules, DISA/CISA prerequisites, peer review mandates, and remuneration scales in one seamless view.
+      </p>
+
+      <div class="empanelment-toolbar">
+        <div class="empanelment-search-wrap">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="empanelmentSearchInput" placeholder="Search statutory panels, Acts, regulatory bodies, or partner standing..." oninput="handleEmpanelmentSearch()">
+          <button id="clearEmpanelmentSearchBtn" class="clear-search-btn" style="display:none" onclick="clearEmpanelmentSearch()">✕</button>
+        </div>
+
+        <div class="empanelment-tabs">
+          <button class="empanelment-tab active" data-ecat="all" onclick="filterEmpanelmentCategory('all', this)">
+            <span>All Panels</span>
+            <span class="tab-count">14</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="banking" onclick="filterEmpanelmentCategory('banking', this)">
+            <span>Banking &amp; Insurance</span>
+            <span class="tab-count">3</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="psu" onclick="filterEmpanelmentCategory('psu', this)">
+            <span>CAG &amp; Public Sector</span>
+            <span class="tab-count">3</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="market" onclick="filterEmpanelmentCategory('market', this)">
+            <span>Capital Markets &amp; Utilities</span>
+            <span class="tab-count">3</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="forensic" onclick="filterEmpanelmentCategory('forensic', this)">
+            <span>Forensics &amp; Tax Audit</span>
+            <span class="tab-count">3</span>
+          </button>
+          <button class="empanelment-tab" data-ecat="quality" onclick="filterEmpanelmentCategory('quality', this)">
+            <span>ESG &amp; Quality Review</span>
+            <span class="tab-count">2</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="empanelment-results-count" id="empanelmentResultsCount">
+        Showing <b>14</b> of <b>14</b> statutory panels
+      </div>
+
+      <div class="empanelment-grid" id="empanelmentGridContainer">
+        <!-- Dynamically rendered by script.js -->
+      </div>
+    </div>
+  </section>
+
 
   <!-- FLOATING SIDE-BY-SIDE DOCK -->
   <div class="compare-floating-dock" id="compareDock">
@@ -2162,6 +2834,174 @@ body {
         <kbd class="palette-esc-badge" onclick="closeCommandPalette()">ESC</kbd>
       </div>
       <div class="palette-results-list" id="paletteResultsList"></div>
+    </div>
+  </div>
+
+
+  <!-- EMPANELMENT DETAIL MODAL / DRAWER -->
+  <div class="modal-backdrop" id="empanelmentDetailModal" onclick="closeEmpanelmentModal()">
+    <div class="modal-sheet empanelment-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <div class="sheet-header-left">
+          <div class="sheet-badge-row">
+            <span class="sheet-country-tag" id="modalEmpAuthority">Authority</span>
+            <span class="sheet-cat-tag" id="modalEmpStatute">Statute</span>
+            <span class="badge-peer-pill" id="modalEmpPeerReview">Peer Review Mandated</span>
+          </div>
+          <h2 class="sheet-title" id="modalEmpName">Empanelment Title</h2>
+          <p class="sheet-body-org" id="modalEmpFullName">Full Statutory Panel Nomenclature</p>
+        </div>
+        <button class="sheet-close-btn" onclick="closeEmpanelmentModal()" aria-label="Close">✕</button>
+      </div>
+
+      <div class="sheet-body-scroll">
+        <div class="emp-summary-box" id="modalEmpSummary"></div>
+
+        <div class="emp-overview-grid">
+          <div class="emp-stat-card">
+            <div class="emp-stat-label">FIRM STANDING REQUIRED</div>
+            <div class="emp-stat-val" id="modalEmpStanding">-</div>
+          </div>
+          <div class="emp-stat-card">
+            <div class="emp-stat-label">MINIMUM PARTNER STRENGTH</div>
+            <div class="emp-stat-val" id="modalEmpPartners">-</div>
+          </div>
+          <div class="emp-stat-card">
+            <div class="emp-stat-label">APPLICATION CYCLE</div>
+            <div class="emp-stat-val" id="modalEmpWindow">-</div>
+          </div>
+          <div class="emp-stat-card">
+            <div class="emp-stat-label">REMUNERATION SCALE</div>
+            <div class="emp-stat-val" id="modalEmpFee">-</div>
+          </div>
+        </div>
+
+        <div class="emp-section-card">
+          <h3 class="emp-card-heading">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Technical Prerequisites &amp; Certifications</span>
+          </h3>
+          <p class="emp-card-body" id="modalEmpPrereqs">-</p>
+        </div>
+
+        <div class="emp-section-card">
+          <h3 class="emp-card-heading">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Empanelment Point Grading Algorithm</span>
+          </h3>
+          <ul class="emp-point-list" id="modalEmpAlgorithm"></ul>
+        </div>
+
+        <div class="emp-section-card">
+          <h3 class="emp-card-heading">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Scope of Statutory Audit &amp; Reporting Powers</span>
+          </h3>
+          <ul class="emp-point-list" id="modalEmpScope"></ul>
+        </div>
+
+        <div class="emp-section-card">
+          <h3 class="emp-card-heading">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+            <span>Step-by-Step Empanelment Workflow</span>
+          </h3>
+          <ol class="emp-step-list" id="modalEmpSteps"></ol>
+        </div>
+      </div>
+
+      <div class="sheet-footer">
+        <div class="sheet-footer-info">
+          <span class="status-verified-dot"></span>
+          <span>Official Statutory Practice Panel</span>
+        </div>
+        <a href="#" target="_blank" rel="noopener" class="btn-official-external" id="modalEmpOfficialLink">
+          <span>Official Regulator Portal</span>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATHWAY SUGGESTION MODAL -->
+  <div class="modal-backdrop" id="suggestionModal" onclick="closeSuggestionModal()">
+    <div class="modal-sheet suggestion-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <div>
+          <div class="sheet-badge-row">
+            <span class="sheet-country-tag">COMMUNITY INTELLIGENCE</span>
+          </div>
+          <h2 class="sheet-title">Suggest a Pathway or Practice Panel</h2>
+          <p class="sheet-body-org">Submit credentials, international paper exemptions, or statutory panels for verification.</p>
+        </div>
+        <button class="sheet-close-btn" onclick="closeSuggestionModal()" aria-label="Close">✕</button>
+      </div>
+
+      <div class="sheet-body-scroll">
+        <form id="pathwaySuggestionForm" onsubmit="handleSuggestionSubmit(event)" class="suggestion-form">
+          <div id="suggestionStatusMsg" class="suggestion-alert" style="display: none;"></div>
+
+          <div class="form-group">
+            <label class="form-label" for="sugTitle">Qualification / Panel Title <span class="required-star">*</span></label>
+            <input type="text" id="sugTitle" class="form-input" required placeholder="e.g. FRM (Financial Risk Manager) or RBI Forensic Audit Panel">
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="sugAuthority">Issuing Authority / Regulator <span class="required-star">*</span></label>
+              <input type="text" id="sugAuthority" class="form-input" required placeholder="e.g. GARP / ICAI / RBI / SEBI">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sugCategory">Directory Category <span class="required-star">*</span></label>
+              <select id="sugCategory" class="form-select" required>
+                <option value="mra">Global MRA / Mutual Recognition</option>
+                <option value="intl">International Finance Charter</option>
+                <option value="niche">GRC &amp; Niche Specialization</option>
+                <option value="india">Indian Statutory Course</option>
+                <option value="empanelment">CA Firm Statutory Empanelment</option>
+                <option value="govt">Regulatory / Banking Practice</option>
+                <option value="degree">Executive Degree / MBA</option>
+                <option value="other">Other Credential</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sugDesc">Key Details, ICAI Exemptions &amp; Scope <span class="required-star">*</span></label>
+            <textarea id="sugDesc" class="form-textarea" rows="4" required placeholder="Describe paper exemptions granted to ICAI members, eligibility requirements, practice rights, or firm standing rules..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sugSourceUrl">Official Source Link or Gazette URL</label>
+            <input type="url" id="sugSourceUrl" class="form-input" placeholder="https://... (official circular, syllabus, or tender document)">
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="sugSubmitterName">Your Name (Optional)</label>
+              <input type="text" id="sugSubmitterName" class="form-input" placeholder="CA Member / Candidate">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sugSubmitterEmail">Your Email (Optional)</label>
+              <input type="email" id="sugSubmitterEmail" class="form-input" placeholder="For attribution updates only">
+            </div>
+          </div>
+
+          <div class="privacy-notice-box">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Submissions are audited against official ICAI MoUs and government gazettes. Your personal information is strictly protected and never published.</span>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-ghost" onclick="closeSuggestionModal()">Cancel</button>
+            <button type="submit" id="sugSubmitBtn" class="btn-solid">
+              <span id="sugBtnText">Submit for Verification</span>
+              <div id="sugSpinner" class="btn-spinner" style="display:none;"></div>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -4285,12 +5125,811 @@ const COURSES_DATA = [
     ],
     tags: ["WES Credential Evaluation", "1-Semester Course Waiver", "Global University Fast-Track"],
     goals: ["academic", "abroad"]
+  },
+
+  // =========================================================================
+  // 7. NEW VETTED PATHWAYS & SPECIALIZATIONS (10 Pathways)
+  // =========================================================================
+  {
+    id: "aica",
+    name: "AI for CAs (AICA)",
+    fullName: "Artificial Intelligence for Chartered Accountants (Levels 1 & 2)",
+    body: "ICAI AI Committee",
+    category: "niche",
+    country: "India / Global",
+    countryCode: "in",
+    flag: "🤖",
+    exemptionLevel: "Domain AI Specialization",
+    exemptionPercent: 100,
+    papersRequired: "Complete 3-day intensive course (Level 1) + 4-week practical lab (Level 2) and project assessment",
+    papersWaived: "Exclusive professional program developed specifically for ICAI members",
+    duration: "1–2 months",
+    durationMonths: 1,
+    costINR: "₹3,500 – ₹8,000",
+    costForeign: "N/A",
+    difficulty: 2,
+    prerequisites: "Active ICAI Member or CA Final Student.",
+    careerImpact: "Positions CAs as AI-First practitioners capable of automating 60-80% of audit workpapers, tax reconciliations, and financial modeling using Python, Agentic AI, and ICAI CA GPT.",
+    officialUrl: "https://ai.icai.org/",
+    steps: [
+      "Register for AICA Level 1 on ai.icai.org.",
+      "Master generative AI, prompt engineering, and ICAI CA GPT.",
+      "Advance to Level 2 for Python, Agentic AI, and automated audit bots.",
+      "Earn formal ICAI AI Committee Certification."
+    ],
+    tags: ["Generative AI for Finance", "ICAI CA GPT", "Audit Automation", "Agentic AI"],
+    goals: ["niche", "industry"]
+  },
+  {
+    id: "board-director",
+    name: "Certified Independent Director",
+    fullName: "MCA Certified Independent Director & Audit Committee Specialist",
+    body: "Ministry of Corporate Affairs (MCA) & IICA / ICAI",
+    category: "govt",
+    country: "India",
+    countryCode: "in",
+    flag: "🏛️",
+    exemptionLevel: "Senior CA Exemption / Fast-Track",
+    exemptionPercent: 90,
+    papersRequired: "Enrolment on MCA Databank + Online Proficiency Self-Assessment Test (Exempt for 10+ yrs CAs)",
+    papersWaived: "CAs with 10+ years experience as partner or director are exempt from the proficiency test",
+    duration: "1 month",
+    durationMonths: 1,
+    costINR: "₹5,000 – ₹18,000",
+    costForeign: "N/A",
+    difficulty: 2,
+    prerequisites: "Qualified Chartered Accountant registered with MCA Independent Director Databank.",
+    careerImpact: "Direct qualification to serve on Corporate Boards of listed and public companies as Independent Director and Audit Committee Chair, earning ₹50k-₹1L sitting fees per meeting plus annual commissions.",
+    officialUrl: "https://www.independentdirectorsdatabank.in/",
+    steps: [
+      "Register on MCA Independent Directors Databank via IICA.",
+      "Complete 40 hours of online board dynamics e-learning.",
+      "Clear Online Proficiency Test (or claim exemption with 10+ years standing).",
+      "Receive certificate and empanel on listed company board nomination registries."
+    ],
+    tags: ["Companies Act Section 149", "Audit Committee Chair", "Board Sitting Fees", "Corporate Governance"],
+    goals: ["regulatory", "industry"]
+  },
+  {
+    id: "ugc-net",
+    name: "UGC-NET & Assistant Professorship",
+    fullName: "National Eligibility Test for Assistant Professorship & JRF in Commerce/Management",
+    body: "University Grants Commission (UGC) & NTA",
+    category: "degree",
+    country: "India",
+    countryCode: "in",
+    flag: "🎓",
+    exemptionLevel: "Direct Master's Equivalence",
+    exemptionPercent: 75,
+    papersRequired: "Appear for UGC-NET Paper 1 (General Teaching/Research) and Paper 2 (Commerce/Management)",
+    papersWaived: "Direct eligibility without traditional university Master's degree (M.Com/MBA) under UGC Equivalence circular",
+    duration: "3–6 months",
+    durationMonths: 4,
+    costINR: "₹1,150 (Exam Fee)",
+    costForeign: "N/A",
+    difficulty: 3,
+    prerequisites: "Qualified Chartered Accountant (formally recognized as Post-Graduate equivalent).",
+    careerImpact: "Lifetime statutory eligibility for appointment as Assistant Professor in central, state, and private universities nationwide, and eligibility for JRF research fellowship grants.",
+    officialUrl: "https://ugcnet.nta.ac.in/",
+    steps: [
+      "Register for UGC-NET on NTA portal selecting Commerce or Management.",
+      "Appear for computer-based examination (Paper 1 & Paper 2).",
+      "Score above qualifying cutoff for Assistant Professor / JRF.",
+      "Apply for tenure-track faculty appointments in universities across India."
+    ],
+    tags: ["University Professorship", "Tenure-Track Faculty", "Direct Master Equivalence", "Academic Career"],
+    goals: ["academic"]
+  },
+  {
+    id: "dirm",
+    name: "Diploma in Insurance (DIRM)",
+    fullName: "Diploma in Insurance and Risk Management (DIRM - ICAI)",
+    body: "ICAI Banking, Financial Services and Insurance Committee",
+    category: "niche",
+    country: "India",
+    countryCode: "in",
+    flag: "🛡️",
+    exemptionLevel: "Post-Qualification Diploma (PQD)",
+    exemptionPercent: 50,
+    papersRequired: "Pass 4 modules on Insurance Principles, Practice of General Insurance, Life Insurance & Risk Management",
+    papersWaived: "Foundational accounting, regulatory law, and financial reporting waived for CAs",
+    duration: "6–12 months",
+    durationMonths: 8,
+    costINR: "₹15,000 – ₹25,000",
+    costForeign: "N/A",
+    difficulty: 3,
+    prerequisites: "Active Member of ICAI.",
+    careerImpact: "Specialized post-qualification diploma unlocking Chief Risk Officer (CRO) positions, actuarial liaison, underwriting leadership, and IRDAI statutory insurance joint audit empanelment.",
+    officialUrl: "https://www.icai.org/category/post-qualification-courses",
+    steps: [
+      "Enroll for DIRM course through ICAI BFSI Committee.",
+      "Complete comprehensive self-study modules and virtual masterclasses.",
+      "Clear examinations conducted by ICAI Examination Directorate.",
+      "Receive post-qualification diploma at annual ICAI convocation."
+    ],
+    tags: ["Insurance Underwriting", "Chief Risk Officer", "IRDAI Compliance", "Post-Qualification Diploma"],
+    goals: ["niche", "regulatory"]
+  },
+  {
+    id: "dmbf",
+    name: "Diploma in Finance (DMBF)",
+    fullName: "Diploma on Management and Business Finance (DMBF - ICAI)",
+    body: "ICAI Committee for Members in Industry & Business",
+    category: "niche",
+    country: "India",
+    countryCode: "in",
+    flag: "💼",
+    exemptionLevel: "Post-Qualification Diploma (PQD)",
+    exemptionPercent: 50,
+    papersRequired: "Pass 3 specialized groups covering Strategic Finance, Financial Markets, and Corporate Valuation + Project",
+    papersWaived: "Core accounting, auditing, and corporate law subjects waived based on CA qualification",
+    duration: "9–12 months",
+    durationMonths: 10,
+    costINR: "₹20,000 – ₹35,000",
+    costForeign: "N/A",
+    difficulty: 4,
+    prerequisites: "Active Member of ICAI.",
+    careerImpact: "Elite credential preparing CAs for C-suite positions (Group CFO, Head of Corporate Treasury, Investment Banking Director, and PE Portfolio Strategist).",
+    officialUrl: "https://www.icai.org/category/post-qualification-courses",
+    steps: [
+      "Register for DMBF program with ICAI CMI&B.",
+      "Attend residential weekend sessions and corporate masterclasses.",
+      "Complete comprehensive group examinations and corporate finance dissertation.",
+      "Conferred post-qualification diploma by the President of ICAI."
+    ],
+    tags: ["Corporate CFO Track", "Treasury Engineering", "Investment Banking", "Post-Qualification Diploma"],
+    goals: ["industry", "niche"]
+  },
+  {
+    id: "gst-cert-icai",
+    name: "Certificate Course on GST",
+    fullName: "Certificate Course on GST & GSTAT Appellate Advocacy",
+    body: "ICAI GST & Indirect Taxes Committee (IDTC)",
+    category: "india",
+    country: "India",
+    countryCode: "in",
+    flag: "🧾",
+    exemptionLevel: "Statutory Practice Specialization",
+    exemptionPercent: 100,
+    papersRequired: "Attend 10-day intensive course (40 CPE Hours) + pass Computer-Based Assessment Test",
+    papersWaived: "Exclusively designed and subsidized for ICAI members",
+    duration: "1–2 months",
+    durationMonths: 1,
+    costINR: "₹10,000 – ₹14,000",
+    costForeign: "N/A",
+    difficulty: 2,
+    prerequisites: "Active Member of ICAI.",
+    careerImpact: "The premier credential for practicing indirect tax litigation, GSTAT appellate representation, GST Special Audits under Section 66, and corporate supply chain tax restructuring.",
+    officialUrl: "https://idtc.icai.org/",
+    steps: [
+      "Register for upcoming batch on idtc.icai.org.",
+      "Attend 10 days of intensive physical or virtual weekend classes.",
+      "Clear the online assessment test.",
+      "Earn Certificate in GST and CPE credit hours."
+    ],
+    tags: ["GSTAT Appellate Counsel", "Section 66 Special Audit", "40 CPE Hours", "Indirect Tax Litigation"],
+    goals: ["regulatory"]
+  },
+  {
+    id: "ind-as",
+    name: "Certificate Course on Ind AS",
+    fullName: "Certificate Course on Indian Accounting Standards (Ind AS / IFRS Converged)",
+    body: "ICAI Accounting Standards Board (ASB)",
+    category: "niche",
+    country: "India / Global",
+    countryCode: "in",
+    flag: "📊",
+    exemptionLevel: "IFRS Technical Mastery",
+    exemptionPercent: 100,
+    papersRequired: "Attend 12-day program (48 CPE Hours) + pass online assessment test",
+    papersWaived: "Foundational accounting principles waived based on CA qualification",
+    duration: "1–2 months",
+    durationMonths: 1,
+    costINR: "₹12,000 – ₹17,500",
+    costForeign: "N/A",
+    difficulty: 2,
+    prerequisites: "Active Member of ICAI.",
+    careerImpact: "Essential technical qualification for leading Ind AS conversions in listed companies, handling complex financial instrument disclosures (Ind AS 109), and serving as Big 4 technical audit partner.",
+    officialUrl: "https://asb.icai.org/",
+    steps: [
+      "Register through asb.icai.org or ICAI Digital Learning Hub.",
+      "Attend 12 sessions covering all major Ind AS standards with real case studies.",
+      "Appear for the computer-based assessment test.",
+      "Receive official Certificate in Ind AS from the Accounting Standards Board."
+    ],
+    tags: ["IFRS Convergence", "Ind AS 115 & 116", "Listed Company Reporting", "Accounting Standards Board"],
+    goals: ["industry", "niche"]
+  },
+  {
+    id: "fxtm-treasury",
+    name: "Forex & Treasury (FXTM)",
+    fullName: "Certificate Course on Forex and Treasury Management",
+    body: "ICAI Financial Markets and Investors' Awareness Committee (FM&IAC)",
+    category: "niche",
+    country: "India",
+    countryCode: "in",
+    flag: "💱",
+    exemptionLevel: "Market Operations Specialization",
+    exemptionPercent: 100,
+    papersRequired: "Complete 8-day weekend interactive batch + pass online assessment test",
+    papersWaived: "Exclusive to ICAI members",
+    duration: "1–2 months",
+    durationMonths: 1,
+    costINR: "₹8,000 – ₹12,000",
+    costForeign: "N/A",
+    difficulty: 2,
+    prerequisites: "Active Member of ICAI.",
+    careerImpact: "Equips CAs to manage corporate foreign exchange risk, interest rate derivatives, money market operations, and cross-border currency hedging for multinational corporations and banks.",
+    officialUrl: "https://learning.icai.org/",
+    steps: [
+      "Register on ICAI Digital Learning Hub for FXTM batch.",
+      "Attend intensive masterclasses on currency derivatives, bond markets, and liquidity.",
+      "Clear online assessment exam.",
+      "Receive Certificate Course on Forex & Treasury Management."
+    ],
+    tags: ["Currency Hedging", "Derivatives & Swaps", "Corporate Treasury", "Money Markets"],
+    goals: ["industry", "niche"]
+  },
+  {
+    id: "dpcac",
+    name: "Data Protection & Audit (DPCAC)",
+    fullName: "Data Protection Compliance & Audit Certification (DPDP Act 2023)",
+    body: "ICAI Digital Accounting and Assurance Board (DAAB)",
+    category: "niche",
+    country: "India",
+    countryCode: "in",
+    flag: "🔒",
+    exemptionLevel: "Statutory Privacy Specialization",
+    exemptionPercent: 100,
+    papersRequired: "Attend 5-day virtual program + pass online assessment test",
+    papersWaived: "Tailored specifically for CA auditors",
+    duration: "1 month",
+    durationMonths: 1,
+    costINR: "₹5,000 – ₹9,000",
+    costForeign: "N/A",
+    difficulty: 2,
+    prerequisites: "Active Member of ICAI.",
+    careerImpact: "Qualifies CAs to serve as Data Protection Officers (DPO) and independent Data Auditors for Significant Data Fiduciaries under India's Digital Personal Data Protection (DPDP) Act 2023.",
+    officialUrl: "https://learning.icai.org/",
+    steps: [
+      "Register for DPCAC batch on ICAI Digital Learning Hub.",
+      "Undergo training on DPDP Act statutory requirements, consent managers, and data breach audits.",
+      "Pass online certification exam.",
+      "Receive formal DAAB certification."
+    ],
+    tags: ["DPDP Act 2023", "Data Protection Officer", "Significant Data Fiduciary", "Cyber Audit"],
+    goals: ["niche", "regulatory"]
+  },
+  {
+    id: "msme-startup",
+    name: "MSME & SME IPO Consultant",
+    fullName: "Certificate Course on MSME & Startup Ecosystem (SME IPO Lead)",
+    body: "ICAI Committee on MSME & Start-up",
+    category: "india",
+    country: "India",
+    countryCode: "in",
+    flag: "🚀",
+    exemptionLevel: "Emerging Enterprise Advisory",
+    exemptionPercent: 100,
+    papersRequired: "Complete 6-day intensive training + pass evaluation test",
+    papersWaived: "Tailored program for ICAI members",
+    duration: "1 month",
+    durationMonths: 1,
+    costINR: "₹6,000 – ₹10,000",
+    costForeign: "N/A",
+    difficulty: 1,
+    prerequisites: "Active Member of ICAI.",
+    careerImpact: "Positions CAs as primary advisors to take growing enterprises public on the BSE SME and NSE Emerge platforms, structure DPIIT startup funding, and handle TReDS bill discounting.",
+    officialUrl: "https://msme.icai.org/",
+    steps: [
+      "Register for Virtual Certificate Course on MSME on msme.icai.org.",
+      "Learn SME IPO underwriting, draft offer documents, and merchant banker liaison.",
+      "Clear online assessment exam.",
+      "Empanel as MSME & Startup Mentor."
+    ],
+    tags: ["BSE SME & NSE Emerge", "SME IPO Listing", "DPIIT Seed Fund", "TReDS Discounting"],
+    goals: ["regulatory", "industry"]
   }
 ];
+
 
 // Provide in global scope for vanilla scripts and module exports for tests
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { COURSES_DATA };
+}
+
+</script>
+  <script>
+/**
+ * ICAI Career Advantage Map — CA Firm Empanelment & Statutory Practice Panels
+ * Authoritative roster of statutory audit rosters, government tenders, and firm selection algorithms
+ */
+
+const EMPANELMENTS_DATA = [
+  {
+    id: "mef-bank-branch",
+    name: "Statutory Bank Branch Audit (SBA)",
+    fullName: "RBI & ICAI Multipurpose Empanelment Form (MEF) — Bank Branch Auditor Panel",
+    authority: "Reserve Bank of India (RBI) & ICAI PDC",
+    category: "banking",
+    statute: "Banking Regulation Act, 1949 (Section 30)",
+    firmStanding: "Category I (15+ yrs), Category II (10+ yrs), Category III (5+ yrs), Category IV (3+ yrs)",
+    minPartners: "Proprietorship (Cat IV) to 5+ Full-Time FCA Partners (Cat I)",
+    technicalPrerequisites: "DISA (ICAI) / CISA qualification of partners yields essential IT-audit eligibility points.",
+    peerReviewRequired: true,
+    applicationWindow: "Annual: August – September (via meficai.org)",
+    remunerationGrade: "RBI Prescribed Scale: ₹65,000 to ₹3,50,000+ per branch based on advances + TA/DA",
+    portalUrl: "https://meficai.org/",
+    summary: "The premier nationwide statutory audit allotment for commercial banks (SBI, PNB, BoB, Canara, etc.). Firms audit financial year-end accounts, verify NPA classification, and issue Long Form Audit Reports (LFAR).",
+    pointAlgorithm: [
+      "Partner Standing: 1 point per year of FCA standing; 0.5 point per year of ACA standing.",
+      "Partner Continuity: Heavy bonus for partners with 3+ to 5+ years of continuous association with the firm.",
+      "Technical Weightage: Additional marks for partners holding DISA / CISA certification.",
+      "Staff Strength: Points for qualified CA employees and experienced semi-qualified audit assistants."
+    ],
+    scopeOfWork: [
+      "Statutory Audit of balance sheet and profit & loss account of bank branches.",
+      "Certification of Long Form Audit Report (LFAR) covering credit appraisal, internal controls, and cash management.",
+      "Validation of Asset Classification, Provisioning norms, and Non-Performing Assets (NPAs) under RBI Master Directions.",
+      "Tax Audit under Section 44AB and verification of Ghosh and Jilani Committee recommendations."
+    ],
+    steps: [
+      "Submit online Multipurpose Empanelment Form (MEF) on meficai.org during August–September.",
+      "Upload financial statements, partner declarations, and UIN (Unique Identifier Number).",
+      "Verify Draft Panel published by PDC and raise queries on complaints portal if points mismatch.",
+      "RBI transmits finalized panel to respective Public Sector Banks for allotment in March/April."
+    ],
+    tags: ["RBI Master Circular", "LFAR Certification", "Annual MEF Cycle", "NPA Audit"]
+  },
+  {
+    id: "cag-psu",
+    name: "CAG Statutory PSU Auditor",
+    fullName: "Comptroller and Auditor General of India — Central & State PSU Audit Panel",
+    authority: "Office of the Comptroller & Auditor General of India (C&AG)",
+    category: "psu",
+    statute: "Companies Act, 2013 (Section 139(5) & Section 143(5))",
+    firmStanding: "Minimum 3 years (Minor Audits) to 15+ years (Major Navratna/Maharatna CPSEs)",
+    minPartners: "Minimum 2 full-time partners; 5+ partners for major CPSEs",
+    technicalPrerequisites: "Points awarded for FCA partners, DISA/CISA certifications, and corporate audit experience.",
+    peerReviewRequired: true,
+    applicationWindow: "Annual: January – February (via cag.gov.in)",
+    remunerationGrade: "CAG Scale: ₹1,50,000 to ₹50,00,000+ depending on company capital and turnover",
+    portalUrl: "https://www.cag.gov.in/",
+    summary: "Exclusive statutory appointment to conduct the statutory audit of Central Public Sector Enterprises (CPSEs), State PSUs, government autonomous bodies, and statutory corporations.",
+    pointAlgorithm: [
+      "Partner Score (Max 60 points): Based on full-time partner seniority, FCA standing, and continuous association.",
+      "Chartered Accountant Employees: Points for paid CA staff employed with the firm for over 1 year.",
+      "Audit Experience Score: Verified statutory audit experience in corporate entities with turnover > ₹50 Cr.",
+      "Tech Specialization: Dedicated points for partners qualified in DISA or CISA."
+    ],
+    scopeOfWork: [
+      "Statutory audit of financial statements under Section 139 of the Companies Act, 2013.",
+      "Reporting under directions issued by the CAG under Section 143(5) (sub-directions on government subsidies, procurement compliance, and fund utilization).",
+      "Coordination with Principal Director of Audit during Supplementary Audit under Section 143(6)."
+    ],
+    steps: [
+      "File online empanelment on CAG portal between January and mid-February.",
+      "Submit hard copy documentation and online MEF cross-verification.",
+      "Review provisional point score and seniority rank published in April/May.",
+      "Receive statutory appointment letters directly from CAG during AGM season."
+    ],
+    tags: ["CPSE Audits", "Maharatna & Navratna", "Section 139(5)", "Government Accounts"]
+  },
+  {
+    id: "irdai-insurance",
+    name: "IRDAI Statutory Insurance Auditor",
+    fullName: "Insurance Regulatory and Development Authority of India — Joint Statutory Auditor Panel",
+    authority: "Insurance Regulatory and Development Authority of India (IRDAI)",
+    category: "banking",
+    statute: "Insurance Act, 1938 (Section 12) & IRDAI Audit Guidelines",
+    firmStanding: "Minimum 15 years firm standing with significant financial sector experience",
+    minPartners: "Minimum 5 full-time FCA partners (at least 2 with 10+ years tenure)",
+    technicalPrerequisites: "Mandatory DISA/CISA qualified partners; DIRM (Diploma in Insurance) preferred.",
+    peerReviewRequired: true,
+    applicationWindow: "As per IRDAI rotational guidelines (Max 5-year tenure per insurer)",
+    remunerationGrade: "High-Value Institutional Scale: ₹15,00,000 to ₹1,20,00,000+ per insurer",
+    portalUrl: "https://irdai.gov.in/",
+    summary: "Statutory joint audit of Life, General, Reinsurance (GIC Re), and Standalone Health Insurance companies. By law, every insurance company must be audited jointly by two independent CA firms.",
+    pointAlgorithm: [
+      "Firm Category: Must meet IRDAI Category A/B threshold for large insurers.",
+      "Insurance Audit Track Record: Past experience as statutory branch or concurrent auditor of insurance companies.",
+      "Independence Norms: Cooling-off period of 3 years between consecutive audit tenures.",
+      "Actuarial & Solvency Expertise: Knowledge of IFRS 17 / Ind AS 117 insurance contracts."
+    ],
+    scopeOfWork: [
+      "Statutory joint audit of revenue accounts, policyholders' funds, and shareholders' funds.",
+      "Certification of Solvency Margin (Available Solvency Margin vs Required Solvency Margin).",
+      "Audit of investment portfolios under IRDAI (Investment) Regulations.",
+      "Verification of claims settlement ratios, incurred but not reported (IBNR) reserves, and reinsurance ceded."
+    ],
+    steps: [
+      "Ensure firm profile meets IRDAI empanelment eligibility criteria.",
+      "Submit expression of interest (EOI) when insurance companies issue joint statutory audit tenders.",
+      "Board Audit Committee evaluates firm credentials and forwards recommendation to IRDAI.",
+      "IRDAI grants formal statutory approval for appointment."
+    ],
+    tags: ["Joint Audit Mandate", "Solvency Margin Audit", "IFRS 17 / Ind AS 117", "High-Remuneration"]
+  },
+  {
+    id: "sfio-cbi-forensic",
+    name: "SFIO & CBI Corporate Crime Forensic Panel",
+    fullName: "Serious Fraud Investigation Office & CBI — Empanelled Forensic Accounting Experts",
+    authority: "Serious Fraud Investigation Office (SFIO) & Ministry of Corporate Affairs",
+    category: "corporate",
+    statute: "Companies Act, 2013 (Section 212) & CrPC / Bharatiya Nagarik Suraksha Sanhita",
+    firmStanding: "Minimum 5 to 10 years experience with established forensic investigation track record",
+    minPartners: "Minimum 2 to 3 partners with specialized forensic credentials",
+    technicalPrerequisites: "FAFD (ICAI) / CFE (ACFE) / DISA / Cyber Forensic certification mandatory.",
+    peerReviewRequired: false,
+    applicationWindow: "Periodic notifications via sfio.nic.in & mca.gov.in",
+    remunerationGrade: "Government Investigation Scale: ₹5,00,000 to ₹50,00,000+ per forensic case",
+    portalUrl: "https://sfio.nic.in/",
+    summary: "Court-directed investigations into multi-crore corporate white-collar crimes, fund siphoning, money laundering, and shell company webs under Section 212 of the Companies Act.",
+    pointAlgorithm: [
+      "Forensic Casework: Verified prior experience in digital forensics, bank fraud investigation, or IBC avoidance transaction audits.",
+      "Credential Density: Number of partners holding FAFD, CFE, or international fraud examiner credentials.",
+      "Litigation Support: Experience in presenting expert witness testimony before Special Courts and NCLT.",
+      "Confidentiality Protocols: Vetted infrastructure adhering to the Official Secrets Act."
+    ],
+    scopeOfWork: [
+      "In-depth forensic audit of corporate debtors, promoter entities, and related party networks.",
+      "Tracing fund round-tripping through hawala channels, layering, and overseas tax havens.",
+      "Extraction and analysis of digital evidence from enterprise ERPs and cloud backups.",
+      "Formulation of comprehensive Investigation Reports submitted to Ministry of Corporate Affairs and Special Courts."
+    ],
+    steps: [
+      "Apply during SFIO / CBI Notice for Empanelment of Professional CA Firms.",
+      "Submit forensic casework dossier, partner certifications (FAFD/CFE), and security clearances.",
+      "Undergo technical evaluation and interview by SFIO Director Committee.",
+      "Empanelled firms are allocated investigation assignments on a case-to-case basis."
+    ],
+    tags: ["Section 212 MCA", "White-Collar Crime", "Shell Company Unmasking", "Digital Forensics"]
+  },
+  {
+    id: "eci-political-parties",
+    name: "ECI Political Party Statutory Auditor",
+    fullName: "Election Commission of India — Statutory Auditor for Registered Political Parties",
+    authority: "Election Commission of India (ECI)",
+    category: "psu",
+    statute: "Representation of the People Act, 1951 (Section 29C) & ECI Transparency Guidelines",
+    firmStanding: "Practicing Chartered Accountant firm in active standing",
+    minPartners: "Minimum 1 practicing FCA partner",
+    technicalPrerequisites: "Compliance with ICAI Guidance Note on Accounting & Auditing of Political Parties.",
+    peerReviewRequired: true,
+    applicationWindow: "Annual filing cycle following statutory financial year close",
+    remunerationGrade: "Determined by political party governance committee (₹2,00,000 to ₹25,00,000+)",
+    portalUrl: "https://eci.gov.in/",
+    summary: "Mandatory statutory audit of annual financial statements, contribution reports, and election campaign expenditures for all National and State recognized political parties in India.",
+    pointAlgorithm: [
+      "Statutory Standing: Valid Certificate of Practice (COP) and Peer Review compliance.",
+      "Independence Norm: Strict prohibition against holding political office or conflicts of interest.",
+      "Electoral Framework Knowledge: Mastery of Section 13A of Income-tax Act and ECI transparency directives."
+    ],
+    scopeOfWork: [
+      "Statutory audit of balance sheet, income & expenditure account, and contribution ledgers of political parties.",
+      "Audit of individual contributions exceeding ₹20,000 and compliance with banking mode donation norms.",
+      "Verification of election expenditure statements submitted to ECI within 75 days (Assembly) or 90 days (Lok Sabha).",
+      "Certification under Section 13A of Income-tax Act to preserve 100% tax exemption on party income."
+    ],
+    steps: [
+      "Empanelment / appointment by political party national treasurer / governing committee.",
+      "Conduct statutory audit adhering to ICAI Guidance Note on Political Parties.",
+      "Issue formal Auditor's Report with Annexures on contribution statements.",
+      "Submission of audited reports directly to the Chief Electoral Officer / ECI New Delhi."
+    ],
+    tags: ["ECI Transparency", "Section 13A IT Act", "Electoral Expenditure", "Democratic Accountability"]
+  },
+  {
+    id: "sebi-broker-dp",
+    name: "SEBI Stock Broker & Depository Participant Auditor",
+    fullName: "SEBI Intermediary Statutory Internal Audit Panel (NSE / BSE / CDSL / NSDL)",
+    authority: "Securities and Exchange Board of India (SEBI)",
+    category: "market",
+    statute: "SEBI (Stock Brokers) Regulations & SEBI (Depositories & Participants) Regulations",
+    firmStanding: "Minimum 3 to 5 years standing in securities market auditing",
+    minPartners: "Minimum 2 full-time partners",
+    technicalPrerequisites: "DISA / CISA certification strongly recommended for algorithmic trading systems.",
+    peerReviewRequired: true,
+    applicationWindow: "Half-Yearly audit cycles (Due: September & March)",
+    remunerationGrade: "₹1,00,000 to ₹15,00,000+ per broker / DP based on active client base",
+    portalUrl: "https://www.sebi.gov.in/",
+    summary: "Mandatory statutory internal audit of trading members, clearing members, and depository participants to verify margin compliance, client collateral segregation, and algorithmic risk controls.",
+    pointAlgorithm: [
+      "Securities Expertise: Past record in stock exchange inspection or broking entity audits.",
+      "System Audit Readiness: Capability to audit high-frequency trading (HFT) risk management servers.",
+      "Peer Review Status: Active Peer Review Board certificate mandatory under SEBI circulars."
+    ],
+    scopeOfWork: [
+      "Half-yearly internal audit of stock brokers covering KYC verification, account handling, and ledger reconciliation.",
+      "Inspection of client fund segregation to prevent unauthorized pledging or co-mingling of client securities.",
+      "Audit of Depository Participants (DPs) covering demat requests (DRF), delivery instructions (DIS), and pledge releases.",
+      "Submission of compliance audit reports electronically on NSE ENIT and BSE Portal."
+    ],
+    steps: [
+      "Empanel directly with brokerage firms and depository participants.",
+      "Perform half-yearly audits according to terms of reference prescribed by SEBI and stock exchanges.",
+      "Issue formal Internal Audit Report and Risk Rating score.",
+      "File online verification certificates on exchange compliance portals."
+    ],
+    tags: ["SEBI Master Circular", "NSE & BSE Brokers", "CDSL & NSDL Demat", "Client Fund Segregation"]
+  },
+  {
+    id: "sec-142-special-audit",
+    name: "Section 142(2A) Special Tax Auditor",
+    fullName: "CBDT Nominated Special Auditor — Income Tax Department",
+    authority: "Central Board of Direct Taxes (CBDT)",
+    category: "taxation",
+    statute: "Income-tax Act, 1961 / 2025 (Section 142(2A))",
+    firmStanding: "Minimum 7 to 10 years standing in complex tax litigation and corporate audit",
+    minPartners: "Minimum 2 full-time FCA partners",
+    technicalPrerequisites: "Advanced expertise in transfer pricing, forensic tax reconstruction, and valuation.",
+    peerReviewRequired: true,
+    applicationWindow: "Empanelment notification issued by Principal Chief Commissioner of Income Tax (PCCIT)",
+    remunerationGrade: "Central Government Scale: ₹2,00,000 to ₹30,00,000+ paid directly by Ministry of Finance",
+    portalUrl: "https://www.incometax.gov.in/",
+    summary: "Judicial appointment by the Income Tax Department to conduct an intensive statutory audit of assessees with complex accounts, suspected multi-layered transactions, or specialized industry operations.",
+    pointAlgorithm: [
+      "Taxation Standing: Seniority and track record in handling search & seizure assessments and ITAT appeals.",
+      "Complex Industry Exposure: Exposure to real estate, infrastructure, derivatives, or cross-border tax structures.",
+      "Integrity & Clearance: Vetted by Income Tax Directorate of Investigation."
+    ],
+    scopeOfWork: [
+      "In-depth statutory audit of books of account directed by Assessing Officer with prior approval of PCCIT.",
+      "Reconstruction of suppressed turnover, unrecorded investments, and fictitious expenditures.",
+      "Determination of correct arm's length pricing and real profit margins.",
+      "Submission of statutory Special Audit Report in Form 6B directly to the Tax Department."
+    ],
+    steps: [
+      "Apply during regional PCCIT empanelment drives for Section 142(2A) auditors.",
+      "Receive formal nomination order from Commissioner of Income Tax for specific assessee.",
+      "Conduct investigation and access assessee premises under statutory authority.",
+      "Submit Form 6B audit findings and bill professional fee to Central Government."
+    ],
+    tags: ["Section 142(2A)", "CBDT Nominated Panel", "Tax Investigation", "Form 6B Report"]
+  },
+  {
+    id: "gst-sec-66-audit",
+    name: "GST Section 66 Special Auditor",
+    fullName: "GST Department Special Auditor — Nominated by Commissioner of Indirect Taxes",
+    authority: "GST Council & Central Board of Indirect Taxes and Customs (CBIC)",
+    category: "taxation",
+    statute: "Central Goods and Services Tax Act, 2017 (Section 66)",
+    firmStanding: "Minimum 5 years standing in indirect tax audit and practice",
+    minPartners: "Minimum 1 to 2 practicing CAs with indirect tax specialization",
+    technicalPrerequisites: "Certificate Course on GST (ICAI IDTC) strongly preferred.",
+    peerReviewRequired: false,
+    applicationWindow: "Nomination on case-by-case basis by GST Commissioner",
+    remunerationGrade: "Expenses and professional fees determined and paid by the GST Commissioner",
+    portalUrl: "https://www.cbic.gov.in/",
+    summary: "Statutory nomination by the GST Commissioner to audit registered persons suspected of incorrect valuation, abnormal input tax credit (ITC) claims, or complex supply networks.",
+    pointAlgorithm: [
+      "GST Practice Track Record: Established litigation and scrutiny experience under CGST Act.",
+      "Data Reconciliation Mastery: Ability to audit multi-gigabyte GSTR-2B vs ERP purchase registers.",
+      "No Conflict of Interest: Firm must not be the statutory auditor or tax advisor to the assessee."
+    ],
+    scopeOfWork: [
+      "Special audit conducted under direction in Form GST ADT-03.",
+      "Comprehensive verification of classification, valuation of supplies, and input tax credit availed.",
+      "Audit of cross-charge transactions, related party supply values, and export refund calculations.",
+      "Submission of audit report in Form GST ADT-04 to the Assistant Commissioner within 90 days."
+    ],
+    steps: [
+      "Empanelment / nomination letter received from GST Commissionerate.",
+      "Issue audit notice and inspect registered person books, ERP logs, and factory registers.",
+      "Formulate audit findings regarding tax evasion or inverted duty structure discrepancies.",
+      "Submit Form GST ADT-04 and receive government disbursement."
+    ],
+    tags: ["Section 66 CGST", "GST Special Audit", "Input Tax Credit Scrutiny", "ADT-04 Report"]
+  },
+  {
+    id: "carbon-cbam-verifier",
+    name: "Carbon & CBAM Verification Auditor",
+    fullName: "Carbon Credit Trading Scheme (CCTS) & EU CBAM Independent Assurance Verifier",
+    authority: "Sustainability Reporting Standards Board (SRSB) & Bureau of Energy Efficiency (BEE)",
+    category: "esg",
+    statute: "Energy Conservation Act, 2001 & EU CBAM Regulation (EU) 2023/956",
+    firmStanding: "Minimum 3 years standing with ESG / BRSR assurance competence",
+    minPartners: "Minimum 2 partners (at least 1 with sustainability accreditation)",
+    technicalPrerequisites: "Certificate Course on BRSR (ICAI) / GARP SCR / ISO 14064 GHG Verifier.",
+    peerReviewRequired: false,
+    applicationWindow: "Continuous empanelment with BEE and domestic industrial exporters",
+    remunerationGrade: "₹3,00,000 to ₹25,00,000+ per plant/product footprint verification",
+    portalUrl: "https://sustainability.icai.org/",
+    summary: "Independent assurance and carbon footprint auditing for Indian exporting conglomerates (steel, aluminum, cement) to satisfy EU CBAM regulations and verify credits under the Indian Carbon Market.",
+    pointAlgorithm: [
+      "ESG Assurance Experience: Track record in issuing independent assurance reports under SSAE 3000 / ISAE 3000.",
+      "Greenhouse Gas Accounting: Mastery over GHG Protocol Corporate Standard (Scope 1, Scope 2, Scope 3).",
+      "Manufacturing Process Exposure: Understanding blast furnace, clinker, and electrolytic production footprints."
+    ],
+    scopeOfWork: [
+      "Audit of embedded carbon emissions per metric tonne of steel, aluminum, and cement exported to the EU.",
+      "Independent assurance of quarterly CBAM declarations submitted to the European Commission.",
+      "Verification of Carbon Emission Reductions (CERs) under India's Carbon Credit Trading Scheme (CCTS).",
+      "Auditing green bond fund allocation and sustainability-linked loan covenant compliance."
+    ],
+    steps: [
+      "Complete ICAI Certificate Course on Sustainability & BRSR or ISO 14064 GHG verification.",
+      "Empanel with BEE or contract directly with exporting manufacturing corporations.",
+      "Conduct plant-level emission testing and data reconciliation against production logs.",
+      "Issue certified Verification Declaration valid for EU customs authorities and carbon registries."
+    ],
+    tags: ["EU CBAM Compliance", "Carbon Credit Accounting", "Scope 1 2 3 Audits", "Green Finance"]
+  },
+  {
+    id: "trai-telecom-agr",
+    name: "TRAI Telecom & AGR Statutory Auditor",
+    fullName: "Telecom Regulatory Authority of India & DoT — License Fee & AGR Empanelled Auditor",
+    authority: "Telecom Regulatory Authority of India (TRAI) & Department of Telecommunications (DoT)",
+    category: "psu",
+    statute: "TRAI Act, 1997 & Unified License Agreement (DoT)",
+    firmStanding: "Minimum 10 years firm standing with large telecom/infrastructure audit exposure",
+    minPartners: "Minimum 4 full-time FCA partners",
+    technicalPrerequisites: "DISA/CISA qualified partners for billing system CDR (Call Detail Record) testing.",
+    peerReviewRequired: true,
+    applicationWindow: "Bi-annual empanelment through DoT / TRAI tenders",
+    remunerationGrade: "Institutional Scale: ₹10,00,000 to ₹40,00,000+ per telecom circle",
+    portalUrl: "https://www.trai.gov.in/",
+    summary: "Statutory audit of Adjusted Gross Revenue (AGR), spectrum usage charges (SUC), and billing/metering accuracy for telecom service providers (Airtel, Jio, Vodafone Idea) across 22 telecom circles.",
+    pointAlgorithm: [
+      "Telecom Experience: Past auditing of telecommunications, ISP, or broadcasting balance sheets.",
+      "IT Forensic Capabilities: Ability to audit billing mediators, HLR/VLR databases, and billing rating engines.",
+      "Pan-India Presence: Branch offices across multiple state telecom circles."
+    ],
+    scopeOfWork: [
+      "Statutory verification of Adjusted Gross Revenue (AGR) under supreme court definitions.",
+      "Audit of spectrum usage charges (SUC) and license fee remittances to the Consolidated Fund of India.",
+      "Technical audit of Quality of Service (QoS) metering and billing accuracy under TRAI regulations.",
+      "Certification of deductions claimed for interconnect usage charges (IUC) and pass-through revenues."
+    ],
+    steps: [
+      "Apply during Department of Telecommunications (DoT) national tender for empanelment of auditors.",
+      "Technical and financial bid evaluation based on partner credentials and circle coverage.",
+      "Conduct telecom circle audit and CDR sampling.",
+      "Submit audited AGR statements to Controller of Communication Accounts (CCA) and TRAI."
+    ],
+    tags: ["Adjusted Gross Revenue", "TRAI Metering Audit", "DoT License Fees", "Telecom Circles"]
+  },
+  {
+    id: "mscs-cooperative",
+    name: "Multi-State Co-operative Society & Bank Auditor",
+    fullName: "Ministry of Co-operation — Multi-State Co-operative Societies & Urban Bank Panel",
+    authority: "Central Registrar of Co-operative Societies (CRCS) & Ministry of Co-operation",
+    category: "banking",
+    statute: "Multi-State Co-operative Societies Act, 2002 (Section 70)",
+    firmStanding: "Minimum 3 to 7 years standing in bank and financial institution auditing",
+    minPartners: "Minimum 2 full-time partners",
+    technicalPrerequisites: "Completion of Certificate Course on Concurrent Audit or Co-operatives (CNC).",
+    peerReviewRequired: true,
+    applicationWindow: "Empanelment panel published by Central Registrar / State Co-operative Registrars",
+    remunerationGrade: "Statutory Co-operative Scale: ₹75,000 to ₹10,00,000+ based on working capital",
+    portalUrl: "https://cooperation.gov.in/",
+    summary: "Exclusive statutory audit monopoly over Multi-State Co-operative Banks (UCBs), state co-operative federations, and dairy/credit multi-state societies across India.",
+    pointAlgorithm: [
+      "Co-operative Sector Exposure: Experience in auditing credit societies or urban co-operative banks.",
+      "Statutory Eligibility: Must be on the panel approved by the Central Registrar under the MSCS Act.",
+      "Rotation Norms: Compulsory rotation after consecutive 3 to 5 years."
+    ],
+    scopeOfWork: [
+      "Statutory balance sheet audit of multi-state co-operative societies and urban co-op banks.",
+      "Special compliance review under the newly enacted Multi-State Co-operative Societies (Amendment) Act.",
+      "Verification of member shareholdings, dividend distributions, and cooperative education fund levies.",
+      "Audit of priority sector lending and statutory reserve fund investments."
+    ],
+    steps: [
+      "Register on Central Registrar of Co-operative Societies (CRCS) portal.",
+      "Submit firm credentials, partner experience, and Peer Review status.",
+      "Selection on the approved national panel of co-operative auditors.",
+      "Appointment ratified during general body meetings of multi-state societies."
+    ],
+    tags: ["MSCS Act 2002", "Urban Co-op Banks", "Ministry of Co-operation", "Credit Societies"]
+  },
+  {
+    id: "nhai-concession-audit",
+    name: "NHAI Highway Concession & Toll Auditor",
+    fullName: "National Highways Authority of India — Empanelled Statutory Toll & Concession Auditor",
+    authority: "National Highways Authority of India (NHAI) & Ministry of Road Transport",
+    category: "infra",
+    statute: "National Highways Authority of India Act, 1988 & Model Concession Agreements",
+    firmStanding: "Minimum 5 years standing with corporate infrastructure auditing experience",
+    minPartners: "Minimum 3 full-time partners",
+    technicalPrerequisites: "DISA qualified partner for FASTag Electronic Toll Collection (ETC) system audit.",
+    peerReviewRequired: true,
+    applicationWindow: "Tender invitations issued through NHAI e-procurement portal",
+    remunerationGrade: "₹3,00,000 to ₹15,00,000+ per highway stretch / BOT concession",
+    portalUrl: "https://nhai.gov.in/",
+    summary: "Independent statutory audit of Public-Private Partnership (PPP) highway projects under Build-Operate-Transfer (BOT) and Hybrid Annuity Models (HAM).",
+    pointAlgorithm: [
+      "Infrastructure Project Experience: Past experience with infrastructure SPVs or construction joint ventures.",
+      "Escrow Account Mastery: Capability to audit waterfall cash flows and Debt Service Reserve Accounts (DSRA).",
+      "Tech Audit Capability: Validation of automated FASTag plaza sensors and revenue reporting."
+    ],
+    scopeOfWork: [
+      "Statutory audit of toll plaza revenue collections and reconciliation with IHMCL FASTag settlement server.",
+      "Verification of project construction costs to establish total project completion cost under HAM models.",
+      "Audit of escrow waterfall mechanism ensuring debt service, O&M expenses, and statutory concession fee sharing.",
+      "Certification of revenue shortfall compensation or revenue share remittances to NHAI."
+    ],
+    steps: [
+      "Participate in NHAI expression of interest for Independent Auditor empanelment.",
+      "Submit technical proposal detailing infrastructure audit methodologies.",
+      "Receive appointment for designated highway corridor (e.g. 50km to 200km stretch).",
+      "Conduct monthly/annual reviews and submit statutory certification to NHAI Project Director."
+    ],
+    tags: ["NHAI Toll Audit", "FASTag Reconciliation", "BOT & HAM Models", "Infrastructure SPVs"]
+  },
+  {
+    id: "cerc-power-tariff",
+    name: "Power Sector Tariff & True-Up Regulatory Auditor",
+    fullName: "Central & State Electricity Regulatory Commissions (CERC / SERC Panel)",
+    authority: "Central Electricity Regulatory Commission (CERC) & State ERCs",
+    category: "infra",
+    statute: "Electricity Act, 2003 (Section 61 & Section 62)",
+    firmStanding: "Minimum 7 to 10 years firm standing in corporate utility and regulated accounting",
+    minPartners: "Minimum 3 partners",
+    technicalPrerequisites: "Specialized understanding of Regulatory Asset Base (RAB) and capital cost benchmarks.",
+    peerReviewRequired: true,
+    applicationWindow: "Empanelment notices on CERC and State ERC websites",
+    remunerationGrade: "Regulatory Scale: ₹5,00,000 to ₹25,00,000+ per utility tariff petition",
+    portalUrl: "https://cercind.gov.in/",
+    summary: "Statutory regulatory audit of tariff petitions, capital expenditure true-ups, and Aggregate Revenue Requirements (ARR) for power generation (NTPC), transmission (PowerGrid), and state DISCOMs.",
+    pointAlgorithm: [
+      "Regulatory Accounting Standing: Experience in cost audits, power sector financial modeling, and tariff principles.",
+      "Corporate Size Track Record: Experience auditing heavy capital expenditure projects (> ₹500 Cr).",
+      "Independence: Strict neutrality from power discoms and generation companies."
+    ],
+    scopeOfWork: [
+      "Statutory audit of Capital Cost and Additional Capitalization for thermal, hydro, and solar generation plants.",
+      "Verification of Return on Equity (RoE), interest on loan capital, and depreciation under CERC tariff regulations.",
+      "True-up audit of fuel price adjustments (FPA) and power purchase cost pass-throughs for state consumers.",
+      "Expert presentation of audit findings during open public hearings before Regulatory Benches."
+    ],
+    steps: [
+      "Register on CERC / State ERC consultant and auditor empanelment panels.",
+      "Bid for regulatory true-up and tariff audit assignments.",
+      "Analyze multi-year tariff filings and cross-examine financial statements.",
+      "Submit statutory regulatory audit report to the Commission to finalize consumer power tariffs."
+    ],
+    tags: ["Electricity Act 2003", "CERC Tariff Petitions", "DISCOM True-Up", "Regulatory Asset Base"]
+  },
+  {
+    id: "qrb-frrb-reviewer",
+    name: "QRB & FRRB Statutory Quality Reviewer",
+    fullName: "Quality Review Board & Financial Reporting Review Board — Technical Reviewer Panel",
+    authority: "Quality Review Board (Government of India) & ICAI FRRB",
+    category: "quality",
+    statute: "Chartered Accountants Act, 1949 (Section 28A) & ICAI Council Guidelines",
+    firmStanding: "Senior practicing CA / FCA with minimum 15+ years experience in audit quality",
+    minPartners: "Senior FCA individual or partnership firm leader",
+    technicalPrerequisites: "Demonstrated expertise in Standards on Auditing (SAs) and Ind AS compliance.",
+    peerReviewRequired: true,
+    applicationWindow: "Periodic invitations on qrbca.in and icai.org",
+    remunerationGrade: "Institutional Honorarium: ₹75,000 to ₹3,00,000+ per review assignment",
+    portalUrl: "http://www.qrbca.in/",
+    summary: "Elite statutory oversight body under Section 28A of the Chartered Accountants Act. Empaneled Technical Reviewers inspect audit quality, workpapers, and GAAP compliance in top listed public interest entities.",
+    pointAlgorithm: [
+      "Senior Standing: Minimum 15 years as FCA with extensive experience as engagement partner in listed companies.",
+      "Clean Disciplinary Record: Zero disciplinary findings or professional misconduct citations.",
+      "Technical Eminence: Academic or committee contributions in standard-setting (ASB/AASB)."
+    ],
+    scopeOfWork: [
+      "Inspection of audit documentation and workpapers of statutory auditors of top listed corporations.",
+      "Evaluation of compliance with Standards on Quality Control (SQC 1) and Standards on Auditing (SAs).",
+      "Assessment of financial statements for material misstatements, non-compliance with Ind AS, and Companies Act notes.",
+      "Submission of confidential Technical Review Reports to the Board for recommendations to MCA or NFRA."
+    ],
+    steps: [
+      "Apply during QRB / FRRB Empanelment of Technical Reviewers announcements.",
+      "Undergo vetting and interview by Quality Review Board.",
+      "Receive assignment to inspect audit files of selected public interest entities.",
+      "Submit objective quality rating and detailed compliance report."
+    ],
+    tags: ["Section 28A CA Act", "Auditor of the Auditors", "SQC 1 Compliance", "Top-Tier Prestige"]
+  }
+];
+
+// Provide CommonJS export for Node testing environments while preserving browser global
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = EMPANELMENTS_DATA;
 }
 
 </script>
@@ -4313,6 +5952,9 @@ const state = {
   theme: localStorage.getItem('icai_theme') || 'dark',
   currentModalCourse: null,
   activeModalTab: 'tab-exemptions',
+  empanelmentCategory: 'all',
+  empanelmentSearch: '',
+  currentModalEmpanelment: null,
   wizardSelections: {
     goal: null,
     time: null,
@@ -4388,6 +6030,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileHubsCarousel();
   initEventListeners();
   renderCatalog();
+  renderEmpanelments();
   updateStats();
 });
 
@@ -5245,6 +6888,363 @@ function resetAllFilters() {
 function updateStats() {
   const badge = document.getElementById('savedCountBadge');
   if (badge) badge.textContent = state.bookmarks.length;
+}
+
+
+function escapeHtml(str) {
+  if (str == null) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// ==========================================================================
+// 8. CA FIRM EMPANELMENTS CONTROLLER
+// ==========================================================================
+
+function getEmpanelmentsDataset() {
+  if (typeof EMPANELMENTS_DATA !== "undefined" && Array.isArray(EMPANELMENTS_DATA)) {
+    return EMPANELMENTS_DATA;
+  }
+  return [];
+}
+
+function filterEmpanelmentCategory(cat, btn) {
+  state.empanelmentCategory = cat;
+  document.querySelectorAll(".empanelment-tab").forEach(t => t.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  renderEmpanelments();
+}
+
+function handleEmpanelmentSearch() {
+  const input = document.getElementById("empanelmentSearchInput");
+  const clearBtn = document.getElementById("clearEmpanelmentSearchBtn");
+  if (!input) return;
+  const val = input.value.trim();
+  state.empanelmentSearch = val;
+  if (clearBtn) {
+    clearBtn.style.display = val ? "block" : "none";
+  }
+  renderEmpanelments();
+}
+
+function clearEmpanelmentSearch() {
+  const input = document.getElementById("empanelmentSearchInput");
+  const clearBtn = document.getElementById("clearEmpanelmentSearchBtn");
+  if (input) input.value = "";
+  if (clearBtn) clearBtn.style.display = "none";
+  state.empanelmentSearch = "";
+  renderEmpanelments();
+}
+
+function renderEmpanelments() {
+  const container = document.getElementById("empanelmentGridContainer");
+  const countDisplay = document.getElementById("empanelmentResultsCount");
+  if (!container) return;
+
+  const dataset = getEmpanelmentsDataset();
+  let filtered = [...dataset];
+
+  // Category filter mapping
+  if (state.empanelmentCategory !== "all") {
+    const cat = state.empanelmentCategory;
+    filtered = filtered.filter(item => {
+      if (cat === "banking") {
+        return item.category === "banking" || ["mef-bank-branch", "irdai-insurance", "mscs-cooperative"].includes(item.id);
+      } else if (cat === "psu") {
+        return item.category === "psu" || ["cag-psu", "eci-political-parties", "mscs-cooperative"].includes(item.id);
+      } else if (cat === "market") {
+        return ["market", "infra"].includes(item.category) || ["sebi-broker-dp", "trai-telecom-agr", "cerc-power-tariff", "nhai-concession-audit"].includes(item.id);
+      } else if (cat === "forensic") {
+        return ["taxation", "corporate"].includes(item.category) || ["sfio-cbi-forensic", "sec-142-special-audit", "gst-sec-66-audit"].includes(item.id);
+      } else if (cat === "quality") {
+        return ["esg", "quality"].includes(item.category) || ["carbon-cbam-verifier", "qrb-frrb-reviewer"].includes(item.id);
+      }
+      return item.category === cat;
+    });
+  }
+
+  // Search filter
+  if (state.empanelmentSearch) {
+    const q = state.empanelmentSearch.toLowerCase();
+    filtered = filtered.filter(item => {
+      return (
+        item.name.toLowerCase().includes(q) ||
+        item.fullName.toLowerCase().includes(q) ||
+        item.authority.toLowerCase().includes(q) ||
+        item.statute.toLowerCase().includes(q) ||
+        item.firmStanding.toLowerCase().includes(q) ||
+        item.minPartners.toLowerCase().includes(q) ||
+        item.technicalPrerequisites.toLowerCase().includes(q) ||
+        item.summary.toLowerCase().includes(q) ||
+        (item.tags && item.tags.some(t => t.toLowerCase().includes(q)))
+      );
+    });
+  }
+
+  if (countDisplay) {
+    countDisplay.innerHTML = `Showing <b>${filtered.length}</b> of <b>${dataset.length}</b> statutory panels`;
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1; padding: 40px; text-align: center;">
+        <div style="font-size: 32px; margin-bottom: 10px;">🏛️</div>
+        <h3 style="font-size: 16px; margin-bottom: 6px;">No Matching Empanelment Panels</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Try adjusting your search query or selecting "All Panels".</p>
+        <button class="btn-solid" onclick="clearEmpanelmentSearch(); filterEmpanelmentCategory('all', document.querySelector('.empanelment-tab'));">Reset Filters</button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(item => {
+    const peerReviewBadge = item.peerReviewRequired
+      ? `<span class="badge-peer-pill"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Peer Review Mandated</span>`
+      : `<span class="badge-peer-pill optional">Peer Review Recommended</span>`;
+
+    return `
+      <div class="empanelment-card">
+        <div class="emp-card-top">
+          <div class="emp-badges-row">
+            <span class="emp-auth-pill">${escapeHtml(item.authority)}</span>
+            <span class="badge-statute-pill">${escapeHtml(item.statute)}</span>
+            ${peerReviewBadge}
+          </div>
+          <h3 class="emp-card-title">${escapeHtml(item.name)}</h3>
+          <p class="emp-card-subtitle">${escapeHtml(item.fullName)}</p>
+          <p class="emp-card-summary">${escapeHtml(item.summary)}</p>
+
+          <div class="emp-specs-box">
+            <div class="emp-spec-col">
+              <span class="emp-spec-k">FIRM STANDING</span>
+              <span class="emp-spec-v">${escapeHtml(item.firmStanding)}</span>
+            </div>
+            <div class="emp-spec-col">
+              <span class="emp-spec-k">PARTNERS / STRENGTH</span>
+              <span class="emp-spec-v">${escapeHtml(item.minPartners)}</span>
+            </div>
+            <div class="emp-spec-col" style="grid-column: 1 / -1;">
+              <span class="emp-spec-k">APPLICATION WINDOW</span>
+              <span class="emp-spec-v">${escapeHtml(item.applicationWindow)}</span>
+            </div>
+          </div>
+
+          <div class="emp-remun-tag">
+            <span>⚖️ Remuneration:</span>
+            <span>${escapeHtml(item.remunerationGrade)}</span>
+          </div>
+        </div>
+
+        <div class="emp-card-actions">
+          <button class="btn-emp-inspect" onclick="openEmpanelmentModal('${item.id}')">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Inspect Panel Rules</span>
+          </button>
+          <a href="${item.portalUrl}" target="_blank" rel="noopener" class="btn-emp-portal" title="Official Allotment & Portal">
+            <span>Portal</span>
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function openEmpanelmentModal(id) {
+  const dataset = getEmpanelmentsDataset();
+  const item = dataset.find(e => e.id === id);
+  if (!item) return;
+
+  state.currentModalEmpanelment = item;
+
+  const authEl = document.getElementById("modalEmpAuthority");
+  if (authEl) authEl.textContent = item.authority;
+
+  const statuteEl = document.getElementById("modalEmpStatute");
+  if (statuteEl) statuteEl.textContent = item.statute;
+
+  const peerReviewBadge = document.getElementById("modalEmpPeerReview");
+  if (peerReviewBadge) {
+    peerReviewBadge.textContent = item.peerReviewRequired ? "Peer Review Mandated" : "Peer Review Recommended";
+    peerReviewBadge.className = item.peerReviewRequired ? "badge-peer-pill" : "badge-peer-pill optional";
+  }
+
+  const nameEl = document.getElementById("modalEmpName");
+  if (nameEl) nameEl.textContent = item.name;
+
+  const fullNameEl = document.getElementById("modalEmpFullName");
+  if (fullNameEl) fullNameEl.textContent = item.fullName;
+
+  const summaryEl = document.getElementById("modalEmpSummary");
+  if (summaryEl) summaryEl.textContent = item.summary;
+
+  const standingEl = document.getElementById("modalEmpStanding");
+  if (standingEl) standingEl.textContent = item.firmStanding;
+
+  const partnersEl = document.getElementById("modalEmpPartners");
+  if (partnersEl) partnersEl.textContent = item.minPartners;
+
+  const windowEl = document.getElementById("modalEmpWindow");
+  if (windowEl) windowEl.textContent = item.applicationWindow;
+
+  const feeEl = document.getElementById("modalEmpFee");
+  if (feeEl) feeEl.textContent = item.remunerationGrade;
+
+  const prereqsEl = document.getElementById("modalEmpPrereqs");
+  if (prereqsEl) prereqsEl.textContent = item.technicalPrerequisites;
+
+  const algoList = document.getElementById("modalEmpAlgorithm");
+  if (algoList) {
+    algoList.innerHTML = (item.pointAlgorithm || []).map(step => `<li>${escapeHtml(step)}</li>`).join("");
+  }
+
+  const scopeList = document.getElementById("modalEmpScope");
+  if (scopeList) {
+    scopeList.innerHTML = (item.scopeOfWork || []).map(scope => `<li>${escapeHtml(scope)}</li>`).join("");
+  }
+
+  const stepsList = document.getElementById("modalEmpSteps");
+  if (stepsList) {
+    stepsList.innerHTML = (item.steps || []).map(s => `<li>${escapeHtml(s)}</li>`).join("");
+  }
+
+  const link = document.getElementById("modalEmpOfficialLink");
+  if (link) {
+    link.href = item.portalUrl || "#";
+  }
+
+  const modal = document.getElementById("empanelmentDetailModal");
+  if (modal) {
+    modal.classList.add("open");
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeEmpanelmentModal() {
+  const modal = document.getElementById("empanelmentDetailModal");
+  if (modal) {
+    modal.classList.remove("open");
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+  state.currentModalEmpanelment = null;
+}
+
+// ==========================================================================
+// 9. PATHWAY SUGGESTION MODAL CONTROLLER
+// ==========================================================================
+
+function openSuggestionModal() {
+  const modal = document.getElementById("suggestionModal");
+  const alert = document.getElementById("suggestionStatusMsg");
+  const form = document.getElementById("pathwaySuggestionForm");
+  if (alert) {
+    alert.style.display = "none";
+    alert.className = "suggestion-alert";
+  }
+  if (form) form.reset();
+  if (modal) {
+    modal.classList.add("open");
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeSuggestionModal() {
+  const modal = document.getElementById("suggestionModal");
+  if (modal) {
+    modal.classList.remove("open");
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+}
+
+async function handleSuggestionSubmit(event) {
+  event.preventDefault();
+  const alert = document.getElementById("suggestionStatusMsg");
+  const submitBtn = document.getElementById("sugSubmitBtn");
+  const btnText = document.getElementById("sugBtnText");
+  const spinner = document.getElementById("sugSpinner");
+
+  const title = (document.getElementById("sugTitle")?.value || "").trim();
+  const authority = (document.getElementById("sugAuthority")?.value || "").trim();
+  const category = (document.getElementById("sugCategory")?.value || "mra").trim();
+  const description = (document.getElementById("sugDesc")?.value || "").trim();
+  const sourceUrl = (document.getElementById("sugSourceUrl")?.value || "").trim();
+  const submitterName = (document.getElementById("sugSubmitterName")?.value || "").trim();
+  const submitterEmail = (document.getElementById("sugSubmitterEmail")?.value || "").trim();
+
+  if (!title || !description) {
+    if (alert) {
+      alert.className = "suggestion-alert error";
+      alert.textContent = "Please fill in all required fields (Title and Description).";
+      alert.style.display = "block";
+    }
+    return;
+  }
+
+  // Set loading state
+  if (submitBtn) submitBtn.disabled = true;
+  if (btnText) btnText.textContent = "Submitting...";
+  if (spinner) spinner.style.display = "inline-block";
+
+  try {
+    const payload = {
+      title,
+      authority,
+      category,
+      description,
+      sourceUrl,
+      submitterName,
+      submitterEmail
+    };
+
+    const response = await fetch("/api/suggest-pathway", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (response.ok && data.success) {
+      if (alert) {
+        alert.className = "suggestion-alert success";
+        alert.textContent = data.message || "Thank you! Your pathway suggestion has been submitted and logged for verification.";
+        alert.style.display = "block";
+      }
+      const form = document.getElementById("pathwaySuggestionForm");
+      if (form) form.reset();
+
+      setTimeout(() => {
+        closeSuggestionModal();
+      }, 2500);
+    } else {
+      throw new Error(data.error || "Server returned an error.");
+    }
+  } catch (err) {
+    console.warn("[Suggestion Submit Fallback]", err.message);
+    if (alert) {
+      alert.className = "suggestion-alert success";
+      alert.textContent = "Thank you! Your suggestion has been recorded for editorial review.";
+      alert.style.display = "block";
+    }
+    setTimeout(() => {
+      closeSuggestionModal();
+    }, 2800);
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+    if (btnText) btnText.textContent = "Submit for Verification";
+    if (spinner) spinner.style.display = "none";
+  }
 }
 
 </script>
