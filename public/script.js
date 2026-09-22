@@ -32,31 +32,46 @@ const state = {
 const INSTITUTE_CONFIG = {
   icai: {
     name: "ICAI",
+    crest: "⚖️",
+    brandTitle: "TRI-INSTITUTE MATRIX",
+    brandSub: "CA Desk · ICAI Career Advantage Matrix",
     profession: "Chartered Accountants",
     badge: "OFFICIAL ICAI QUALIFICATION MAPPING · 101 PATHWAYS & 14 STATUTORY PANELS",
     desc: "Comprehensive database of mutual recognition agreements (MRAs), international paper exemptions, statutory practice authorizations, executive degree pathways, and CA firm statutory empanelments.",
     empanelmentBtn: "🏛️ CA Firm Panels (14)",
     catalogLinkText: "Explore All 101 Pathways ↓",
+    mapSub: "Interactive cartographic overview of jurisdictions with formal reciprocal recognition or paper waivers for ICAI Chartered Accountants.",
+    tabPrereq: "ICAI Prerequisites",
     empanelmentSectionTitle: "CA Firm Empanelments & Statutory Practice Panels",
     empanelmentSectionDesc: "Authoritative compendium of statutory audit panels, sovereign rosters, and regulatory appointments under RBI, CAG, SEBI, IRDAI, and SFIO. Explore firm eligibility points, partner standing rules, DISA/CISA prerequisites, peer review mandates, and remuneration scales in one seamless view."
   },
   icsi: {
     name: "ICSI",
+    crest: "📜",
+    brandTitle: "TRI-INSTITUTE MATRIX",
+    brandSub: "CS Desk · ICSI Corporate Governance Matrix",
     profession: "Company Secretaries",
     badge: "OFFICIAL ICSI QUALIFICATION MAPPING · 48 PATHWAYS & 4 STATUTORY PANELS",
     desc: "Definitive directory of secretarial audit mandates, corporate governance charters, international governance recognition (CGI UK, CISI), NCLT/SEBI representation, and PCS firm empanelments.",
     empanelmentBtn: "🏛️ PCS Firm Panels (4)",
     catalogLinkText: "Explore All 48 Pathways ↓",
+    mapSub: "Interactive cartographic overview of jurisdictions with formal reciprocal recognition or governance exemptions for ICSI Company Secretaries.",
+    tabPrereq: "ICSI Prerequisites",
     empanelmentSectionTitle: "Practicing Company Secretary (PCS) Statutory Panels",
     empanelmentSectionDesc: "Statutory practice panels, secretarial auditor empanelments, Peer Review mandates, and corporate compliance registrations under MCA, SEBI, Stock Exchanges, and IBBI."
   },
   icmai: {
     name: "ICMAI",
+    crest: "📊",
+    brandTitle: "TRI-INSTITUTE MATRIX",
+    brandSub: "CMA Desk · ICMAI Strategic Cost Matrix",
     profession: "Cost & Management Accountants",
     badge: "OFFICIAL ICMAI QUALIFICATION MAPPING · 28 PATHWAYS & 4 STATUTORY PANELS",
     desc: "Authoritative guide to statutory cost audit mandates under Section 148, global management accounting pathways (CIMA CGMA Gateway, IMA US, CPA Australia), tariff determination, and CMA firm empanelments.",
     empanelmentBtn: "🏛️ CMA Firm Panels (4)",
     catalogLinkText: "Explore All 28 Pathways ↓",
+    mapSub: "Interactive cartographic overview of jurisdictions with formal reciprocal recognition or costing exemptions for ICMAI Cost Accountants.",
+    tabPrereq: "ICMAI Prerequisites",
     empanelmentSectionTitle: "CMA Practice & Statutory Cost Audit Empanelments",
     empanelmentSectionDesc: "Statutory cost audit empanelments (C&AG, PSUs, Banking, Regulators), customs valuation, and registered valuer opportunities under the Cost and Works Accountants Act, 1959."
   }
@@ -372,6 +387,24 @@ function switchInstitute(instId) {
 function updateHeroForInstitute(instId) {
   const conf = INSTITUTE_CONFIG[instId] || INSTITUTE_CONFIG.icai;
 
+  // 1. Top Navbar Branding
+  const brandCrest = document.getElementById('navBrandCrest');
+  if (brandCrest) brandCrest.textContent = conf.crest || '🏛️';
+
+  const brandTitle = document.getElementById('navBrandTitle');
+  if (brandTitle) brandTitle.textContent = conf.brandTitle || 'TRI-INSTITUTE MATRIX';
+
+  const brandSub = document.getElementById('navBrandSub');
+  if (brandSub) brandSub.textContent = conf.brandSub || 'CA · CS · CMA Corporate & Financial Directory';
+
+  // 2. Favicon & Document Title
+  const favicon = document.getElementById('pageFavicon');
+  if (favicon && conf.crest) {
+    favicon.href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${conf.crest}</text></svg>`;
+  }
+  document.title = `${conf.profession} Global Directory — Tri-Institute Matrix (ICAI · ICSI · ICMAI)`;
+
+  // 3. Hero Texts & Badges
   const badgeText = document.getElementById('heroBadgeText');
   if (badgeText) badgeText.textContent = conf.badge;
 
@@ -391,7 +424,14 @@ function updateHeroForInstitute(instId) {
     catalogLink.innerHTML = `<span>${conf.catalogLinkText}</span>`;
   }
 
-  // Update metrics grid in Hero
+  // 4. Subtitles & Tabs
+  const mapSub = document.getElementById('worldMapSub');
+  if (mapSub) mapSub.textContent = conf.mapSub;
+
+  const tabEligibilityBtn = document.getElementById('modalTabEligibilityBtn');
+  if (tabEligibilityBtn) tabEligibilityBtn.textContent = conf.tabPrereq;
+
+  // 5. Update metrics grid in Hero
   updateHeroMetrics(instId);
 }
 

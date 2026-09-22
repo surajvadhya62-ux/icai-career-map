@@ -137,5 +137,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`ICAI Career Advantage Map running on port ${PORT}`);
+  console.log(`Tri-Institute Corporate Governance & Financial Matrix running on port ${PORT}`);
 });

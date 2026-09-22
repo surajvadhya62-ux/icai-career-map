@@ -1,7 +1,7 @@
 {
-  "name": "icai-career-map",
+  "name": "tri-institute-corporate-matrix",
   "version": "2.0.0",
-  "description": "ICAI CA Membership — Career Advantage Map",
+  "description": "Tri-Institute Corporate Governance & Financial Matrix — ICAI (CA) · ICSI (CS) · ICMAI (CMA)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
