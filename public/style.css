@@ -638,7 +638,7 @@ body {
 .accurate-world-svg {
   width: 100%;
   height: auto;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 1030 / 500;
   display: block;
 }
 
@@ -692,6 +692,10 @@ body {
   pointer-events: none;
 }
 
+.pin-label-left {
+  text-anchor: end;
+}
+
 @keyframes geo-pulse {
   0% { r: 5; opacity: 0.9; }
   75% { r: 16; opacity: 0; }
@@ -712,6 +716,16 @@ body {
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
   display: none;
   z-index: 10;
+}
+
+.map-info-popover.pos-left {
+  left: 16px;
+  right: auto;
+}
+
+.map-info-popover.pos-right {
+  right: 16px;
+  left: auto;
 }
 
 .map-info-popover.active {
@@ -1884,6 +1898,13 @@ body {
 
   .mobile-hubs-carousel {
     display: flex;
+  }
+
+  .map-info-popover {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    max-width: calc(100% - 24px) !important;
   }
 
   /* Directory Section */

@@ -541,6 +541,16 @@ function showMapPopover(code) {
       Filter Pathways for ${data.name} →
     </button>
   `;
+
+  // Position popover on opposite side to avoid covering clicked pin/continent
+  if (['au', 'sg', 'ae', 'in'].includes(code)) {
+    pop.classList.remove('pos-right');
+    pop.classList.add('pos-left');
+  } else {
+    pop.classList.remove('pos-left');
+    pop.classList.add('pos-right');
+  }
+
   pop.classList.add('active');
 }
 
