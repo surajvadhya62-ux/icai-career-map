@@ -1,10 +1,12 @@
 /**
- * ICAI Career Advantage Global Directory — Executive Controller
- * High-performance, clean vanilla JS architecture
+ * Tri-Institute Corporate Governance & Financial Matrix — Executive Controller
+ * Unified Architecture for ICAI (CA), ICSI (CS), and ICMAI (CMA)
+ * High-performance, clean vanilla JS architecture with zero framework overhead
  */
 
 // Application State
 const state = {
+  currentInstitute: localStorage.getItem('active_institute') || 'icai',
   activeCategory: 'all',
   activeCountry: 'all',
   activeGoal: null,
@@ -26,69 +28,275 @@ const state = {
   }
 };
 
-// Map Hotspot Details
-const MAP_HOTSPOTS = {
-  gb: {
-    name: "United Kingdom & Ireland",
-    flag: "🇬🇧",
-    agreements: "ICAEW Pathways (No exams for 5yr PQE), ACCA (9 of 13 papers waived), CIMA Gateway, CPA Ireland.",
-    salaryRange: "£65,000 – £125,000 / yr",
-    topEmployers: "City of London Banks, Big 4 UK, Barclays, Revolut"
+// Institute Branding & Configuration
+const INSTITUTE_CONFIG = {
+  icai: {
+    name: "ICAI",
+    profession: "Chartered Accountants",
+    badge: "OFFICIAL ICAI QUALIFICATION MAPPING · 101 PATHWAYS & 14 STATUTORY PANELS",
+    desc: "Comprehensive database of mutual recognition agreements (MRAs), international paper exemptions, statutory practice authorizations, executive degree pathways, and CA firm statutory empanelments.",
+    empanelmentBtn: "🏛️ CA Firm Panels (14)",
+    catalogLinkText: "Explore All 101 Pathways ↓",
+    empanelmentSectionTitle: "CA Firm Empanelments & Statutory Practice Panels",
+    empanelmentSectionDesc: "Authoritative compendium of statutory audit panels, sovereign rosters, and regulatory appointments under RBI, CAG, SEBI, IRDAI, and SFIO. Explore firm eligibility points, partner standing rules, DISA/CISA prerequisites, peer review mandates, and remuneration scales in one seamless view."
   },
-  us: {
-    name: "United States",
-    flag: "🇺🇸",
-    agreements: "150-credit hour equivalence for CPA USA state boards, CMA USA degree waiver, IRS Enrolled Agent, CFE point waiver.",
-    salaryRange: "$100,000 – $175,000 / yr",
-    topEmployers: "Wall Street IB, Big 4 US Advisory, Silicon Valley MNCs"
+  icsi: {
+    name: "ICSI",
+    profession: "Company Secretaries",
+    badge: "OFFICIAL ICSI QUALIFICATION MAPPING · 48 PATHWAYS & 4 STATUTORY PANELS",
+    desc: "Definitive directory of secretarial audit mandates, corporate governance charters, international governance recognition (CGI UK, CISI), NCLT/SEBI representation, and PCS firm empanelments.",
+    empanelmentBtn: "🏛️ PCS Firm Panels (4)",
+    catalogLinkText: "Explore All 48 Pathways ↓",
+    empanelmentSectionTitle: "Practicing Company Secretary (PCS) Statutory Panels",
+    empanelmentSectionDesc: "Statutory practice panels, secretarial auditor empanelments, Peer Review mandates, and corporate compliance registrations under MCA, SEBI, Stock Exchanges, and IBBI."
   },
-  ca: {
-    name: "Canada",
-    flag: "🇨🇦",
-    agreements: "CPA Canada MOU pathway. PEP modules largely waived; write designated CFE days.",
-    salaryRange: "CAD $95,000 – $155,000 / yr",
-    topEmployers: "Bay Street Financial, RBC, TD Bank, Canadian Big 4"
-  },
-  au: {
-    name: "Australia & New Zealand",
-    flag: "🇦🇺",
-    agreements: "Reciprocal MRAs with CPA Australia & CA ANZ. Pass only 1 capstone paper or attend IPP workshop.",
-    salaryRange: "AUD $110,000 – $180,000 / yr",
-    topEmployers: "Big 4 Australia, Macquarie Bank, BHP, Commonwealth Bank"
-  },
-  ae: {
-    name: "UAE & GCC Nations",
-    flag: "🇦🇪",
-    agreements: "Approved Auditor status via SOCPA & UAE AAA. High corporate tax & VAT assurance demand.",
-    salaryRange: "AED 280,000 – 550,000 / yr (Tax-Free)",
-    topEmployers: "Emirates NBD, Dubai Holding, Big 4 Middle East, ADIA"
-  },
-  sg: {
-    name: "Singapore & Malaysia",
-    flag: "🇸🇬",
-    agreements: "ISCA (Singapore) MOU pathway, MICPA (Malaysia) reciprocal conversion.",
-    salaryRange: "SGD $100,000 – $165,000 / yr",
-    topEmployers: "DBS Bank, Temasek, GIC, Regional APAC HQs"
-  },
-  za: {
-    name: "South Africa & Kenya",
-    flag: "🇿🇦",
-    agreements: "SAICA reciprocal MRA for CA(SA) charter. ICPAK MoU for East Africa practice rights.",
-    salaryRange: "ZAR 850,000 – 1,400,000 / yr",
-    topEmployers: "Standard Bank, Anglo American, Nedbank, Safaricom"
-  },
-  in: {
-    name: "India (Statutory & Practice)",
-    flag: "🇮🇳",
-    agreements: "IBC Insolvency Professionals, Registered Valuer statutory monopoly, SEBI RIA, CAG empanelment, DISA.",
-    salaryRange: "₹18L – ₹65L+ / yr",
-    topEmployers: "Big 4 India, Tier-1 Investment Banks, NCLT Practice, Listed Boards"
+  icmai: {
+    name: "ICMAI",
+    profession: "Cost & Management Accountants",
+    badge: "OFFICIAL ICMAI QUALIFICATION MAPPING · 28 PATHWAYS & 4 STATUTORY PANELS",
+    desc: "Authoritative guide to statutory cost audit mandates under Section 148, global management accounting pathways (CIMA CGMA Gateway, IMA US, CPA Australia), tariff determination, and CMA firm empanelments.",
+    empanelmentBtn: "🏛️ CMA Firm Panels (4)",
+    catalogLinkText: "Explore All 28 Pathways ↓",
+    empanelmentSectionTitle: "CMA Practice & Statutory Cost Audit Empanelments",
+    empanelmentSectionDesc: "Statutory cost audit empanelments (C&AG, PSUs, Banking, Regulators), customs valuation, and registered valuer opportunities under the Cost and Works Accountants Act, 1959."
   }
 };
+
+// Institute Hero Metrics Roster
+const INSTITUTE_METRICS = {
+  icai: [
+    { val: "101", suffix: "+", lbl: "Individual Pathways" },
+    { val: "14", suffix: "", lbl: "Statutory Firm Panels" },
+    { val: "16", suffix: "", lbl: "Global MRA Bodies" },
+    { val: "18", suffix: "", lbl: "International Charters" },
+    { val: "24", suffix: "", lbl: "GRC & Niche Credentials" },
+    { val: "22", suffix: "", lbl: "Regulatory & Banking Roles" }
+  ],
+  icsi: [
+    { val: "48", suffix: "+", lbl: "Individual Pathways" },
+    { val: "4", suffix: "", lbl: "Statutory PCS Panels" },
+    { val: "8", suffix: "", lbl: "Global Governance Charters" },
+    { val: "12", suffix: "", lbl: "Securities & Capital Markets" },
+    { val: "14", suffix: "", lbl: "Secretarial & NCLT Audits" },
+    { val: "10", suffix: "", lbl: "ESG & Board Advisory" }
+  ],
+  icmai: [
+    { val: "28", suffix: "+", lbl: "Individual Pathways" },
+    { val: "4", suffix: "", lbl: "Statutory CMA Panels" },
+    { val: "6", suffix: "", lbl: "Global Management Bodies" },
+    { val: "8", suffix: "", lbl: "Cost & Management Charters" },
+    { val: "6", suffix: "", lbl: "Tariff & Anti-Dumping Audits" },
+    { val: "8", suffix: "", lbl: "Valuer & Banking Forensics" }
+  ]
+};
+
+// Cartographic Intelligence Roster by Institute
+const INSTITUTE_MAP_HOTSPOTS = {
+  icai: {
+    gb: {
+      name: "United Kingdom & Ireland",
+      flag: "🇬🇧",
+      agreements: "ICAEW Pathways (No exams for 5yr PQE), ACCA (9 of 13 papers waived), CIMA Gateway, CPA Ireland.",
+      salaryRange: "£65,000 – £125,000 / yr",
+      topEmployers: "City of London Banks, Big 4 UK, Barclays, Revolut"
+    },
+    us: {
+      name: "United States",
+      flag: "🇺🇸",
+      agreements: "150-credit hour equivalence for CPA USA state boards, CMA USA degree waiver, IRS Enrolled Agent, CFE point waiver.",
+      salaryRange: "$100,000 – $175,000 / yr",
+      topEmployers: "Wall Street IB, Big 4 US Advisory, Silicon Valley MNCs"
+    },
+    ca: {
+      name: "Canada",
+      flag: "🇨🇦",
+      agreements: "CPA Canada MOU pathway. PEP modules largely waived; write designated CFE days.",
+      salaryRange: "CAD $95,000 – $155,000 / yr",
+      topEmployers: "Bay Street Financial, RBC, TD Bank, Canadian Big 4"
+    },
+    au: {
+      name: "Australia & New Zealand",
+      flag: "🇦🇺",
+      agreements: "Reciprocal MRAs with CPA Australia & CA ANZ. Pass only 1 capstone paper or attend IPP workshop.",
+      salaryRange: "AUD $110,000 – $180,000 / yr",
+      topEmployers: "Big 4 Australia, Macquarie Bank, BHP, Commonwealth Bank"
+    },
+    ae: {
+      name: "UAE & GCC Nations",
+      flag: "🇦🇪",
+      agreements: "Approved Auditor status via SOCPA & UAE AAA. High corporate tax & VAT assurance demand.",
+      salaryRange: "AED 280,000 – 550,000 / yr (Tax-Free)",
+      topEmployers: "Emirates NBD, Dubai Holding, Big 4 Middle East, ADIA"
+    },
+    sg: {
+      name: "Singapore & Malaysia",
+      flag: "🇸🇬",
+      agreements: "ISCA (Singapore) MOU pathway, MICPA (Malaysia) reciprocal conversion.",
+      salaryRange: "SGD $100,000 – $165,000 / yr",
+      topEmployers: "DBS Bank, Temasek, GIC, Regional APAC HQs"
+    },
+    za: {
+      name: "South Africa & Kenya",
+      flag: "🇿🇦",
+      agreements: "SAICA reciprocal MRA for CA(SA) charter. ICPAK MoU for East Africa practice rights.",
+      salaryRange: "ZAR 850,000 – 1,400,000 / yr",
+      topEmployers: "Standard Bank, Anglo American, Nedbank, Safaricom"
+    },
+    in: {
+      name: "India (Statutory & Practice)",
+      flag: "🇮🇳",
+      agreements: "IBC Insolvency Professionals, Registered Valuer statutory monopoly, SEBI RIA, CAG empanelment, DISA.",
+      salaryRange: "₹18L – ₹65L+ / yr",
+      topEmployers: "Big 4 India, Tier-1 Investment Banks, NCLT Practice, Listed Boards"
+    }
+  },
+  icsi: {
+    gb: {
+      name: "United Kingdom & Ireland",
+      flag: "🇬🇧",
+      agreements: "Chartered Governance Institute (CGI UK & Ireland) fast-track MRA, CISI UK (Chartered Institute for Securities & Investment MoU).",
+      salaryRange: "£60,000 – £115,000 / yr",
+      topEmployers: "FTSE 100 Secretariats, City of London Law Firms, Linklaters, HSBC"
+    },
+    us: {
+      name: "United States",
+      flag: "🇺🇸",
+      agreements: "Corporate Governance Officer, SEC EDGAR filing specialist, SCCE Compliance Certification, US SOX Secretarial advisory.",
+      salaryRange: "$95,000 – $160,000 / yr",
+      topEmployers: "NASDAQ/NYSE Listed Tech, US Corporate Secretariats, Deloitte Legal"
+    },
+    ca: {
+      name: "Canada",
+      flag: "🇨🇦",
+      agreements: "Governance Professionals of Canada (GPC) pathway, TSX Corporate Secretary & Securities compliance practice.",
+      salaryRange: "CAD $90,000 – $145,000 / yr",
+      topEmployers: "TSX Listed Entities, Brookfield, Sun Life, Canadian Corporate Secretariats"
+    },
+    au: {
+      name: "Australia & New Zealand",
+      flag: "🇦🇺",
+      agreements: "Governance Institute of Australia (GIA) pathways, ASX Listing Rule compliance lead, corporate secretarial advisory.",
+      salaryRange: "AUD $105,000 – $170,000 / yr",
+      topEmployers: "ASX 200 Corporate Secretariats, King & Wood Mallesons, Atlassian"
+    },
+    ae: {
+      name: "UAE & GCC Nations",
+      flag: "🇦🇪",
+      agreements: "DIFC & ADGM Registered Corporate Service Provider (CSP) lead, UAE Commercial Companies Law governance officer.",
+      salaryRange: "AED 260,000 – 480,000 / yr (Tax-Free)",
+      topEmployers: "DIFC Secretariats, ADGM Corporate Services, First Abu Dhabi Bank"
+    },
+    sg: {
+      name: "Singapore & Malaysia",
+      flag: "🇸🇬",
+      agreements: "CSIA (Corporate Secretaries International Association) network, Singapore Institute of Directors (SID) fellow pathway.",
+      salaryRange: "SGD $95,000 – $155,000 / yr",
+      topEmployers: "SGX Listed Cos, Singapore Corporate Services, Rajah & Tann"
+    },
+    za: {
+      name: "South Africa & Africa",
+      flag: "🇿🇦",
+      agreements: "Chartered Secretaries Southern Africa (CSSA) governance exchange, King IV Report GRC lead.",
+      salaryRange: "ZAR 750,000 – 1,250,000 / yr",
+      topEmployers: "JSE Top 40, Sasol, MTN Group, African Governance Advisory"
+    },
+    in: {
+      name: "India (Statutory & Practice)",
+      flag: "🇮🇳",
+      agreements: "Sec 204 Secretarial Audit, SEBI Reg 24A, MGT-8 Annual Return, NCLT/NCLAT Standing, Registered Valuer Securities.",
+      salaryRange: "₹15L – ₹55L+ / yr",
+      topEmployers: "Nifty 50 Secretariats, Tier-1 Law Firms, Leading PCS Firms, NCLT Bar"
+    }
+  },
+  icmai: {
+    gb: {
+      name: "United Kingdom & Ireland",
+      flag: "🇬🇧",
+      agreements: "CIMA UK (CGMA Strategic Gateway - 14 papers waived), ACCA UK Strategic Professional MoU, CIPFA Public Finance.",
+      salaryRange: "£62,000 – £120,000 / yr",
+      topEmployers: "FTSE Manufacturing & Energy, Rolls-Royce, Unilever, NHS Finance"
+    },
+    us: {
+      name: "United States",
+      flag: "🇺🇸",
+      agreements: "Institute of Management Accountants (IMA US) CMA MRA with mutual paper exemptions, Strategic Cost Management.",
+      salaryRange: "$95,000 – $165,000 / yr",
+      topEmployers: "Fortune 500 Industrial Finance, Boeing, Caterpillar, Tesla Operations"
+    },
+    ca: {
+      name: "Canada",
+      flag: "🇨🇦",
+      agreements: "CPA Canada Management Accounting pathway, mining & natural resource operational cost controllership.",
+      salaryRange: "CAD $90,000 – $150,000 / yr",
+      topEmployers: "Barrick Gold, Canadian National Railway, Enbridge, Suncor"
+    },
+    au: {
+      name: "Australia & New Zealand",
+      flag: "🇦🇺",
+      agreements: "CPA Australia MoU (Direct Senior Membership Pathway), IPA Australia reciprocal recognition for cost management.",
+      salaryRange: "AUD $105,000 – $175,000 / yr",
+      topEmployers: "Rio Tinto, BHP, Qantas, Australian Infrastructure Financiers"
+    },
+    ae: {
+      name: "UAE & GCC Nations",
+      flag: "🇦🇪",
+      agreements: "GCC Energy & Petrochemical Cost Consulting, Corporate Tax Transfer Pricing cost audit, infrastructure project appraisal.",
+      salaryRange: "AED 270,000 – 500,000 / yr (Tax-Free)",
+      topEmployers: "ADNOC, SABIC, DP World, GCC Industrial Conglomerates"
+    },
+    sg: {
+      name: "Singapore & Malaysia",
+      flag: "🇸🇬",
+      agreements: "ASEAN Management Accounting Association (AMAA), APAC regional supply chain cost controller.",
+      salaryRange: "SGD $95,000 – $160,000 / yr",
+      topEmployers: "Singtel, Flex, Singapore Port Authority (PSA), APAC Logistics"
+    },
+    za: {
+      name: "South Africa & Africa",
+      flag: "🇿🇦",
+      agreements: "SAIPA (South African Institute of Professional Accountants) MoU, mineral royalty & mining costing lead.",
+      salaryRange: "ZAR 800,000 – 1,300,000 / yr",
+      topEmployers: "Anglo American Platinum, Sasol, Gold Fields, Transnet"
+    },
+    in: {
+      name: "India (Statutory & Practice)",
+      flag: "🇮🇳",
+      agreements: "Sec 148 Statutory Cost Audit (39 regulated sectors), GST Sec 66 Special Audit, CERC/TRAI Tariff Reviewer, Plant & Machinery Valuer.",
+      salaryRange: "₹16L – ₹60L+ / yr",
+      topEmployers: "PSUs (ONGC, NTPC, BHEL), Tata Steel, Reliance Industries, Practicing CMA Firms"
+    }
+  }
+};
+
+// Helper: Active Hotspots
+function getMapHotspots() {
+  return INSTITUTE_MAP_HOTSPOTS[state.currentInstitute] || INSTITUTE_MAP_HOTSPOTS.icai;
+}
+
+// Helper: Active Courses Dataset
+function getActiveCoursesData() {
+  if (state.currentInstitute === 'icsi' && typeof ICSI_COURSES_DATA !== 'undefined') {
+    return ICSI_COURSES_DATA;
+  }
+  if (state.currentInstitute === 'icmai' && typeof ICMAI_COURSES_DATA !== 'undefined') {
+    return ICMAI_COURSES_DATA;
+  }
+  return typeof COURSES_DATA !== 'undefined' ? COURSES_DATA : [];
+}
+
+// Helper: All Combined Courses Dataset
+function getAllCoursesData() {
+  const list = [];
+  if (typeof COURSES_DATA !== 'undefined') list.push(...COURSES_DATA);
+  if (typeof ICSI_COURSES_DATA !== 'undefined') list.push(...ICSI_COURSES_DATA);
+  if (typeof ICMAI_COURSES_DATA !== 'undefined') list.push(...ICMAI_COURSES_DATA);
+  return list;
+}
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  initInstitute();
   initCounters();
   initWorldMap();
   initMobileHubsCarousel();
@@ -125,7 +333,99 @@ function updateThemeIcon() {
 }
 
 // ==========================================================================
-// 2. COUNTERS ANIMATION
+// 2. TRI-INSTITUTE SWITCHER CONTROLLER
+// ==========================================================================
+function initInstitute() {
+  const saved = localStorage.getItem('active_institute') || 'icai';
+  switchInstitute(saved);
+}
+
+function switchInstitute(instId) {
+  if (!['icai', 'icsi', 'icmai'].includes(instId)) instId = 'icai';
+  state.currentInstitute = instId;
+  localStorage.setItem('active_institute', instId);
+
+  // 1. Update HTML attribute for CSS color tokens
+  document.documentElement.setAttribute('data-institute', instId);
+
+  // 2. Update switcher tab active states
+  document.querySelectorAll('.inst-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.institute === instId);
+  });
+
+  // 3. Update Hero Texts & Accents
+  updateHeroForInstitute(instId);
+
+  // 4. Update Empanelment Section Titles & Counters
+  updateEmpanelmentHeaders(instId);
+
+  // 5. Update World Map Hotspots & Carousel
+  initWorldMap();
+  initMobileHubsCarousel();
+
+  // 6. Reset Filters and Render
+  resetAllFilters();
+  renderEmpanelments();
+  updateStats();
+}
+
+function updateHeroForInstitute(instId) {
+  const conf = INSTITUTE_CONFIG[instId] || INSTITUTE_CONFIG.icai;
+
+  const badgeText = document.getElementById('heroBadgeText');
+  if (badgeText) badgeText.textContent = conf.badge;
+
+  const titleAccent = document.getElementById('heroTitleAccent');
+  if (titleAccent) titleAccent.textContent = conf.profession;
+
+  const desc = document.getElementById('heroMainDesc');
+  if (desc) desc.textContent = conf.desc;
+
+  const heroBtn = document.getElementById('heroEmpanelmentBtn');
+  if (heroBtn) {
+    heroBtn.innerHTML = `<span>${conf.empanelmentBtn}</span>`;
+  }
+
+  const catalogLink = document.getElementById('heroCatalogLink');
+  if (catalogLink) {
+    catalogLink.innerHTML = `<span>${conf.catalogLinkText}</span>`;
+  }
+
+  // Update metrics grid in Hero
+  updateHeroMetrics(instId);
+}
+
+function updateHeroMetrics(instId) {
+  const grid = document.querySelector('.metrics-grid');
+  if (!grid) return;
+  const metrics = INSTITUTE_METRICS[instId] || INSTITUTE_METRICS.icai;
+  grid.innerHTML = metrics.map(m => `
+    <div class="metric-box">
+      <div class="metric-val" data-target="${m.val}" data-suffix="${m.suffix}">${m.val}${m.suffix}</div>
+      <div class="metric-lbl">${m.lbl}</div>
+    </div>
+  `).join('');
+  initCounters();
+}
+
+function updateEmpanelmentHeaders(instId) {
+  const conf = INSTITUTE_CONFIG[instId] || INSTITUTE_CONFIG.icai;
+  const count = getEmpanelmentsDataset().length;
+
+  const secTitle = document.getElementById('empanelmentSectionTitle');
+  if (secTitle) secTitle.textContent = conf.empanelmentSectionTitle;
+
+  const secSub = document.getElementById('empanelmentSectionSub');
+  if (secSub) secSub.textContent = conf.empanelmentSectionDesc;
+
+  const allTabCount = document.getElementById('empTabCountAll');
+  if (allTabCount) {
+    allTabCount.textContent = count;
+  }
+}
+
+// ==========================================================================
+// 3. COUNTERS ANIMATION
 // ==========================================================================
 function initCounters() {
   const nums = document.querySelectorAll('.metric-val[data-target]');
@@ -147,7 +447,7 @@ function initCounters() {
               clearInterval(iv);
             }
             el.textContent = current + (el.dataset.suffix || '');
-          }, 40);
+          }, 35);
         });
         obs.disconnect();
       }
@@ -158,16 +458,16 @@ function initCounters() {
 }
 
 // ==========================================================================
-// 3. ACCURATE WORLD MAP & MOBILE HUBS
+// 4. ACCURATE WORLD MAP & MOBILE HUBS
 // ==========================================================================
 function initWorldMap() {
   const pins = document.querySelectorAll('.geo-pin');
   pins.forEach(pin => {
-    pin.addEventListener('click', (e) => {
+    pin.onclick = (e) => {
       e.stopPropagation();
       const code = pin.dataset.country;
       showMapPopover(code);
-    });
+    };
   });
 
   document.addEventListener('click', (e) => {
@@ -178,7 +478,8 @@ function initWorldMap() {
 }
 
 function showMapPopover(code) {
-  const data = MAP_HOTSPOTS[code];
+  const hotspots = getMapHotspots();
+  const data = hotspots[code];
   if (!data) return;
 
   const pop = document.getElementById('mapPopover');
@@ -189,14 +490,14 @@ function showMapPopover(code) {
       <div style="font-size:14px;font-weight:700;color:var(--text-primary)">
         ${data.flag} ${data.name}
       </div>
-      <button onclick=\"hideMapPopover()\" style=\"background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px\">✕</button>
+      <button onclick="hideMapPopover()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px">✕</button>
     </div>
-    <p style=\"font-size:11.5px;color:var(--text-secondary);line-height:1.45;margin-bottom:8px\">${data.agreements}</p>
-    <div style=\"font-size:11px;padding:4px 0;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between\">
-      <span style=\"color:var(--text-muted)\">Expat Comp:</span>
-      <span style=\"font-family:var(--font-mono);font-weight:700;color:var(--gold-accent)\">${data.salaryRange}</span>
+    <p style="font-size:11.5px;color:var(--text-secondary);line-height:1.45;margin-bottom:8px">${data.agreements}</p>
+    <div style="font-size:11px;padding:4px 0;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between">
+      <span style="color:var(--text-muted)">Expat Comp:</span>
+      <span style="font-family:var(--font-mono);font-weight:700;color:var(--gold-accent)">${data.salaryRange}</span>
     </div>
-    <button onclick=\"filterByMapRegion('${code}')\" style=\"width:100%;margin-top:8px;padding:6px;background:var(--gold-accent);color:#0F172A;border:none;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer\">
+    <button onclick="filterByMapRegion('${code}')" style="width:100%;margin-top:8px;padding:6px;background:var(--gold-accent);color:#0F172A;border:none;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer">
       Filter Pathways for ${data.name} →
     </button>
   `;
@@ -228,20 +529,22 @@ function initMobileHubsCarousel() {
   const container = document.getElementById('mobileHubsList');
   if (!container) return;
 
-  container.innerHTML = Object.entries(MAP_HOTSPOTS).map(([code, h]) => `
-    <div class=\"mobile-hub-card\" onclick=\"filterByMapRegion('${code}')\">
-      <div class=\"hub-card-title\">${h.flag} ${h.name}</div>
-      <div class=\"hub-card-salary\">${h.salaryRange}</div>
-      <div style=\"font-size:10px;color:var(--text-muted);margin-top:2px\">Tap to filter →</div>
+  const hotspots = getMapHotspots();
+  container.innerHTML = Object.entries(hotspots).map(([code, h]) => `
+    <div class="mobile-hub-card" onclick="filterByMapRegion('${code}')">
+      <div class="hub-card-title">${h.flag} ${h.name}</div>
+      <div class="hub-card-salary">${h.salaryRange}</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:2px">Tap to filter →</div>
     </div>
   `).join('');
 }
 
 // ==========================================================================
-// 4. FILTERING, SEARCH & SORT LOGIC
+// 5. FILTERING, SEARCH & SORT LOGIC
 // ==========================================================================
 function getFilteredCourses() {
-  return COURSES_DATA.filter(c => {
+  const currentData = getActiveCoursesData();
+  return currentData.filter(c => {
     // 1. Category Filter
     if (state.activeCategory === 'saved') {
       if (!state.bookmarks.includes(c.id)) return false;
@@ -275,6 +578,7 @@ function getFilteredCourses() {
         c.papersRequired,
         c.papersWaived,
         c.careerImpact,
+        c.statutorySource || '',
         ...(c.tags || [])
       ].join(' ').toLowerCase();
 
@@ -297,27 +601,28 @@ function getFilteredCourses() {
 }
 
 // ==========================================================================
-// 5. RENDERING CATALOG
+// 6. RENDERING CATALOG
 // ==========================================================================
 function renderCatalog() {
+  const currentData = getActiveCoursesData();
   const filtered = getFilteredCourses();
   const container = document.getElementById('catalogResultsContainer');
   const countEl = document.getElementById('resultsCountDisplay');
 
   if (countEl) {
-    countEl.innerHTML = `Showing <b>${filtered.length}</b> of <b>${COURSES_DATA.length}</b> qualifications`;
+    countEl.innerHTML = `Showing <b>${filtered.length}</b> of <b>${currentData.length}</b> qualifications`;
   }
 
   if (!container) return;
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div style=\"text-align:center;padding:48px 16px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md)\">
-        <h3 style=\"font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:6px\">No qualifications found</h3>
-        <p style=\"font-size:13px;color:var(--text-muted);max-width:380px;margin:0 auto 16px\">
+      <div style="text-align:center;padding:48px 16px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md)">
+        <h3 style="font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:6px">No qualifications found</h3>
+        <p style="font-size:13px;color:var(--text-muted);max-width:380px;margin:0 auto 16px">
           No qualifications match your active combination of filters and search keywords.
         </p>
-        <button class=\"btn-solid\" onclick=\"resetAllFilters()\">Reset All Filters</button>
+        <button class="btn-solid" onclick="resetAllFilters()">Reset All Filters</button>
       </div>
     `;
     return;
@@ -332,57 +637,64 @@ function renderCatalog() {
 
 function renderGridView(courses, container) {
   const html = `
-    <div class=\"cards-grid\">
+    <div class="cards-grid">
       ${courses.map(c => {
         const isBookmarked = state.bookmarks.includes(c.id);
         const isCompared = state.selectedForCompare.has(c.id);
 
         return `
-          <div class=\"course-card\" onclick=\"openCourseModal('${c.id}')\">
-            <div class=\"card-top-row\">
-              <div class=\"card-title-group\">
+          <div class="course-card" onclick="openCourseModal('${c.id}')">
+            <div class="card-top-row">
+              <div class="card-title-group">
                 <h3>${c.flag} ${c.name}</h3>
-                <div class=\"card-org-name\">${c.body} · ${c.country}</div>
+                <div class="card-org-name">${c.body} · ${c.country}</div>
               </div>
-              <span class=\"card-badge-pill\">${c.exemptionLevel}</span>
+              <span class="card-badge-pill">${c.exemptionLevel}</span>
             </div>
 
-            <div class=\"ex-row\">
-              <div class=\"ex-row-header\">
-                <span class=\"ex-row-title\">Exemption / Waiver</span>
-                <span class=\"ex-row-score\">${c.exemptionPercent}%</span>
+            <div class="ex-row">
+              <div class="ex-row-header">
+                <span class="ex-row-title">Exemption / Waiver</span>
+                <span class="ex-row-score">${c.exemptionPercent}%</span>
               </div>
-              <div class=\"ex-track\">
-                <div class=\"ex-fill\" style=\"width:${c.exemptionPercent}%\"></div>
+              <div class="ex-track">
+                <div class="ex-fill" style="width:${c.exemptionPercent}%"></div>
               </div>
             </div>
 
-            <div class=\"card-desc-snippet\">
+            <div class="card-desc-snippet">
               ${c.papersWaived || c.papersRequired}
             </div>
 
-            <div class=\"card-metrics-grid\">
+            ${c.statutorySource ? `
+              <div class="card-statutory-source" title="${escapeHtml(c.statutorySource)}">
+                <span class="source-badge-tag">🏛️ STATUTE:</span>
+                <span class="source-text">${escapeHtml(c.statutorySource)}</span>
+              </div>
+            ` : ''}
+
+            <div class="card-metrics-grid">
               <div>
-                <div class=\"m-cell-lbl\">Duration</div>
-                <div class=\"m-cell-val\">${c.duration}</div>
+                <div class="m-cell-lbl">Duration</div>
+                <div class="m-cell-val">${c.duration}</div>
               </div>
               <div>
-                <div class=\"m-cell-lbl\">Est. Cost</div>
-                <div class=\"m-cell-val\">${c.costINR}</div>
+                <div class="m-cell-lbl">Est. Cost</div>
+                <div class="m-cell-val">${c.costINR}</div>
               </div>
             </div>
 
-            <div class=\"card-footer-actions\" onclick=\"event.stopPropagation()\">
-              <button class=\"btn-open-detail\" onclick=\"openCourseModal('${c.id}')\">
+            <div class="card-footer-actions" onclick="event.stopPropagation()">
+              <button class="btn-open-detail" onclick="openCourseModal('${c.id}')">
                 Details →
               </button>
 
-              <div class=\"card-right-toggles\">
-                <label class=\"compare-toggle-label\">
-                  <input type=\"checkbox\" ${isCompared ? 'checked' : ''} onchange=\"toggleCompare('${c.id}', this)\">
+              <div class="card-right-toggles">
+                <label class="compare-toggle-label">
+                  <input type="checkbox" ${isCompared ? 'checked' : ''} onchange="toggleCompare('${c.id}', this)">
                   <span>Compare</span>
                 </label>
-                <button class=\"star-btn ${isBookmarked ? 'active' : ''}\" onclick=\"toggleBookmark('${c.id}')\" title=\"Save Bookmark\">
+                <button class="star-btn ${isBookmarked ? 'active' : ''}" onclick="toggleBookmark('${c.id}')" title="Save Bookmark">
                   ★
                 </button>
               </div>
@@ -397,8 +709,8 @@ function renderGridView(courses, container) {
 
 function renderTableView(courses, container) {
   const html = `
-    <div class=\"table-view-container\">
-      <table class=\"executive-table\">
+    <div class="table-view-container">
+      <table class="executive-table">
         <thead>
           <tr>
             <th>Qualification</th>
@@ -414,23 +726,23 @@ function renderTableView(courses, container) {
           ${courses.map(c => {
             const isCompared = state.selectedForCompare.has(c.id);
             return `
-              <tr onclick=\"openCourseModal('${c.id}')\" style=\"cursor:pointer\">
+              <tr onclick="openCourseModal('${c.id}')" style="cursor:pointer">
                 <td>
-                  <div style=\"font-weight:700;color:var(--text-primary)\">${c.flag} ${c.name}</div>
-                  <div style=\"font-size:10px;color:var(--text-muted)\">${c.country}</div>
+                  <div style="font-weight:700;color:var(--text-primary)">${c.flag} ${c.name}</div>
+                  <div style="font-size:10px;color:var(--text-muted)">${c.country}</div>
                 </td>
-                <td style=\"font-size:11.5px\">${c.body}</td>
-                <td><span class=\"card-badge-pill\">${c.category.toUpperCase()}</span></td>
+                <td style="font-size:11.5px">${c.body}</td>
+                <td><span class="card-badge-pill">${c.category.toUpperCase()}</span></td>
                 <td>
-                  <span style=\"font-family:var(--font-mono);font-weight:700;color:#10B981\">${c.exemptionPercent}%</span>
+                  <span style="font-family:var(--font-mono);font-weight:700;color:#10B981">${c.exemptionPercent}%</span>
                 </td>
-                <td style=\"font-family:var(--font-mono);font-size:11.5px\">${c.duration}</td>
-                <td style=\"font-family:var(--font-mono);font-size:11.5px;color:var(--gold-accent)\">${c.costINR}</td>
-                <td onclick=\"event.stopPropagation()\">
-                  <div style=\"display:flex;align-items:center;gap:6px\">
-                    <button class=\"btn-open-detail\" style=\"padding:3px 7px;font-size:11px\" onclick=\"openCourseModal('${c.id}')\">View</button>
-                    <label class=\"compare-toggle-label\">
-                      <input type=\"checkbox\" ${isCompared ? 'checked' : ''} onchange=\"toggleCompare('${c.id}', this)\">
+                <td style="font-family:var(--font-mono);font-size:11.5px">${c.duration}</td>
+                <td style="font-family:var(--font-mono);font-size:11.5px;color:var(--gold-accent)">${c.costINR}</td>
+                <td onclick="event.stopPropagation()">
+                  <div style="display:flex;align-items:center;gap:6px">
+                    <button class="btn-open-detail" style="padding:3px 7px;font-size:11px" onclick="openCourseModal('${c.id}')">View</button>
+                    <label class="compare-toggle-label">
+                      <input type="checkbox" ${isCompared ? 'checked' : ''} onchange="toggleCompare('${c.id}', this)">
                     </label>
                   </div>
                 </td>
@@ -445,10 +757,11 @@ function renderTableView(courses, container) {
 }
 
 // ==========================================================================
-// 6. DEEP-DIVE MODAL / BOTTOM SHEET
+// 7. DEEP-DIVE MODAL / BOTTOM SHEET
 // ==========================================================================
 function openCourseModal(courseId) {
-  const course = COURSES_DATA.find(c => c.id === courseId);
+  const allCourses = getAllCoursesData();
+  const course = allCourses.find(c => c.id === courseId);
   if (!course) return;
 
   state.currentModalCourse = course;
@@ -484,93 +797,114 @@ function populateModalData(c) {
   document.getElementById('modalCourseName').textContent = c.name;
   document.getElementById('modalCourseFullName').textContent = `${c.fullName} · ${c.body}`;
 
-  // Tab 1: Exemptions
+  // Tab 1: Exemptions & Statutory Authority
   document.getElementById('modalTabExemptions').innerHTML = `
-    <div class=\"modal-section\">
+    <div class="modal-section">
       <h4>Exemption Status</h4>
-      <div class=\"info-box-highlight\" style=\"display:flex;align-items:center;justify-content:space-between\">
+      <div class="info-box-highlight" style="display:flex;align-items:center;justify-content:space-between">
         <div>
-          <div style=\"font-size:15px;font-weight:700;color:var(--text-primary)\">${c.exemptionLevel}</div>
-          <div style=\"font-size:11px;color:var(--text-muted);margin-top:2px\">Official bilateral recognition</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text-primary)">${c.exemptionLevel}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Official bilateral recognition / statutory authorization</div>
         </div>
-        <div style=\"font-size:22px;font-weight:800;font-family:var(--font-mono);color:#10B981\">
+        <div style="font-size:22px;font-weight:800;font-family:var(--font-mono);color:#10B981">
           ${c.exemptionPercent}%
         </div>
       </div>
     </div>
     
-    <div class=\"modal-section\">
+    ${c.statutorySource ? `
+      <div class="modal-section">
+        <h4>🏛️ Statutory Authority &amp; Verifiable Legal Basis</h4>
+        <div class="info-box-highlight" style="border-left:3px solid var(--gold-accent);background:var(--bg-elevated)">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+            <span style="display:inline-block;padding:2px 6px;border-radius:3px;background:rgba(16,185,129,0.15);color:#10B981;font-size:10px;font-weight:700;font-family:var(--font-mono)">✓ OFFICIALLY VERIFIED</span>
+            <span style="font-size:11px;color:var(--text-muted)">Statutory Gazette / Bilateral Treaty</span>
+          </div>
+          <p style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;margin-bottom:6px">
+            ${escapeHtml(c.statutorySource)}
+          </p>
+          ${c.officialUrl ? `
+            <a href="${c.officialUrl}" target="_blank" rel="noopener noreferrer" style="font-size:11.5px;color:var(--gold-accent);text-decoration:none;display:inline-flex;align-items:center;gap:4px;font-weight:600">
+              View Official Reference Portal ↗
+            </a>
+          ` : ''}
+        </div>
+      </div>
+    ` : ''}
+
+    <div class="modal-section">
       <h4>Papers &amp; Modules Waived</h4>
-      <div class=\"info-box-highlight\" style=\"border-left:3px solid #10B981\">
-        <p style=\"font-size:12.5px;color:var(--text-secondary)\">${c.papersWaived}</p>
+      <div class="info-box-highlight" style="border-left:3px solid #10B981">
+        <p style="font-size:12.5px;color:var(--text-secondary)">${c.papersWaived}</p>
       </div>
     </div>
 
-    <div class=\"modal-section\">
+    <div class="modal-section">
       <h4>Papers Required to Appear</h4>
-      <div class=\"info-box-highlight\" style=\"border-left:3px solid var(--gold-accent)\">
-        <p style=\"font-size:12.5px;color:var(--text-secondary)\">${c.papersRequired}</p>
+      <div class="info-box-highlight" style="border-left:3px solid var(--gold-accent)">
+        <p style="font-size:12.5px;color:var(--text-secondary)">${c.papersRequired}</p>
       </div>
     </div>
   `;
 
   // Tab 2: Prerequisites
+  const instName = (c.institute || state.currentInstitute || 'icai').toUpperCase();
   document.getElementById('modalTabEligibility').innerHTML = `
-    <div class=\"modal-section\">
-      <h4>ICAI Eligibility Criteria</h4>
-      <div class=\"info-box-highlight\">
-        <p style=\"font-size:13px;color:var(--text-secondary);line-height:1.5\">${c.prerequisites}</p>
+    <div class="modal-section">
+      <h4>${instName} Eligibility Criteria</h4>
+      <div class="info-box-highlight">
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.5">${c.prerequisites}</p>
       </div>
-      <div style=\"margin-top:12px;font-size:11.5px;color:var(--text-muted)\">
-        Note: Certificate of Good Standing must be requested via the ICAI Self Service Portal (SSP).
+      <div style="margin-top:12px;font-size:11.5px;color:var(--text-muted)">
+        Note: Certificate of Good Standing / Active Membership status must be requested via respective institute portal.
       </div>
     </div>
   `;
 
   // Tab 3: Cost & Duration
   document.getElementById('modalTabCost').innerHTML = `
-    <div class=\"modal-section\">
+    <div class="modal-section">
       <h4>Financial Outlay</h4>
-      <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px\">
-        <div class=\"info-box-highlight\">
-          <div style=\"font-size:10px;text-transform:uppercase;color:var(--text-muted);font-weight:600\">INR Equivalent</div>
-          <div style=\"font-size:17px;font-weight:800;color:var(--text-primary);font-family:var(--font-mono);margin-top:2px\">${c.costINR}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="info-box-highlight">
+          <div style="font-size:10px;text-transform:uppercase;color:var(--text-muted);font-weight:600">INR Equivalent</div>
+          <div style="font-size:17px;font-weight:800;color:var(--text-primary);font-family:var(--font-mono);margin-top:2px">${c.costINR}</div>
         </div>
-        <div class=\"info-box-highlight\">
-          <div style=\"font-size:10px;text-transform:uppercase;color:var(--text-muted);font-weight:600\">Foreign Currency</div>
-          <div style=\"font-size:17px;font-weight:800;color:var(--gold-accent);font-family:var(--font-mono);margin-top:2px\">${c.costForeign}</div>
+        <div class="info-box-highlight">
+          <div style="font-size:10px;text-transform:uppercase;color:var(--text-muted);font-weight:600">Foreign Currency</div>
+          <div style="font-size:17px;font-weight:800;color:var(--gold-accent);font-family:var(--font-mono);margin-top:2px">${c.costForeign}</div>
         </div>
       </div>
     </div>
 
-    <div class=\"modal-section\">
+    <div class="modal-section">
       <h4>Duration to Complete</h4>
-      <div class=\"info-box-highlight\">
-        <div style=\"font-size:14px;font-weight:700;color:var(--text-primary)\">${c.duration}</div>
-        <p style=\"font-size:12px;color:var(--text-muted);margin-top:2px\">Estimated based on standard self-paced study alongside active employment.</p>
+      <div class="info-box-highlight">
+        <div style="font-size:14px;font-weight:700;color:var(--text-primary)">${c.duration}</div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:2px">Estimated based on standard self-paced study alongside active employment.</p>
       </div>
     </div>
   `;
 
   // Tab 4: Career Horizons
   document.getElementById('modalTabCareer').innerHTML = `
-    <div class=\"modal-section\">
+    <div class="modal-section">
       <h4>Career Impact &amp; Target Roles</h4>
-      <div class=\"info-box-highlight\">
-        <p style=\"font-size:13px;color:var(--text-secondary);line-height:1.5\">${c.careerImpact}</p>
+      <div class="info-box-highlight">
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.5">${c.careerImpact}</p>
       </div>
     </div>
   `;
 
   // Tab 5: Roadmap
   document.getElementById('modalTabRoadmap').innerHTML = `
-    <div class=\"modal-section\">
+    <div class="modal-section">
       <h4>Step-by-Step Application Roadmap</h4>
-      <div style=\"margin-top:10px\">
+      <div style="margin-top:10px">
         ${(c.steps || []).map((step, idx) => `
-          <div class=\"roadmap-step\">
-            <div class=\"step-num\">${idx + 1}</div>
-            <div class=\"step-text\">${step}</div>
+          <div class="roadmap-step">
+            <div class="step-num">${idx + 1}</div>
+            <div class="step-text">${step}</div>
           </div>
         `).join('')}
       </div>
@@ -586,7 +920,7 @@ function populateModalData(c) {
 }
 
 // ==========================================================================
-// 7. SIDE-BY-SIDE COMPARISON
+// 8. SIDE-BY-SIDE COMPARISON
 // ==========================================================================
 function toggleCompare(courseId, cb) {
   if (cb.checked) {
@@ -604,12 +938,12 @@ function toggleCompare(courseId, cb) {
 
 function updateCompareDock() {
   const dock = document.getElementById('compareDock');
-  const countEl = document.getElementById('compareDockCount');
+  const count = document.getElementById('compareCount');
   if (!dock) return;
 
   if (state.selectedForCompare.size > 0) {
     dock.classList.add('visible');
-    countEl.textContent = state.selectedForCompare.size;
+    if (count) count.textContent = `${state.selectedForCompare.size} Selected`;
   } else {
     dock.classList.remove('visible');
   }
@@ -625,8 +959,9 @@ function openCompareModal() {
   const modal = document.getElementById('compareModal');
   if (!modal) return;
 
+  const allCourses = getAllCoursesData();
   const courses = Array.from(state.selectedForCompare)
-    .map(id => COURSES_DATA.find(c => c.id === id))
+    .map(id => allCourses.find(c => c.id === id))
     .filter(Boolean);
 
   if (courses.length === 0) return;
@@ -635,34 +970,34 @@ function openCompareModal() {
   table.innerHTML = `
     <thead>
       <tr>
-        <th style=\"width:150px\">Criteria</th>
-        ${courses.map(c => `<th><b>${c.flag} ${c.name}</b><div style=\"font-size:10.5px;color:var(--text-muted)\">${c.body}</div></th>`).join('')}
+        <th style="width:150px">Criteria</th>
+        ${courses.map(c => `<th><b>${c.flag} ${c.name}</b><div style="font-size:10.5px;color:var(--text-muted)">${c.body}</div></th>`).join('')}
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><b>Exemption %</b></td>
-        ${courses.map(c => `<td><span style=\"font-weight:700;color:#10B981;font-size:15px\">${c.exemptionPercent}%</span><br><span style=\"font-size:10.5px;color:var(--text-muted)\">${c.exemptionLevel}</span></td>`).join('')}
+        ${courses.map(c => `<td><span style="font-weight:700;color:#10B981;font-size:15px">${c.exemptionPercent}%</span><br><span style="font-size:10.5px;color:var(--text-muted)">${c.exemptionLevel}</span></td>`).join('')}
       </tr>
       <tr>
         <td><b>Papers to Pass</b></td>
-        ${courses.map(c => `<td><span style=\"font-size:11.5px\">${c.papersRequired}</span></td>`).join('')}
+        ${courses.map(c => `<td><span style="font-size:11.5px">${c.papersRequired}</span></td>`).join('')}
       </tr>
       <tr>
         <td><b>Duration</b></td>
-        ${courses.map(c => `<td><span style=\"font-family:var(--font-mono);font-size:12px\">${c.duration}</span></td>`).join('')}
+        ${courses.map(c => `<td><span style="font-family:var(--font-mono);font-size:12px">${c.duration}</span></td>`).join('')}
       </tr>
       <tr>
         <td><b>Est. Fees (INR)</b></td>
-        ${courses.map(c => `<td><span style=\"font-family:var(--font-mono);font-weight:700;color:var(--gold-accent)\">${c.costINR}</span><br><span style=\"font-size:10.5px;color:var(--text-muted)\">${c.costForeign}</span></td>`).join('')}
+        ${courses.map(c => `<td><span style="font-family:var(--font-mono);font-weight:700;color:var(--gold-accent)">${c.costINR}</span><br><span style="font-size:10.5px;color:var(--text-muted)">${c.costForeign}</span></td>`).join('')}
       </tr>
       <tr>
         <td><b>Career Roles</b></td>
-        ${courses.map(c => `<td><span style=\"font-size:11.5px\">${c.careerImpact}</span></td>`).join('')}
+        ${courses.map(c => `<td><span style="font-size:11.5px">${c.careerImpact}</span></td>`).join('')}
       </tr>
       <tr>
         <td><b>Official Portal</b></td>
-        ${courses.map(c => `<td><a href=\"${c.officialUrl}\" target=\"_blank\" rel=\"noopener\" class=\"btn-open-detail\" style=\"display:inline-block;padding:3px 8px;text-decoration:none\">Visit ↗</a></td>`).join('')}
+        ${courses.map(c => `<td><a href="${c.officialUrl}" target="_blank" rel="noopener" class="btn-open-detail" style="display:inline-block;padding:3px 8px;text-decoration:none">Visit ↗</a></td>`).join('')}
       </tr>
     </tbody>
   `;
@@ -678,7 +1013,7 @@ function closeCompareModal() {
 }
 
 // ==========================================================================
-// 8. BOOKMARKING & SAVED FILTER
+// 9. BOOKMARKING & SAVED FILTER
 // ==========================================================================
 function toggleBookmark(id) {
   const idx = state.bookmarks.indexOf(id);
@@ -696,10 +1031,15 @@ function filterBySaved() {
   state.activeCategory = 'saved';
   document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
   renderCatalog();
+
+  const explorer = document.getElementById('catalogExplorer');
+  if (explorer) {
+    explorer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // ==========================================================================
-// 9. CAREER PATHWAY FINDER WIZARD
+// 10. CAREER PATHWAY FINDER WIZARD
 // ==========================================================================
 function openWizard() {
   state.wizardSelections = { goal: null, time: null, region: null };
@@ -741,8 +1081,9 @@ function selectWizardOption(type, val, cardEl) {
 
 function generateWizardResults() {
   const { goal, time, region } = state.wizardSelections;
+  const currentData = getActiveCoursesData();
 
-  const matches = COURSES_DATA.map(c => {
+  const matches = currentData.map(c => {
     let score = 50;
     if (c.goals && c.goals.includes(goal)) score += 30;
     if (region === 'west' && ['us', 'ca', 'gb', 'ie'].includes(c.countryCode)) score += 20;
@@ -759,22 +1100,22 @@ function generateWizardResults() {
 
   const container = document.getElementById('wizardResultsContainer');
   container.innerHTML = `
-    <h3 style=\"font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:6px\">Top Recommended Pathways</h3>
-    <p style=\"font-size:12px;color:var(--text-muted);margin-bottom:14px\">Curated based on your strategic objectives:</p>
+    <h3 style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:6px">Top Recommended Pathways</h3>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Curated based on your strategic objectives:</p>
     
-    <div style=\"display:flex;flex-direction:column;gap:10px\">
+    <div style="display:flex;flex-direction:column;gap:10px">
       ${matches.map(m => `
-        <div class=\"info-box-highlight\" style=\"display:flex;align-items:center;justify-content:space-between;cursor:pointer\" onclick=\"closeWizard();openCourseModal('${m.course.id}')\">
-          <div style=\"display:flex;align-items:center;gap:10px\">
-            <span style=\"font-size:20px\">${m.course.flag}</span>
+        <div class="info-box-highlight" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="closeWizard();openCourseModal('${m.course.id}')">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:20px">${m.course.flag}</span>
             <div>
-              <div style=\"font-size:14px;font-weight:700;color:var(--text-primary)\">${m.course.name}</div>
-              <div style=\"font-size:11px;color:var(--text-muted)\">${m.course.body} · ⏱️ ${m.course.duration}</div>
+              <div style="font-size:14px;font-weight:700;color:var(--text-primary)">${m.course.name}</div>
+              <div style="font-size:11px;color:var(--text-muted)">${m.course.body} · ⏱️ ${m.course.duration}</div>
             </div>
           </div>
-          <div style=\"text-align:right\">
-            <div style=\"font-size:15px;font-weight:800;color:#10B981;font-family:var(--font-mono)\">${m.score}%</div>
-            <span style=\"font-size:10px;color:var(--gold-accent);font-weight:600\">View →</span>
+          <div style="text-align:right">
+            <div style="font-size:15px;font-weight:800;color:#10B981;font-family:var(--font-mono)">${m.score}%</div>
+            <span style="font-size:10px;color:var(--gold-accent);font-weight:600">View →</span>
           </div>
         </div>
       `).join('')}
@@ -786,7 +1127,7 @@ function generateWizardResults() {
 }
 
 // ==========================================================================
-// 10. COMMAND PALETTE (⌘K)
+// 11. COMMAND PALETTE (⌘K)
 // ==========================================================================
 function openCommandPalette() {
   const p = document.getElementById('commandPaletteModal');
@@ -811,27 +1152,33 @@ function renderPaletteResults(query) {
   if (!list) return;
 
   const q = query.toLowerCase().trim();
-  const results = COURSES_DATA.filter(c => {
+  const allCourses = getAllCoursesData();
+  const results = allCourses.filter(c => {
     if (!q) return true;
     return c.name.toLowerCase().includes(q) || 
            c.body.toLowerCase().includes(q) || 
            c.country.toLowerCase().includes(q) ||
-           (c.tags || []).some(t => t.toLowerCase().includes(q));
+           (c.tags || []).some(t => t.toLowerCase().includes(q)) ||
+           (c.statutorySource && c.statutorySource.toLowerCase().includes(q));
   }).slice(0, 8);
 
-  list.innerHTML = results.map(c => `
-    <div class=\"info-box-highlight\" style=\"display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:8px 12px;margin-bottom:6px\" onclick=\"closeCommandPalette();openCourseModal('${c.id}')\">
-      <div>
-        <span style=\"font-weight:700;font-size:13px;color:var(--text-primary)\">${c.flag} ${c.name}</span>
-        <span style=\"font-size:11px;color:var(--text-muted);margin-left:6px\">${c.body}</span>
+  list.innerHTML = results.map(c => {
+    const instTag = c.institute ? c.institute.toUpperCase() : 'CA';
+    return `
+      <div class="info-box-highlight" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:8px 12px;margin-bottom:6px" onclick="closeCommandPalette();openCourseModal('${c.id}')">
+        <div>
+          <span style="font-size:9.5px;font-weight:800;padding:2px 6px;background:var(--border-subtle);border-radius:3px;margin-right:6px;font-family:var(--font-mono);color:var(--gold-accent)">${instTag}</span>
+          <span style="font-weight:700;font-size:13px;color:var(--text-primary)">${c.flag} ${c.name}</span>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:6px">${c.body}</span>
+        </div>
+        <span class="card-badge-pill" style="font-size:9.5px">${c.exemptionPercent}% Waiver</span>
       </div>
-      <span class=\"card-badge-pill\" style=\"font-size:9.5px\">${c.exemptionPercent}% Waiver</span>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 // ==========================================================================
-// 11. EVENT LISTENERS
+// 12. EVENT LISTENERS
 // ==========================================================================
 function initEventListeners() {
   window.addEventListener('keydown', (e) => {
@@ -843,6 +1190,8 @@ function initEventListeners() {
       closeCompareModal();
       closeWizard();
       closeCommandPalette();
+      closeSuggestionModal();
+      closeEmpanelmentModal();
     }
   });
 
@@ -952,8 +1301,33 @@ function resetAllFilters() {
 function updateStats() {
   const badge = document.getElementById('savedCountBadge');
   if (badge) badge.textContent = state.bookmarks.length;
-}
 
+  const icaiCount = typeof COURSES_DATA !== 'undefined' ? COURSES_DATA.length : 101;
+  const icsiCount = typeof ICSI_COURSES_DATA !== 'undefined' ? ICSI_COURSES_DATA.length : 48;
+  const icmaiCount = typeof ICMAI_COURSES_DATA !== 'undefined' ? ICMAI_COURSES_DATA.length : 28;
+
+  const elIcai = document.getElementById('instCountIcai');
+  if (elIcai) elIcai.textContent = icaiCount;
+
+  const elIcsi = document.getElementById('instCountIcsi');
+  if (elIcsi) elIcsi.textContent = icsiCount;
+
+  const elIcmai = document.getElementById('instCountIcmai');
+  if (elIcmai) elIcmai.textContent = icmaiCount;
+
+  const countEl = document.getElementById('resultsCountDisplay');
+  const currentData = getActiveCoursesData();
+  const filtered = getFilteredCourses();
+  if (countEl) {
+    countEl.innerHTML = `Showing <b>${filtered.length}</b> of <b>${currentData.length}</b> qualifications`;
+  }
+
+  // Update empanelment tab count
+  const allEmpCount = document.getElementById('empTabCountAll');
+  if (allEmpCount) {
+    allEmpCount.textContent = getEmpanelmentsDataset().length;
+  }
+}
 
 function escapeHtml(str) {
   if (str == null) return "";
@@ -966,12 +1340,12 @@ function escapeHtml(str) {
 }
 
 // ==========================================================================
-// 8. CA FIRM EMPANELMENTS CONTROLLER
+// 13. STATUTORY EMPANELMENTS CONTROLLER
 // ==========================================================================
 
 function getEmpanelmentsDataset() {
   if (typeof EMPANELMENTS_DATA !== "undefined" && Array.isArray(EMPANELMENTS_DATA)) {
-    return EMPANELMENTS_DATA;
+    return EMPANELMENTS_DATA.filter(item => (item.institute || 'icai') === state.currentInstitute);
   }
   return [];
 }
@@ -1017,13 +1391,13 @@ function renderEmpanelments() {
     const cat = state.empanelmentCategory;
     filtered = filtered.filter(item => {
       if (cat === "banking") {
-        return item.category === "banking" || ["mef-bank-branch", "irdai-insurance", "mscs-cooperative"].includes(item.id);
+        return item.category === "banking" || ["mef-bank-branch", "irdai-insurance", "mscs-cooperative", "icmai-bank-tev-appraisal"].includes(item.id);
       } else if (cat === "psu") {
-        return item.category === "psu" || ["cag-psu", "eci-political-parties", "mscs-cooperative"].includes(item.id);
+        return item.category === "psu" || ["cag-psu", "eci-political-parties", "mscs-cooperative", "icmai-cag-cost-audit"].includes(item.id);
       } else if (cat === "market") {
-        return ["market", "infra"].includes(item.category) || ["sebi-broker-dp", "trai-telecom-agr", "cerc-power-tariff", "nhai-concession-audit"].includes(item.id);
+        return ["market", "infra"].includes(item.category) || ["sebi-broker-dp", "trai-telecom-agr", "cerc-power-tariff", "nhai-concession-audit", "icsi-listed-co-governance", "icsi-broker-internal-audit", "icmai-cerc-power-tariff"].includes(item.id);
       } else if (cat === "forensic") {
-        return ["taxation", "corporate"].includes(item.category) || ["sfio-cbi-forensic", "sec-142-special-audit", "gst-sec-66-audit"].includes(item.id);
+        return ["taxation", "corporate"].includes(item.category) || ["sfio-cbi-forensic", "sec-142-special-audit", "gst-sec-66-audit", "icsi-sec-204-audit", "icsi-nclt-liquidator", "icmai-gst-special-audit"].includes(item.id);
       } else if (cat === "quality") {
         return ["esg", "quality"].includes(item.category) || ["carbon-cbam-verifier", "qrb-frrb-reviewer"].includes(item.id);
       }
@@ -1200,18 +1574,26 @@ function closeEmpanelmentModal() {
 }
 
 // ==========================================================================
-// 9. PATHWAY SUGGESTION MODAL CONTROLLER
+// 14. PATHWAY SUGGESTION MODAL CONTROLLER
 // ==========================================================================
 
 function openSuggestionModal() {
   const modal = document.getElementById("suggestionModal");
   const alert = document.getElementById("suggestionStatusMsg");
   const form = document.getElementById("pathwaySuggestionForm");
+  const instSelect = document.getElementById("sugInstitute");
+
   if (alert) {
     alert.style.display = "none";
     alert.className = "suggestion-alert";
+    alert.textContent = "";
   }
-  if (form) form.reset();
+  if (form) {
+    form.reset();
+  }
+  if (instSelect) {
+    instSelect.value = state.currentInstitute || "icai";
+  }
   if (modal) {
     modal.classList.add("open");
     modal.classList.add("active");
@@ -1235,6 +1617,7 @@ async function handleSuggestionSubmit(event) {
   const btnText = document.getElementById("sugBtnText");
   const spinner = document.getElementById("sugSpinner");
 
+  const institute = (document.getElementById("sugInstitute")?.value || state.currentInstitute || "icai").trim();
   const title = (document.getElementById("sugTitle")?.value || "").trim();
   const authority = (document.getElementById("sugAuthority")?.value || "").trim();
   const category = (document.getElementById("sugCategory")?.value || "mra").trim();
@@ -1259,6 +1642,7 @@ async function handleSuggestionSubmit(event) {
 
   try {
     const payload = {
+      institute,
       title,
       authority,
       category,

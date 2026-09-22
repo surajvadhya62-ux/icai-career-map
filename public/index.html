@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-institute="icai">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ICAI Career Pathways &amp; Global Exemption Directory</title>
-  <meta name="description" content="Authoritative career intelligence for ICAI Chartered Accountants. 101 verified international qualifications, mutual recognition agreements, 14 statutory CA firm empanelment panels, and practice authorizations.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+  <title>Tri-Institute Corporate Governance &amp; Financial Matrix — ICAI · ICSI · ICMAI</title>
+  <meta name="description" content="Authoritative career intelligence for India's corporate accounting and governance professions: ICAI (Chartered Accountants), ICSI (Company Secretaries), and ICMAI (Cost Accountants). 170+ verified qualifications, MRAs, and 22 statutory panels.">
+  <link rel="icon" id="pageFavicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,13 +13,13 @@
   <!-- EXECUTIVE TOP NAVIGATION -->
   <header class="top-nav">
     <div class="nav-container">
-      <a href="#" class="nav-brand">
-        <div class="brand-crest">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <a href="#" class="nav-brand" id="mainNavBrand">
+        <div class="brand-crest" id="navBrandCrest">
+          ⚖️
         </div>
         <div class="brand-info">
-          <span class="brand-title">ICAI GLOBAL DIRECTORY</span>
-          <span class="brand-sub">Career Advantage &amp; MRA Matrix</span>
+          <span class="brand-title" id="navBrandTitle">ICAI GLOBAL DIRECTORY</span>
+          <span class="brand-sub" id="navBrandSub">Career Advantage &amp; MRA Matrix</span>
         </div>
       </a>
 
@@ -30,16 +30,16 @@
           <kbd class="kbd-shortcut">⌘K</kbd>
         </button>
 
-        <a href="#empanelmentSection" class="nav-btn empanelment-nav-link" title="CA Firm Empanelments & Statutory Panels">
-          <span>🏛️ Firm Empanelment</span>
+        <a href="#empanelmentSection" class="nav-btn empanelment-nav-link" title="Statutory Practice Panels" id="navEmpanelmentBtn">
+          <span>🏛️ Panels</span>
         </a>
 
-        <button class="nav-btn primary-btn" onclick="openWizard()">
+        <button class="nav-btn primary-btn finder-nav-btn" onclick="openWizard()" title="Path Finder">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          <span>Path Finder</span>
+          <span class="nav-btn-text">Finder</span>
         </button>
 
-        <button class="nav-btn suggest-btn" onclick="openSuggestionModal()" title="Suggest New Pathway or Panel">
+        <button class="nav-btn suggest-btn" onclick="openSuggestionModal()" title="Suggest New Pathway or Panel" id="navSuggestBtn">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
           <span class="nav-btn-text">💡 Suggest</span>
         </button>
@@ -56,20 +56,49 @@
     </div>
   </header>
 
+  <!-- EXECUTIVE TRI-INSTITUTE SWITCHER BAR -->
+  <div class="institute-switcher-bar" id="instituteSwitcherBar">
+    <div class="institute-switcher-container">
+      <button class="inst-tab active" data-institute="icai" onclick="switchInstitute('icai')" id="tabInstIcai">
+        <span class="inst-crest">⚖️</span>
+        <div class="inst-text-block">
+          <div class="inst-title">CA (ICAI)</div>
+          <div class="inst-sub">Chartered Accountant · <span class="inst-stat-pill" id="instCountIcai">101</span></div>
+        </div>
+      </button>
+
+      <button class="inst-tab" data-institute="icsi" onclick="switchInstitute('icsi')" id="tabInstIcsi">
+        <span class="inst-crest">📜</span>
+        <div class="inst-text-block">
+          <div class="inst-title">CS (ICSI)</div>
+          <div class="inst-sub">Company Secretary · <span class="inst-stat-pill" id="instCountIcsi">48</span></div>
+        </div>
+      </button>
+
+      <button class="inst-tab" data-institute="icmai" onclick="switchInstitute('icmai')" id="tabInstIcmai">
+        <span class="inst-crest">📊</span>
+        <div class="inst-text-block">
+          <div class="inst-title">CMA (ICMAI)</div>
+          <div class="inst-sub">Cost Accountant · <span class="inst-stat-pill" id="instCountIcmai">28</span></div>
+        </div>
+      </button>
+    </div>
+  </div>
+
   <!-- HERO SECTION -->
   <section class="hero-section">
     <div class="hero-container">
-      <div class="executive-badge">
+      <div class="executive-badge" id="heroExecutiveBadge">
         <span class="badge-dot"></span>
-        <span>OFFICIAL ICAI QUALIFICATION MAPPING · 101 PATHWAYS & 14 STATUTORY PANELS</span>
+        <span id="heroBadgeText">OFFICIAL ICAI QUALIFICATION MAPPING · 101 PATHWAYS &amp; 14 STATUTORY PANELS</span>
       </div>
 
-      <h1 class="hero-title">
+      <h1 class="hero-title" id="heroMainTitle">
         The Definitive Global Directory for <br>
-        <span class="title-accent">Chartered Accountants</span>
+        <span class="title-accent" id="heroTitleAccent">Chartered Accountants</span>
       </h1>
 
-      <p class="hero-desc">
+      <p class="hero-desc" id="heroMainDesc">
         Comprehensive database of mutual recognition agreements (MRAs), international paper exemptions, statutory practice authorizations, executive degree pathways, and CA firm statutory empanelments.
       </p>
 
@@ -82,10 +111,10 @@
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           <span>Match My Career Path</span>
         </button>
-        <a href="#empanelmentSection" class="btn-outline empanelment-hero-btn">
+        <a href="#empanelmentSection" class="btn-outline empanelment-hero-btn" id="heroEmpanelmentBtn">
           <span>🏛️ CA Firm Panels (14)</span>
         </a>
-        <a href="#catalogExplorer" class="btn-ghost">
+        <a href="#catalogExplorer" class="btn-ghost" id="heroCatalogLink">
           <span>Explore All 101 Pathways ↓</span>
         </a>
       </div>
@@ -326,8 +355,8 @@
         <span class="section-tag">INSTITUTIONAL PRACTICE DIRECTORY</span>
         <span class="badge-accent">Unified Hub · No Toggles</span>
       </div>
-      <h2 class="section-title">CA Firm Empanelments &amp; Statutory Practice Panels</h2>
-      <p class="section-sub">
+      <h2 class="section-title" id="empanelmentSectionTitle">CA Firm Empanelments &amp; Statutory Practice Panels</h2>
+      <p class="section-sub" id="empanelmentSectionSub">
         Authoritative compendium of statutory audit panels, sovereign rosters, and regulatory appointments under RBI, CAG, SEBI, IRDAI, and SFIO. Explore firm eligibility points, partner standing rules, DISA/CISA prerequisites, peer review mandates, and remuneration scales in one seamless view.
       </p>
 
@@ -341,7 +370,7 @@
         <div class="empanelment-tabs">
           <button class="empanelment-tab active" data-ecat="all" onclick="filterEmpanelmentCategory('all', this)">
             <span>All Panels</span>
-            <span class="tab-count">14</span>
+            <span class="tab-count" id="empTabCountAll">14</span>
           </button>
           <button class="empanelment-tab" data-ecat="banking" onclick="filterEmpanelmentCategory('banking', this)">
             <span>Banking &amp; Insurance</span>
@@ -698,34 +727,43 @@
         <form id="pathwaySuggestionForm" onsubmit="handleSuggestionSubmit(event)" class="suggestion-form">
           <div id="suggestionStatusMsg" class="suggestion-alert" style="display: none;"></div>
 
-          <div class="form-group">
-            <label class="form-label" for="sugTitle">Qualification / Panel Title <span class="required-star">*</span></label>
-            <input type="text" id="sugTitle" class="form-input" required placeholder="e.g. FRM (Financial Risk Manager) or RBI Forensic Audit Panel">
-          </div>
-
           <div class="form-row-2">
             <div class="form-group">
-              <label class="form-label" for="sugAuthority">Issuing Authority / Regulator <span class="required-star">*</span></label>
-              <input type="text" id="sugAuthority" class="form-input" required placeholder="e.g. GARP / ICAI / RBI / SEBI">
+              <label class="form-label" for="sugInstitute">Target Institute <span class="required-star">*</span></label>
+              <select id="sugInstitute" class="form-select" required>
+                <option value="icai">⚖️ ICAI (Chartered Accountant)</option>
+                <option value="icsi">📜 ICSI (Company Secretary)</option>
+                <option value="icmai">📊 ICMAI (Cost &amp; Management Accountant)</option>
+              </select>
             </div>
             <div class="form-group">
               <label class="form-label" for="sugCategory">Directory Category <span class="required-star">*</span></label>
               <select id="sugCategory" class="form-select" required>
                 <option value="mra">Global MRA / Mutual Recognition</option>
-                <option value="intl">International Finance Charter</option>
-                <option value="niche">GRC &amp; Niche Specialization</option>
-                <option value="india">Indian Statutory Course</option>
-                <option value="empanelment">CA Firm Statutory Empanelment</option>
-                <option value="govt">Regulatory / Banking Practice</option>
-                <option value="degree">Executive Degree / MBA</option>
+                <option value="intl">International Finance / Governance Charter</option>
+                <option value="niche">GRC, Tech &amp; Niche Specialization</option>
+                <option value="india">Indian Statutory Specialization</option>
+                <option value="empanelment">Statutory Practice / Firm Panel</option>
+                <option value="govt">Regulatory / Tribunal / Banking Practice</option>
+                <option value="degree">Executive Degree / MBA / PhD</option>
                 <option value="other">Other Credential</option>
               </select>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="sugDesc">Key Details, ICAI Exemptions &amp; Scope <span class="required-star">*</span></label>
-            <textarea id="sugDesc" class="form-textarea" rows="4" required placeholder="Describe paper exemptions granted to ICAI members, eligibility requirements, practice rights, or firm standing rules..."></textarea>
+            <label class="form-label" for="sugTitle">Qualification / Panel Title <span class="required-star">*</span></label>
+            <input type="text" id="sugTitle" class="form-input" required placeholder="e.g. CGI UK (Chartered Secretary) or CIMA Gateway or Secretarial Audit Panel">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sugAuthority">Issuing Authority / Regulator <span class="required-star">*</span></label>
+            <input type="text" id="sugAuthority" class="form-input" required placeholder="e.g. CGI / CIMA / SEBI / MCA / RBI / ICSI / ICMAI">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sugDesc">Key Details, Paper Exemptions &amp; Scope <span class="required-star">*</span></label>
+            <textarea id="sugDesc" class="form-textarea" rows="4" required placeholder="Describe paper exemptions granted to members, statutory sections, practice rights, or firm standing prerequisites..."></textarea>
           </div>
 
           <div class="form-group">
@@ -736,7 +774,7 @@
           <div class="form-row-2">
             <div class="form-group">
               <label class="form-label" for="sugSubmitterName">Your Name (Optional)</label>
-              <input type="text" id="sugSubmitterName" class="form-input" placeholder="CA Member / Candidate">
+              <input type="text" id="sugSubmitterName" class="form-input" placeholder="Member / Candidate">
             </div>
             <div class="form-group">
               <label class="form-label" for="sugSubmitterEmail">Your Email (Optional)</label>
@@ -746,7 +784,7 @@
 
           <div class="privacy-notice-box">
             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>Submissions are audited against official ICAI MoUs and government gazettes. Your personal information is strictly protected and never published.</span>
+            <span>Submissions are audited against official bilateral MoUs, Acts of Parliament, and regulatory gazettes. Your personal information is strictly protected and never published.</span>
           </div>
 
           <div class="form-actions">
@@ -761,22 +799,48 @@
     </div>
   </div>
 
+  <!-- MOBILE BOTTOM FLOATING QUICK-DOCK (ZERO CLIPPING, ALWAYS ACCESSIBLE) -->
+  <nav class="mobile-quick-dock" aria-label="Mobile Quick Actions">
+    <button class="dock-btn" onclick="openCommandPalette()" title="Search (⌘K)">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <span>Search</span>
+    </button>
+    <a href="#empanelmentSection" class="dock-btn" title="Statutory Practice Panels">
+      <span style="font-size:15px;line-height:1">🏛️</span>
+      <span>Panels</span>
+    </a>
+    <button class="dock-btn" onclick="openWizard()" title="Path Finder">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span>Finder</span>
+    </button>
+    <button class="dock-btn dock-suggest-btn" onclick="openSuggestionModal()" title="Suggest Pathway">
+      <div class="dock-suggest-icon">💡</div>
+      <span class="dock-suggest-text">Suggest</span>
+    </button>
+    <button class="dock-btn" onclick="filterBySaved()" title="Saved Qualifications">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      <span>Saved</span>
+    </button>
+  </nav>
+
   <!-- FOOTER -->
   <footer class="executive-footer">
     <div class="footer-container">
       <div class="footer-brand-col">
-        <div class="footer-brand-title">ICAI Global Qualification Directory</div>
-        <p class="footer-brand-desc">
-          An independent, objective professional intelligence database designed for Members of the Institute of Chartered Accountants of India.
+        <div class="footer-brand-title" id="footerBrandTitle">Tri-Institute Corporate Governance &amp; Financial Matrix</div>
+        <p class="footer-brand-desc" id="footerBrandDesc">
+          An authoritative, independent professional intelligence database designed for Members of the Institute of Chartered Accountants of India (ICAI), Institute of Company Secretaries of India (ICSI), and Institute of Cost Accountants of India (ICMAI).
         </p>
       </div>
       <div class="footer-disclaimer">
-        Disclaimer: All bilateral mutual recognition agreements, exemption frameworks, and examination syllabi are subject to periodic renewal and statutory notification by respective institutes and regulators. Always verify terms directly on official websites prior to registration.
+        Disclaimer: All bilateral mutual recognition agreements, statutory practice authorizations, and examination exemption matrices are governed by respective Acts of Parliament (Chartered Accountants Act 1949, Company Secretaries Act 1980, Cost and Works Accountants Act 1959) and official regulatory gazettes. Always verify terms directly on official portals prior to registration.
       </div>
     </div>
   </footer>
 
   <script src="courses-data.js"></script>
+  <script src="icsi-courses-data.js"></script>
+  <script src="icmai-courses-data.js"></script>
   <script src="empanelments-data.js"></script>
   <script src="script.js"></script>
 </body>

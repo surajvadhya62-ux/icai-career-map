@@ -94,6 +94,33 @@
   --modal-backdrop: rgba(15, 23, 42, 0.65);
 }
 
+/* --- TRI-INSTITUTE ACCENT PALETTES --- */
+[data-institute="icai"] {
+  --inst-accent: #2563EB;
+  --inst-accent-light: #60A5FA;
+  --inst-accent-dim: rgba(37, 99, 235, 0.14);
+}
+
+[data-institute="icsi"] {
+  --inst-accent: #B91C1C;
+  --inst-accent-light: #F87171;
+  --inst-accent-dim: rgba(185, 28, 28, 0.16);
+  --gold-accent: #EAB308;
+  --gold-dim: rgba(234, 179, 8, 0.16);
+  --card-hover-border: rgba(234, 179, 8, 0.45);
+  --border-focus: #DC2626;
+}
+
+[data-institute="icmai"] {
+  --inst-accent: #059669;
+  --inst-accent-light: #34D399;
+  --inst-accent-dim: rgba(5, 150, 105, 0.16);
+  --gold-accent: #D97706;
+  --gold-dim: rgba(217, 119, 6, 0.16);
+  --card-hover-border: rgba(217, 119, 6, 0.45);
+  --border-focus: #10B981;
+}
+
 /* Base Reset */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -233,6 +260,141 @@ body {
   font-size: 11px;
   color: var(--gold-accent);
   font-weight: 700;
+}
+
+.nav-btn.suggest-btn {
+  background: var(--gold-dim);
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  color: var(--gold-accent);
+  font-weight: 700;
+}
+
+.nav-btn.suggest-btn:hover {
+  background: var(--gold-accent);
+  color: #0F172A;
+  border-color: var(--gold-accent);
+}
+
+/* ==========================================================================
+   TRI-INSTITUTE SWITCHER BAR
+   ========================================================================== */
+.institute-switcher-bar {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 8px 16px;
+  position: sticky;
+  top: 53px;
+  z-index: 90;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.institute-switcher-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.inst-tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  color: var(--text-secondary);
+  text-align: left;
+  user-select: none;
+}
+
+.inst-tab:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+.inst-tab.active {
+  background: var(--bg-elevated);
+  border-color: var(--gold-accent);
+  color: var(--text-primary);
+  box-shadow: 0 0 16px var(--gold-dim);
+}
+
+.inst-crest {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.inst-text-block {
+  min-width: 0;
+  flex: 1;
+}
+
+.inst-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inst-sub {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.inst-stat-pill {
+  font-weight: 700;
+  color: var(--gold-accent);
+  font-family: var(--font-mono);
+}
+
+/* Card Statutory Source Citation */
+.card-statutory-source {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  padding: 4px 8px;
+  margin-top: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.source-badge-tag {
+  color: var(--gold-accent);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.source-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Mobile Floating Quick Dock */
+.mobile-quick-dock {
+  display: none;
 }
 
 /* ==========================================================================
@@ -1494,22 +1656,169 @@ body {
    MOBILE RESPONSIVENESS (< 640px and < 500px Viewports)
    ========================================================================== */
 @media (max-width: 640px) {
+  body {
+    padding-bottom: 68px; /* space for bottom quick-dock */
+  }
+
   /* Navigation */
   .top-nav {
-    padding: 8px 12px;
+    padding: 8px 10px;
   }
   
+  .nav-container {
+    gap: 6px;
+  }
+
+  .nav-brand {
+    gap: 6px;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .brand-crest {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .brand-title {
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .brand-sub {
     display: none;
   }
 
+  .nav-actions {
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .nav-btn {
+    padding: 5px 6px;
+    font-size: 11px;
+    gap: 3px;
+  }
+
   .nav-btn.search-btn .nav-btn-text,
-  .nav-btn.search-btn .kbd-shortcut {
+  .nav-btn.search-btn .kbd-shortcut,
+  .nav-btn.finder-nav-btn .nav-btn-text {
     display: none;
   }
 
-  .nav-btn.search-btn {
+  .nav-btn.empanelment-nav-link span {
+    display: none;
+  }
+
+  .nav-btn.empanelment-nav-link::after {
+    content: "🏛️";
+    font-size: 13px;
+  }
+
+  /* KEEP SUGGEST BUTTON 100% VISIBLE & ACCENTED ON MOBILE */
+  .nav-btn.suggest-btn {
+    display: inline-flex !important;
+    padding: 5px 7px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-accent);
+    color: var(--gold-accent);
+    font-weight: 700;
+  }
+
+  .nav-btn.suggest-btn .nav-btn-text {
+    display: inline !important;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* Institute Switcher Bar on Mobile */
+  .institute-switcher-bar {
     padding: 6px 8px;
+    top: 45px;
+  }
+
+  .institute-switcher-container {
+    gap: 6px;
+  }
+
+  .inst-tab {
+    padding: 6px 4px;
+    gap: 4px;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+  }
+
+  .inst-crest {
+    font-size: 15px;
+  }
+
+  .inst-title {
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .inst-sub {
+    display: none;
+  }
+
+  /* Mobile Bottom Quick Dock */
+  .mobile-quick-dock {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border-medium);
+    z-index: 1000;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 4px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .dock-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 9.5px;
+    font-weight: 600;
+    padding: 4px 6px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .dock-btn:active, .dock-btn:hover {
+    color: var(--text-primary);
+  }
+
+  .dock-btn.dock-suggest-btn {
+    color: var(--gold-accent);
+  }
+
+  .dock-suggest-icon {
+    font-size: 16px;
+    line-height: 1;
+    filter: drop-shadow(0 0 6px var(--gold-dim));
+  }
+
+  .dock-suggest-text {
+    font-weight: 700;
+    color: var(--gold-accent);
   }
 
   /* Hero Section */

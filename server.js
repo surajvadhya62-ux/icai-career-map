@@ -41,7 +41,7 @@ app.get('/healthz', (req, res) => {
 // Secure API endpoint for visitor suggestions (Keeps recipient email 100% private)
 app.post('/api/suggest-pathway', async (req, res) => {
   try {
-    const { title, authority, category, description, sourceUrl, submitterName, submitterEmail } = req.body;
+    const { institute, title, authority, category, description, sourceUrl, submitterName, submitterEmail } = req.body;
 
     if (!title || !description) {
       return res.status(400).json({ success: false, error: 'Title and description are required.' });
@@ -50,12 +50,13 @@ app.post('/api/suggest-pathway', async (req, res) => {
     const suggestionRecord = {
       id: 'sug_' + Date.now(),
       timestamp: new Date().toISOString(),
+      institute: String(institute || 'icai').toLowerCase(),
       title: String(title).slice(0, 150),
       authority: String(authority || 'Not Specified').slice(0, 150),
       category: String(category || 'general').slice(0, 50),
       description: String(description).slice(0, 2000),
       sourceUrl: String(sourceUrl || '').slice(0, 300),
-      submitterName: String(submitterName || 'Anonymous CA Member').slice(0, 100),
+      submitterName: String(submitterName || 'Anonymous Member').slice(0, 100),
       submitterEmail: String(submitterEmail || 'Not Provided').slice(0, 100),
       status: 'pending'
     };
@@ -81,9 +82,10 @@ app.post('/api/suggest-pathway', async (req, res) => {
     if (RECIPIENT_EMAIL) {
       try {
         const formSubmitPayload = {
-          _subject: `New Pathway Suggestion: ${suggestionRecord.title}`,
+          _subject: `[${suggestionRecord.institute.toUpperCase()}] New Pathway Suggestion: ${suggestionRecord.title}`,
           _template: 'table',
           _captcha: 'false',
+          'Target Institute': suggestionRecord.institute.toUpperCase(),
           'Pathway Title': suggestionRecord.title,
           'Authority / Governing Body': suggestionRecord.authority,
           'Category': suggestionRecord.category,
