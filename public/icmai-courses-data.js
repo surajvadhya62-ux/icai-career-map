@@ -717,6 +717,8 @@ const ICMAI_COURSES_DATA = [
   },
   {
     "id": "icmai-dgtr-anti-dumping",
+    "hidden": true,
+    "hiddenReason": "DGTR representation is open to other professionals; the monopoly claim needs checking.",
     "name": "DGTR Anti-Dumping & WTO Trade Defense Consultant",
     "fullName": "Anti-Dumping, Subsidies & Countervailing Measures (CVD) Specialist",
     "body": "Directorate General of Trade Remedies (DGTR), Ministry of Commerce",

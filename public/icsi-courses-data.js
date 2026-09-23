@@ -595,6 +595,8 @@ const ICSI_COURSES_DATA = [
   },
   {
     "id": "icsi-strike-off-stk2",
+    "hidden": true,
+    "hiddenReason": "Certification is not exclusive to PCS; the monopoly claim needs checking against the Companies (Removal of Names) Rules.",
     "name": "Fast Track Exit & Strike-Off (Form STK-2)",
     "fullName": "Corporate Strike-Off & Dissolution Certifier under Section 248",
     "body": "Registrar of Companies (ROC), MCA",
@@ -634,6 +636,8 @@ const ICSI_COURSES_DATA = [
   },
   {
     "id": "icsi-significant-beneficial-owner",
+    "hidden": true,
+    "hiddenReason": "Form BEN-2 is filed by the company; the PCS pre-certification monopoly claim needs checking.",
     "name": "SBO & Benami Corporate Compliance (Form BEN-2)",
     "fullName": "Significant Beneficial Ownership (SBO) Compliance Advisor",
     "body": "Ministry of Corporate Affairs (MCA)",
@@ -673,6 +677,8 @@ const ICSI_COURSES_DATA = [
   },
   {
     "id": "icsi-msme1-compliance",
+    "hidden": true,
+    "hiddenReason": "Form MSME-1 is a company return; the mandatory certification/audit claim needs checking.",
     "name": "MSME-1 Half-Yearly Return Certifier",
     "fullName": "MSME Delayed Payment Certification under Section 405",
     "body": "Ministry of Corporate Affairs & Ministry of MSME",

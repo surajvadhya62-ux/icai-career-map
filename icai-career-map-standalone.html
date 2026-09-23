@@ -224,6 +224,15 @@ kbd { font-family: var(--font-sans); font-size: 11px; padding: 1px 6px; border: 
 /* ---------- Intro ---------- */
 .intro { padding: 56px 0 36px; }
 .intro-inner { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 48px; align-items: end; }
+.notice {
+  display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin-bottom: 20px; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+  font-size: 13.5px; color: var(--text-2); line-height: 1.45;
+}
+.notice > span:not(.notice-dot) { flex: 1 1 240px; }
+.notice b { color: var(--text); font-weight: 600; }
+.notice .link-btn { font-size: 13.5px; padding: 0; }
+.notice-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
 .intro h1 {
   margin-top: 10px; font-family: var(--font-serif); font-weight: 600;
   font-size: clamp(32px, 4.6vw, 52px); letter-spacing: -.015em; line-height: 1.08; text-wrap: balance;
@@ -717,6 +726,11 @@ dialog[open] { animation: fade-in .18s ease; }
     <section class="intro">
       <div class="wrap intro-inner">
         <div class="intro-copy">
+          <p class="notice" role="note">
+            <span class="notice-dot" aria-hidden="true"></span>
+            <span><b>Being updated:</b> entries are being checked against their official sources, and new pathways for CA, CS and CMA are being added.</span>
+            <button class="link-btn" data-action="suggest">Suggest one</button>
+          </p>
           <p class="eyebrow" id="introEyebrow">For ICAI members</p>
           <h1 id="introTitle">Where your CA qualification can take you</h1>
           <p class="lead" id="introLead"></p>
@@ -1166,6 +1180,8 @@ const COURSES_DATA = [
   },
   {
     "id": "cpa-ire",
+    "hidden": true,
+    "hiddenReason": "Issuing body description looks outdated; MRA terms need re-checking.",
     "name": "CPA Ireland",
     "fullName": "Certified Public Accountant (Ireland / EU)",
     "body": "CPA Ireland (now part of IAASA/CPA framework)",
@@ -5540,6 +5556,8 @@ const ICSI_COURSES_DATA = [
   },
   {
     "id": "icsi-strike-off-stk2",
+    "hidden": true,
+    "hiddenReason": "Certification is not exclusive to PCS; the monopoly claim needs checking against the Companies (Removal of Names) Rules.",
     "name": "Fast Track Exit & Strike-Off (Form STK-2)",
     "fullName": "Corporate Strike-Off & Dissolution Certifier under Section 248",
     "body": "Registrar of Companies (ROC), MCA",
@@ -5579,6 +5597,8 @@ const ICSI_COURSES_DATA = [
   },
   {
     "id": "icsi-significant-beneficial-owner",
+    "hidden": true,
+    "hiddenReason": "Form BEN-2 is filed by the company; the PCS pre-certification monopoly claim needs checking.",
     "name": "SBO & Benami Corporate Compliance (Form BEN-2)",
     "fullName": "Significant Beneficial Ownership (SBO) Compliance Advisor",
     "body": "Ministry of Corporate Affairs (MCA)",
@@ -5618,6 +5638,8 @@ const ICSI_COURSES_DATA = [
   },
   {
     "id": "icsi-msme1-compliance",
+    "hidden": true,
+    "hiddenReason": "Form MSME-1 is a company return; the mandatory certification/audit claim needs checking.",
     "name": "MSME-1 Half-Yearly Return Certifier",
     "fullName": "MSME Delayed Payment Certification under Section 405",
     "body": "Ministry of Corporate Affairs & Ministry of MSME",
@@ -7550,6 +7572,8 @@ const ICMAI_COURSES_DATA = [
   },
   {
     "id": "icmai-dgtr-anti-dumping",
+    "hidden": true,
+    "hiddenReason": "DGTR representation is open to other professionals; the monopoly claim needs checking.",
     "name": "DGTR Anti-Dumping & WTO Trade Defense Consultant",
     "fullName": "Anti-Dumping, Subsidies & Countervailing Measures (CVD) Specialist",
     "body": "Directorate General of Trade Remedies (DGTR), Ministry of Commerce",
@@ -8863,12 +8887,14 @@ if (typeof module !== 'undefined' && module.exports) {
   // ==========================================================================
   // 1. DATA
   // ==========================================================================
+  // Records marked "hidden": true stay in the data files for review but are not shown.
+  const visible = list => (list || []).filter(x => !x.hidden);
   const DATA = {
-    icai: typeof COURSES_DATA !== 'undefined' ? COURSES_DATA : [],
-    icsi: typeof ICSI_COURSES_DATA !== 'undefined' ? ICSI_COURSES_DATA : [],
-    icmai: typeof ICMAI_COURSES_DATA !== 'undefined' ? ICMAI_COURSES_DATA : []
+    icai: visible(typeof COURSES_DATA !== 'undefined' ? COURSES_DATA : []),
+    icsi: visible(typeof ICSI_COURSES_DATA !== 'undefined' ? ICSI_COURSES_DATA : []),
+    icmai: visible(typeof ICMAI_COURSES_DATA !== 'undefined' ? ICMAI_COURSES_DATA : [])
   };
-  const PANELS = (typeof EMPANELMENTS_DATA !== 'undefined' ? EMPANELMENTS_DATA : [])
+  const PANELS = visible(typeof EMPANELMENTS_DATA !== 'undefined' ? EMPANELMENTS_DATA : [])
     .map(p => ({ ...p, institute: p.institute || 'icai' }));
 
   const ALL = [];

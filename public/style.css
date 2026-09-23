@@ -212,6 +212,15 @@ kbd { font-family: var(--font-sans); font-size: 11px; padding: 1px 6px; border: 
 /* ---------- Intro ---------- */
 .intro { padding: 56px 0 36px; }
 .intro-inner { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 48px; align-items: end; }
+.notice {
+  display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin-bottom: 20px; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface);
+  font-size: 13.5px; color: var(--text-2); line-height: 1.45;
+}
+.notice > span:not(.notice-dot) { flex: 1 1 240px; }
+.notice b { color: var(--text); font-weight: 600; }
+.notice .link-btn { font-size: 13.5px; padding: 0; }
+.notice-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
 .intro h1 {
   margin-top: 10px; font-family: var(--font-serif); font-weight: 600;
   font-size: clamp(32px, 4.6vw, 52px); letter-spacing: -.015em; line-height: 1.08; text-wrap: balance;

@@ -163,6 +163,8 @@ const COURSES_DATA = [
   },
   {
     "id": "cpa-ire",
+    "hidden": true,
+    "hiddenReason": "Issuing body description looks outdated; MRA terms need re-checking.",
     "name": "CPA Ireland",
     "fullName": "Certified Public Accountant (Ireland / EU)",
     "body": "CPA Ireland (now part of IAASA/CPA framework)",

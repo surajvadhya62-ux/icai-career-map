@@ -10,12 +10,14 @@
   // ==========================================================================
   // 1. DATA
   // ==========================================================================
+  // Records marked "hidden": true stay in the data files for review but are not shown.
+  const visible = list => (list || []).filter(x => !x.hidden);
   const DATA = {
-    icai: typeof COURSES_DATA !== 'undefined' ? COURSES_DATA : [],
-    icsi: typeof ICSI_COURSES_DATA !== 'undefined' ? ICSI_COURSES_DATA : [],
-    icmai: typeof ICMAI_COURSES_DATA !== 'undefined' ? ICMAI_COURSES_DATA : []
+    icai: visible(typeof COURSES_DATA !== 'undefined' ? COURSES_DATA : []),
+    icsi: visible(typeof ICSI_COURSES_DATA !== 'undefined' ? ICSI_COURSES_DATA : []),
+    icmai: visible(typeof ICMAI_COURSES_DATA !== 'undefined' ? ICMAI_COURSES_DATA : [])
   };
-  const PANELS = (typeof EMPANELMENTS_DATA !== 'undefined' ? EMPANELMENTS_DATA : [])
+  const PANELS = visible(typeof EMPANELMENTS_DATA !== 'undefined' ? EMPANELMENTS_DATA : [])
     .map(p => ({ ...p, institute: p.institute || 'icai' }));
 
   const ALL = [];
