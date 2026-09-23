@@ -1,16 +1,20 @@
-# ICAI Career Advantage Map — Global Qualifications & MRA Directory
+# Tri-Institute Matrix — Career Pathways for CA · CS · CMA
 
-An executive-tier web portal for Chartered Accountants (ICAI) exploring international practice rights, mutual recognition agreements (MRAs), examination waivers, and statutory career opportunities worldwide.
+An independent directory of what India's CA (ICAI), CS (ICSI) and CMA (ICMAI) qualifications open up: foreign memberships with exams waived, global charters, specialist certifications, statutory roles and firm empanelments. Each entry records what is waived, what is left to do, time, cost, and the law or agreement it rests on, with a link to the official portal. Not affiliated with or endorsed by any of the three institutes.
 
-## Features
-- **101 Verified Qualifications**: Global MRA pathways (ICAEW, CPA Australia, CPA Canada, AICPA, etc.), international finance charters (CFA, FRM, CQF), GRC & forensics (DISA, CISA, FAFD), Indian statutory monopolies (SEBI, Insolvency, Registered Valuation), sovereign panels, and executive MBA tracks.
-- **14 CA Firm Statutory Empanelment Panels**: Multipurpose Empanelment Form (MEF Bank Branch Audit), CAG PSU panel, IRDAI insurance panel, SFIO/CBI forensics, ECI political party audits, SEBI stock broker audits, Section 142(2A) Special Audits, Carbon & CBAM verifiers, and QRB/FRRB technical reviewers.
-- **Single Unified Page Flow**: Seamless anchor navigation (`#empanelmentSection`) ensuring newly qualified CAs navigate both individual qualifications and firm empanelments without confusing tab toggles.
-- **Privacy-Preserving Suggestion System**: Interactive submission form relaying visitor credential suggestions securely through a server-side endpoint (`POST /api/suggest-pathway`) with zero email address exposure to the frontend.
-- **Geographically Accurate Interactive World Map**: Built with vector cartography and regional hotspot radar pins.
-- **Mobile-First Responsive Layout**: Native bottom sheet drawers, swipeable regional hub carousel, touch-optimized filters, and comparison matrix.
-- **Bespoke Themes**: Oxford Executive Obsidian (Dark) & Bespoke Executive Slate (Light).
-- **Self-Contained Standalone HTML**: Single-file offline bundle (`icai-career-map-standalone.html`) for instant offline use.
+## What's on the page
+- **Goal-first entry**: pick a goal (work abroad, CFO track, specialise, statutory roles, grow your practice, teach) or answer three questions in **Find my path**.
+- **Pathway directory**: filter by type, destination, time needed and goal, with live counts. Every count on the page is computed from the data files.
+- **Detail panel**: one scrollable view per pathway (what's waived, what's left, eligibility, steps, legal basis) with a shareable link (`#/icai/cpa-aus`).
+- **Compare** up to three pathways side by side, and **save** a shortlist on your device.
+- **Abroad map**: markers sized by how many pathways lead to each region.
+- **Firm panels**: empanelments grouped by the categories in the data, with scoring rules, scope and application steps.
+- **Search everything** (⌘K) across all three institutes and the firm panels.
+- **Suggestions** go through `POST /api/suggest-pathway`, so the recipient email is never exposed to the browser.
+- Light and dark themes (follows the device by default), keyboard accessible, works at phone width.
+
+## Data
+Content lives in `public/courses-data.js` (CA), `public/icsi-courses-data.js` (CS), `public/icmai-courses-data.js` (CMA) and `public/empanelments-data.js` (firm panels). Add or edit a record there; the page picks it up with no other change.
 
 ## Quick Start
 ```bash
@@ -18,6 +22,13 @@ npm install
 npm start
 ```
 Server runs on port `3000` (or `PORT` environment variable).
+
+## Offline single file
+`icai-career-map-standalone.html` is the whole site in one file. Rebuild it after any change in `public/`:
+```bash
+npm run build:standalone
+```
+The suggestion form needs the server, so it only works on the hosted site.
 
 ## Deploy to Render
 This repository includes a `render.yaml` specification file for zero-configuration 1-click deployment:
